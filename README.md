@@ -15,6 +15,10 @@ inicio de sesión con Google.
   Next.js) redirige a `/login` a cualquier visitante sin sesión.
 - **Constancia**: `/api/constancia` genera un PDF real (con `pdf-lib`) al vuelo para quien haya
   aprobado el examen integrador, con folio verificable.
+- **Migraciones versionadas**: el schema vive en `prisma/migrations/` (Prisma Migrate), no se
+  gestiona con `db push` a mano. El script `build` corre `prisma migrate deploy` antes de
+  `next build`, así que cada deploy en producción aplica automáticamente las migraciones
+  pendientes contra `DATABASE_URL` — no hace falta tocar la base de datos manualmente.
 
 ## Configuración local
 
@@ -33,10 +37,10 @@ inicio de sesión con Google.
 3. Necesitas una base de datos PostgreSQL accesible (local o remota) y credenciales de
    OAuth de Google (ver siguiente sección).
 
-4. Aplica el schema de Prisma a la base de datos:
+4. Aplica las migraciones a la base de datos:
 
    ```bash
-   npm run db:push
+   npx prisma migrate deploy
    ```
 
 5. Levanta el servidor de desarrollo:
@@ -76,8 +80,21 @@ cuenta de Google Cloud y de tu propio proveedor de base de datos.
 ## Scripts
 
 - `npm run dev` — servidor de desarrollo.
-- `npm run build` / `npm run start` — build y arranque de producción.
+- `npm run build` — aplica migraciones pendientes (`prisma migrate deploy`) y compila
+  (`next build`). Es lo que corre Vercel en cada deploy de producción.
+- `npm run start` — arranque de producción (tras `build`).
 - `npm run lint` — ESLint.
-- `npm run db:push` — sincroniza `prisma/schema.prisma` con la base de datos (sin migraciones
-  versionadas; usar `prisma migrate` en un flujo con migraciones formales).
+- `npm run db:migrate` — `prisma migrate dev`: usa esto en desarrollo cuando cambies
+  `prisma/schema.prisma`, para generar un nuevo archivo de migración versionado en
+  `prisma/migrations/` (commitéalo junto con el cambio de schema).
 - `npm run db:studio` — abre Prisma Studio para inspeccionar los datos.
+
+### Cómo cambiar el schema de la base de datos
+
+1. Edita `prisma/schema.prisma`.
+2. Corre `npm run db:migrate` (te pedirá un nombre para la migración) — esto la aplica a tu
+   base de datos local y crea el archivo SQL versionado en `prisma/migrations/`.
+3. Commitea el nuevo folder de migración junto con el cambio de schema.
+4. Al hacer deploy, `prisma migrate deploy` (dentro del script `build`) la aplica sola a
+   producción. Nunca uses `prisma db push` contra la base de datos de producción — no queda
+   registro en `prisma/migrations/` y el próximo `migrate deploy` puede entrar en conflicto.
