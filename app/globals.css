@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+:root {
+  --ceni-navy: #070b2f;
+  --ceni-indigo: #4b18a8;
+  --ceni-indigo-deep: #351176;
+  --ceni-lavender: #f5f1ff;
+  --ceni-lavender-bg: #fbfaff;
+  --ceni-border: #e5def4;
+  --ceni-gold: #dda632;
+  --ceni-ink: #20234a;
+  --ceni-muted: #6c6690;
+  --background: #ffffff;
+  --foreground: var(--ceni-navy);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-body);
+  --font-serif: var(--font-display);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Modo calma: reduce contraste duro, satura menos color, quita animaciones */
+html[data-calm="true"] {
+  --ceni-gold: #c9a24f;
+  --ceni-indigo: #5a3f92;
+}
+html[data-calm="true"] * {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+}
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+  z-index: 100;
+  background: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 2px solid var(--ceni-indigo);
+}
+
+:focus-visible {
+  outline: 3px solid var(--ceni-gold);
+  outline-offset: 2px;
+}
+
+.prose-ceni p {
+  margin-top: 0.9rem;
+  line-height: 1.75;
+  color: var(--ceni-ink);
+}

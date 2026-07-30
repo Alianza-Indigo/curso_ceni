@@ -1,0 +1,187 @@
+import { Modulo } from "@/lib/types";
+
+const modulo4: Modulo = {
+  id: "m4",
+  numero: 4,
+  titulo: "Diseño Universal y Accesibilidad",
+  duracion: "120 minutos",
+  dirigidoA: "Propietarios, gestores, arquitectos, docentes",
+  objetivos: [
+    "Aplicar los principios del Diseño Universal para el Aprendizaje (DUA) y el Diseño Universal de Servicios en entornos neurodivergentes.",
+    "Identificar y medir umbrales cuantitativos de accesibilidad sensorial (lux, dB, temperatura, etc.).",
+    "Diseñar señalización cognitivamente accesible para entornos de alta complejidad visual.",
+    "Comprender y aplicar el consentimiento informado ambiental.",
+    "Elaborar un mapa sensorial básico del entorno de la organización.",
+  ],
+  secciones: [
+    {
+      titulo: "4.1 Accesibilidad sensorial — Umbrales cuantitativos",
+      parrafos: [
+        "La accesibilidad sensorial es la primera barrera que una persona neurodivergente enfrenta al entrar a cualquier espacio. CENI establece umbrales de referencia medibles y objetivos.",
+      ],
+      tabla: {
+        encabezados: ["Variable sensorial", "Umbral CENI", "Herramienta"],
+        filas: [
+          ["Iluminación — áreas de trabajo", "300–500 lux", "Luxómetro digital"],
+          ["Iluminación — espacios de calma", "50–200 lux", "Luxómetro digital"],
+          ["Iluminación — pasillos", "100–300 lux", "Luxómetro digital"],
+          ["Nivel de ruido ambiental (trabajo)", "≤ 55 dB promedio", "Sonómetro / app"],
+          ["Nivel de ruido en espacios de calma", "≤ 45 dB promedio", "Sonómetro"],
+          ["Temperatura ambiente", "18°C – 24°C", "Termómetro ambiental"],
+          ["Frecuencia de parpadeo lumínico", "< 3 Hz", "Flicker meter"],
+          ["Densidad de señalización visual", "1 a 4 señales por campo visual", "Observación directa"],
+          ["Perfumes/olores artificiales", "Ausencia total en zonas de atención", "Observación + política escrita"],
+        ],
+      },
+    },
+    {
+      titulo: "4.2 Accesibilidad cognitiva",
+      parrafos: [
+        "La accesibilidad cognitiva garantiza que la información, las instrucciones y los procesos sean comprensibles para personas con diferencias en el procesamiento de la información.",
+      ],
+      lista: {
+        titulo: "Principios fundamentales",
+        items: [
+          "Simplicidad: una instrucción = una acción. No encadenar más de dos pasos en una sola indicación.",
+          "Consistencia: mismos términos, colores y ubicaciones para la misma función.",
+          "Redundancia: presentar la información en al menos dos formatos simultáneos.",
+          "Jerarquía visual clara: tamaños, pesos y colores que permitan identificar qué es más importante sin leer todo.",
+          "Lenguaje sencillo (plain language): frases cortas (máximo 15 palabras), vocabulario común, voz activa.",
+        ],
+      },
+      destacado: {
+        titulo: "Requisitos de señalización cognitivamente accesible",
+        texto:
+          "Pictogramas ARASAAC junto a todo texto informativo clave. Contraste mínimo de 4.5:1 (WCAG AA). Fuente sans-serif mínimo 16pt para interiores. Mapa visual del espacio en la entrada. Código de colores consistente por zona. Señalización de \"zonas sensibles\" con aviso previo al ingreso.",
+      },
+    },
+    {
+      titulo: "4.3 Consentimiento informado ambiental y mapas sensoriales",
+      parrafos: [
+        "El consentimiento informado ambiental es el principio según el cual toda persona tiene derecho a saber, antes de entrar a un espacio, cuáles son sus características sensoriales, para tomar decisiones informadas.",
+        "Un mapa sensorial es una representación visual del espacio que indica niveles de ruido, iluminación, olores, temperatura, densidad de personas y ubicación de recursos de accesibilidad.",
+      ],
+      lista: {
+        titulo: "Componentes mínimos de un mapa sensorial CENI",
+        items: [
+          "Plano esquemático del espacio (no requiere escala exacta)",
+          "Código de colores: verde = zona tranquila, amarillo = zona moderada, rojo = zona de alta estimulación",
+          "Iconos de ruido, luz, temperatura, olor y densidad de personas",
+          "Ubicación del espacio de calma marcada prominentemente",
+          "Ubicación de baños, salidas y puntos de atención",
+          "Versión impresa (mínimo A4) y digital (descargable)",
+        ],
+      },
+    },
+  ],
+  actividades: [
+    {
+      codigo: "4.A",
+      titulo: "Auditoría sensorial con instrumentos",
+      duracion: "en equipo",
+      descripcion: "Con luxómetro y app de sonómetro, mide los niveles de iluminación y ruido en cinco puntos del espacio de trabajo y compáralos con los umbrales CENI.",
+    },
+    {
+      codigo: "4.B",
+      titulo: "Mapa sensorial del espacio",
+      duracion: "en equipo",
+      descripcion: "Elabora el mapa sensorial de tu área de trabajo usando la plantilla CENI y propón ajustes para cumplir los umbrales de certificación.",
+    },
+    {
+      codigo: "4.C",
+      titulo: "Rediseño de señalización",
+      duracion: "individual",
+      descripcion: "Rediseña una señal existente aplicando lenguaje sencillo, pictograma ARASAAC, contraste adecuado y tamaño de fuente correcto.",
+    },
+  ],
+  evaluacion: [
+    { componente: "Quiz de 10 preguntas sobre umbrales, DUA y accesibilidad cognitiva", tipo: "Opción múltiple", valor: "25%" },
+    { componente: "Ficha de Auditoría Sensorial completada", tipo: "Práctica con instrumentos", valor: "35%" },
+    { componente: "Mapa sensorial del espacio", tipo: "Práctica aplicada", valor: "25%" },
+    { componente: "Rediseño de señalización", tipo: "Creativo-técnico", valor: "15%" },
+  ],
+  quiz: [
+    {
+      id: "m4q1",
+      pregunta: "¿Cuál es el rango de iluminación recomendado para áreas de trabajo según CENI?",
+      opciones: ["50–200 lux", "100–300 lux", "300–500 lux", "600–800 lux"],
+      correcta: 2,
+      explicacion: "Las áreas de trabajo deben tener entre 300 y 500 lux según los umbrales CENI.",
+    },
+    {
+      id: "m4q2",
+      pregunta: "El contraste mínimo entre texto y fondo exigido por CENI (WCAG AA) es:",
+      opciones: ["2:1", "3:1", "4.5:1", "7:1"],
+      correcta: 2,
+      explicacion: "El estándar WCAG AA exige un contraste mínimo de 4.5:1 entre texto y fondo.",
+    },
+    {
+      id: "m4q3",
+      pregunta: "¿Cuántos pasos como máximo debe encadenar una sola instrucción según el principio de simplicidad?",
+      opciones: ["Uno", "Dos", "Cuatro", "No hay límite"],
+      correcta: 1,
+      explicacion: "El principio de simplicidad establece: una instrucción = una acción, sin encadenar más de dos pasos.",
+    },
+    {
+      id: "m4q4",
+      pregunta: "El consentimiento informado ambiental implica que los espacios CENI deben publicar:",
+      opciones: [
+        "Solo el horario de atención",
+        "El mapa sensorial y advertencias sobre estímulos específicos",
+        "Los precios de sus servicios únicamente",
+        "Nada, es un principio meramente teórico",
+      ],
+      correcta: 1,
+      explicacion: "Los espacios deben publicar el mapa sensorial, niveles de ruido habituales, advertencias sobre estímulos y ubicación del espacio de calma.",
+    },
+    {
+      id: "m4q5",
+      pregunta: "En un mapa sensorial CENI, el color rojo representa:",
+      opciones: ["Zona tranquila", "Zona moderada", "Zona de alta estimulación", "Salida de emergencia"],
+      correcta: 2,
+      explicacion: "El código de colores del mapa sensorial usa rojo para zonas de alta estimulación.",
+    },
+    {
+      id: "m4q6",
+      pregunta: "¿Cuál es el máximo de palabras recomendado por frase en \"lenguaje sencillo\" (plain language)?",
+      opciones: ["5 palabras", "10 palabras", "15 palabras", "30 palabras"],
+      correcta: 2,
+      explicacion: "El lenguaje sencillo recomienda frases cortas de máximo 15 palabras.",
+    },
+    {
+      id: "m4q7",
+      pregunta: "¿Qué frecuencia de parpadeo lumínico debe evitarse en la iluminación de espacios CENI?",
+      opciones: ["Menor a 3 Hz", "Mayor o igual a 3 Hz", "Exactamente 10 Hz", "No es relevante"],
+      correcta: 1,
+      explicacion: "CENI exige evitar parpadeo lumínico de 3 Hz o más (neón y LED defectuoso).",
+    },
+    {
+      id: "m4q8",
+      pregunta: "El tamaño mínimo de fuente sans-serif para señalización interior es:",
+      opciones: ["10pt", "12pt", "16pt", "24pt"],
+      correcta: 2,
+      explicacion: "La señalización interior debe usar fuente sans-serif de mínimo 16pt (24pt para señales directivas exteriores en espacios).",
+    },
+    {
+      id: "m4q9",
+      pregunta: "El nivel de ruido ambiental máximo promedio permitido en áreas de trabajo es:",
+      opciones: ["35 dB", "45 dB", "55 dB", "70 dB"],
+      correcta: 2,
+      explicacion: "El umbral CENI establece un máximo de 55 dB promedio en áreas de trabajo.",
+    },
+    {
+      id: "m4q10",
+      pregunta: "El principio de \"redundancia\" en accesibilidad cognitiva significa:",
+      opciones: [
+        "Repetir la misma información en el mismo formato varias veces",
+        "Presentar la información en al menos dos formatos simultáneos",
+        "Eliminar información para simplificar",
+        "Usar únicamente comunicación oral",
+      ],
+      correcta: 1,
+      explicacion: "La redundancia implica presentar la información en al menos dos formatos simultáneos (texto + imagen, oral + escrito).",
+    },
+  ],
+};
+
+export default modulo4;
