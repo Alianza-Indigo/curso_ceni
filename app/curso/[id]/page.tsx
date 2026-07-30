@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ArrowLeft, Clock, Users } from "lucide-react";
 import { auth } from "@/auth";
 import { obtenerProgreso } from "@/lib/progreso-server";
+import { armarIntento } from "@/lib/quiz-shuffle";
 
 export default async function ModuloPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -67,6 +68,7 @@ export default async function ModuloPage({ params }: { params: Promise<{ id: str
 
       <ModuloAcciones
         modulo={modulo}
+        preguntasIniciales={armarIntento(modulo.quiz, modulo.preguntasPorIntento)}
         resultadoInicial={progreso.resultadosQuiz[modulo.id] ?? null}
         anterior={anteriorM ? { id: anteriorM.id, titulo: anteriorM.titulo, numero: anteriorM.numero } : undefined}
         siguiente={siguienteM ? { id: siguienteM.id, titulo: siguienteM.titulo, numero: siguienteM.numero } : undefined}

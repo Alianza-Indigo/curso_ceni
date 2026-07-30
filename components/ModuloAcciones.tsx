@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Modulo } from "@/lib/types";
+import { Modulo, PreguntaQuiz } from "@/lib/types";
 import Quiz from "@/components/Quiz";
 import { armarIntento } from "@/lib/quiz-shuffle";
 import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
@@ -20,11 +20,13 @@ type ResultadoQuiz = {
 
 export default function ModuloAcciones({
   modulo,
+  preguntasIniciales,
   resultadoInicial,
   anterior,
   siguiente,
 }: {
   modulo: Modulo;
+  preguntasIniciales: PreguntaQuiz[];
   resultadoInicial: ResultadoQuiz | null;
   anterior?: { id: string; titulo: string; numero: number };
   siguiente?: { id: string; titulo: string; numero: number };
@@ -32,9 +34,10 @@ export default function ModuloAcciones({
   const router = useRouter();
   const [resultado, setResultado] = useState<ResultadoQuiz | null>(resultadoInicial);
   const [intento, setIntento] = useState(0);
-  const [preguntasIntento, setPreguntasIntento] = useState(() =>
-    armarIntento(modulo.quiz, modulo.preguntasPorIntento)
-  );
+  // El primer intento usa la selección ya armada por el servidor (evita mismatch de
+  // hidratación: Math.random() no puede correr en un Client Component que también se
+  // renderiza en el servidor). Los reintentos sí arman una nueva selección en el cliente.
+  const [preguntasIntento, setPreguntasIntento] = useState(preguntasIniciales);
 
   async function onFinalizar(respuestas: Record<string, number>, aciertos: number, total: number) {
     const res = await fetch("/api/progreso/modulo", {
