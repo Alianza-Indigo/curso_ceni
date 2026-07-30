@@ -1,0 +1,1 @@
+export const UMBRAL_APROBATORIO_PCT = 70;

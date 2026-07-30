@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import "./globals.css";
 import HeaderCurso from "@/components/HeaderCurso";
+import { auth } from "@/auth";
 
 const display = Fraunces({
   variable: "--font-display",
@@ -22,18 +23,20 @@ export const metadata: Metadata = {
     "Curso interactivo de Certificación de Entornos Neuroinclusivos (CENI). No necesitas PARECER para SER.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+
   return (
     <html lang="es-MX" className={`${display.variable} ${body.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-white text-[#070b2f]">
         <a href="#contenido-principal" className="skip-link">
           Ir al contenido principal
         </a>
-        <HeaderCurso />
+        <HeaderCurso usuario={session?.user ?? null} />
         <main id="contenido-principal" className="flex-1">
           {children}
         </main>

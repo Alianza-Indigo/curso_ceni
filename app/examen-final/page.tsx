@@ -1,27 +1,19 @@
-"use client";
-
-import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import Quiz from "@/components/Quiz";
+import { redirect } from "next/navigation";
+import { auth } from "@/auth";
+import ExamenFinalClient from "@/components/ExamenFinalClient";
 import { construirExamenFinal, casoPracticoFinal, componentesEvaluacionFinal } from "@/lib/data/examenFinal";
-import { cargarProgreso, registrarExamenFinal, ResultadoQuiz } from "@/lib/progress";
+import { obtenerProgreso } from "@/lib/progreso-server";
 import { modulos } from "@/lib/data/modulos";
-import { Award, ArrowLeft, FileText } from "lucide-react";
+import { ArrowLeft, FileText } from "lucide-react";
 
-export default function ExamenFinalPage() {
-  const preguntas = useMemo(() => construirExamenFinal(), []);
-  const [resultado, setResultado] = useState<ResultadoQuiz | null>(null);
-  const [modulosCompletados, setModulosCompletados] = useState(0);
+export default async function ExamenFinalPage() {
+  const session = await auth();
+  if (!session?.user?.id) redirect("/login");
 
-  useEffect(() => {
-    const p = cargarProgreso();
-    setResultado(p.examenFinal ?? null);
-    setModulosCompletados(p.modulosCompletados.length);
-  }, []);
-
-  function onFinalizar(respuestas: Record<string, number>, aciertos: number, total: number) {
-    setResultado(registrarExamenFinal(respuestas, aciertos, total));
-  }
+  const progreso = await obtenerProgreso(session.user.id);
+  const preguntas = construirExamenFinal();
+  const modulosCompletados = progreso.modulosCompletados.length;
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10">
@@ -85,34 +77,7 @@ export default function ExamenFinalPage() {
         <p className="mt-3 text-xs italic text-[#6c6690]">{casoPracticoFinal.formato}</p>
       </section>
 
-      <section className="mt-10">
-        <h2 className="font-serif text-2xl font-bold text-[#070b2f]">
-          Examen integrador · {preguntas.length} preguntas
-        </h2>
-
-        {resultado ? (
-          <div
-            className={`mt-4 rounded-2xl border p-5 ${
-              resultado.aprobado ? "border-green-500 bg-green-50" : "border-[#dda632] bg-[#fff8e8]"
-            }`}
-          >
-            <p className="flex items-center gap-2 text-lg font-black text-[#070b2f]">
-              <Award className="h-5 w-5" /> {resultado.porcentaje}% ({resultado.aciertos}/{resultado.total})
-            </p>
-            <p className="mt-1 text-sm text-[#20234a]">
-              {resultado.aprobado
-                ? "¡Felicidades! Aprobaste el examen integrador. Junto con el caso práctico y la retroalimentación del curso, esto completa tu evaluación final."
-                : "No alcanzaste el 70% mínimo. Puedes repetir el examen."}
-            </p>
-          </div>
-        ) : null}
-
-        {(!resultado || !resultado.aprobado) && (
-          <div className="mt-5">
-            <Quiz preguntas={preguntas} onFinalizar={onFinalizar} tituloBoton="Calificar examen final" />
-          </div>
-        )}
-      </section>
+      <ExamenFinalClient preguntas={preguntas} resultadoInicial={progreso.examenFinal ?? null} />
     </div>
   );
 }

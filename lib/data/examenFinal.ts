@@ -1,14 +1,15 @@
 import { PreguntaQuiz } from "@/lib/types";
 import { modulos } from "./modulos";
 
-// El examen integrador toma una muestra representativa de cada módulo (2-3 preguntas)
-// para cubrir los 10 módulos, tal como especifica el curso: "50 preguntas cubriendo
-// los 10 módulos". Aquí generamos una selección balanceada a partir del banco de
-// reactivos de cada módulo para que cada intento sea representativo del temario completo.
+// El examen integrador toma una muestra representativa de cada módulo para cubrir
+// los 10 módulos, tal como especifica el curso: "50 preguntas cubriendo los 10
+// módulos". Los módulos 6 y 7 (CENI Laboral / CENI Espacios, banco de 15 reactivos
+// cada uno) aportan más preguntas por ser el núcleo de la certificación; el módulo 9
+// aporta las 6 que tiene disponibles. 7×4 + 2×8 + 1×6 = 50.
 export function construirExamenFinal(): PreguntaQuiz[] {
   const preguntas: PreguntaQuiz[] = [];
   modulos.forEach((m) => {
-    const n = m.numero <= 2 || m.numero === 6 || m.numero === 7 ? 4 : 3;
+    const n = m.numero === 6 || m.numero === 7 ? 8 : m.numero === 9 ? m.quiz.length : 4;
     m.quiz.slice(0, n).forEach((q) => {
       preguntas.push({ ...q, id: `final-${m.id}-${q.id}` });
     });

@@ -1,18 +1,20 @@
 import { modulos, getModuloById, getModuloAdyacente } from "@/lib/data/modulos";
 import { SeccionBloque, ActividadesBloque, EvaluacionBloque } from "@/components/ContenidoModulo";
 import ModuloAcciones from "@/components/ModuloAcciones";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Clock, Users } from "lucide-react";
-
-export function generateStaticParams() {
-  return modulos.map((m) => ({ id: m.id }));
-}
+import { auth } from "@/auth";
+import { obtenerProgreso } from "@/lib/progreso-server";
 
 export default async function ModuloPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const modulo = getModuloById(id);
   if (!modulo) return notFound();
+
+  const session = await auth();
+  if (!session?.user?.id) redirect("/login");
+  const progreso = await obtenerProgreso(session.user.id);
 
   const anteriorM = getModuloAdyacente(id, -1);
   const siguienteM = getModuloAdyacente(id, 1);
@@ -65,6 +67,7 @@ export default async function ModuloPage({ params }: { params: Promise<{ id: str
 
       <ModuloAcciones
         modulo={modulo}
+        resultadoInicial={progreso.resultadosQuiz[modulo.id] ?? null}
         anterior={anteriorM ? { id: anteriorM.id, titulo: anteriorM.titulo, numero: anteriorM.numero } : undefined}
         siguiente={siguienteM ? { id: siguienteM.id, titulo: siguienteM.titulo, numero: siguienteM.numero } : undefined}
       />

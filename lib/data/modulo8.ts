@@ -41,7 +41,7 @@ const modulo8: Modulo = {
       tabla: {
         encabezados: ["Aspecto", "Requisito"],
         filas: [
-          ["Perfil", "Curso CENI completo (16h) + actualización anual; preferentemente neurodivergente o con experiencia directa"],
+          ["Perfil", "Curso CENI completo (17h) + actualización anual; preferentemente neurodivergente o con experiencia directa"],
           ["Autoridad", "Suspender prácticas que vulneren derechos; acceso directo a la dirección; participación obligatoria en selección y evaluación"],
           ["Tiempo", "Mín. 10% de jornada (1–20 personas); 30% (21–100); tiempo completo (100+)"],
           ["Presupuesto", "Mínimo $5,000 MXN anuales para micro/pequeñas empresas, proporcional al tamaño"],

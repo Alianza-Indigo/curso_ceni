@@ -1,28 +1,21 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { auth } from "@/auth";
 import { modulos } from "@/lib/data/modulos";
-import { cargarProgreso, ProgresoCurso, reiniciarProgreso } from "@/lib/progress";
-import { CheckCircle2, Circle, Clock, ArrowRight, RotateCcw, Award } from "lucide-react";
+import { obtenerProgreso } from "@/lib/progreso-server";
+import ReiniciarProgreso from "@/components/ReiniciarProgreso";
+import { CheckCircle2, Circle, Clock, ArrowRight, Award } from "lucide-react";
 
-export default function Dashboard() {
-  const [progreso, setProgreso] = useState<ProgresoCurso | null>(null);
+export default async function Dashboard() {
+  const session = await auth();
+  if (!session?.user?.id) redirect("/login");
 
-  useEffect(() => {
-    setProgreso(cargarProgreso());
-  }, []);
+  const progreso = await obtenerProgreso(session.user.id);
 
-  const completados = progreso?.modulosCompletados.length ?? 0;
+  const completados = progreso.modulosCompletados.length;
   const totalModulos = modulos.length;
   const porcentajeGeneral = Math.round((completados / totalModulos) * 100);
-  const examenAprobado = progreso?.examenFinal?.aprobado ?? false;
-
-  function handleReiniciar() {
-    if (!window.confirm("¿Reiniciar todo tu progreso del curso? Esta acción no se puede deshacer.")) return;
-    reiniciarProgreso();
-    setProgreso(cargarProgreso());
-  }
+  const examenAprobado = progreso.examenFinal?.aprobado ?? false;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
@@ -34,7 +27,7 @@ export default function Dashboard() {
           Curso Integral de Capacitación
         </h1>
         <p className="mt-3 max-w-2xl text-white/85">
-          10 módulos · 16 horas de capacitación · Certificación de Entornos Neuroinclusivos
+          10 módulos · 17 horas de capacitación · Certificación de Entornos Neuroinclusivos
           (CENI Laboral y CENI Espacios). Aprueba cada quiz con 70% o más para avanzar.
         </p>
         <p className="mt-4 border-l-2 border-[#dda632] pl-4 text-sm font-bold text-white">
@@ -45,7 +38,7 @@ export default function Dashboard() {
           <div className="h-2 w-full max-w-sm overflow-hidden rounded-full bg-white/20">
             <div
               className="h-full rounded-full bg-[#dda632]"
-              style={{ width: `${progreso ? porcentajeGeneral : 0}%` }}
+              style={{ width: `${porcentajeGeneral}%` }}
             />
           </div>
           <span className="text-sm font-bold text-white/90">
@@ -56,7 +49,7 @@ export default function Dashboard() {
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {modulos.map((m) => {
-          const resultado = progreso?.resultadosQuiz[m.id];
+          const resultado = progreso.resultadosQuiz[m.id];
           const aprobado = resultado?.aprobado ?? false;
           return (
             <Link
@@ -103,7 +96,7 @@ export default function Dashboard() {
               <p className="font-bold text-[#070b2f]">Evaluación final y constancia</p>
               <p className="text-sm text-[#6c6690]">
                 {examenAprobado
-                  ? "Aprobaste el examen integrador."
+                  ? "Aprobaste el examen integrador. Descarga tu constancia."
                   : "Disponible al terminar los 10 módulos (puedes intentarlo antes también)."}
               </p>
             </div>
@@ -118,13 +111,7 @@ export default function Dashboard() {
       </section>
 
       <div className="mt-8 flex justify-end">
-        <button
-          type="button"
-          onClick={handleReiniciar}
-          className="inline-flex items-center gap-2 text-xs font-bold text-[#a37f00] hover:underline"
-        >
-          <RotateCcw className="h-3.5 w-3.5" /> Reiniciar mi progreso
-        </button>
+        <ReiniciarProgreso />
       </div>
     </div>
   );

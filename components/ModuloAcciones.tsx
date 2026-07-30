@@ -1,31 +1,47 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Modulo } from "@/lib/types";
 import Quiz from "@/components/Quiz";
-import { cargarProgreso, registrarResultadoQuiz, ResultadoQuiz } from "@/lib/progress";
 import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
+
+type ResultadoQuiz = {
+  moduloId: string;
+  respuestas: Record<string, number>;
+  aciertos: number;
+  total: number;
+  porcentaje: number;
+  aprobado: boolean;
+  fecha: string;
+};
 
 export default function ModuloAcciones({
   modulo,
+  resultadoInicial,
   anterior,
   siguiente,
 }: {
   modulo: Modulo;
+  resultadoInicial: ResultadoQuiz | null;
   anterior?: { id: string; titulo: string; numero: number };
   siguiente?: { id: string; titulo: string; numero: number };
 }) {
-  const [resultado, setResultado] = useState<ResultadoQuiz | null>(null);
+  const router = useRouter();
+  const [resultado, setResultado] = useState<ResultadoQuiz | null>(resultadoInicial);
 
-  useEffect(() => {
-    const progreso = cargarProgreso();
-    setResultado(progreso.resultadosQuiz[modulo.id] ?? null);
-  }, [modulo.id]);
-
-  function onFinalizar(respuestas: Record<string, number>, aciertos: number, total: number) {
-    const r = registrarResultadoQuiz(modulo.id, respuestas, aciertos, total);
-    setResultado(r);
+  async function onFinalizar(respuestas: Record<string, number>, aciertos: number, total: number) {
+    const res = await fetch("/api/progreso/modulo", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ moduloId: modulo.id, respuestas, aciertos, total }),
+    });
+    if (res.ok) {
+      const data: ResultadoQuiz = await res.json();
+      setResultado(data);
+      router.refresh();
+    }
   }
 
   return (
@@ -49,7 +65,7 @@ export default function ModuloAcciones({
           </div>
         ) : (
           <p className="mt-2 text-sm text-[#6c6690]">
-            Necesitas 70% o más para aprobar este módulo. Tu progreso se guarda en este navegador.
+            Necesitas 70% o más para aprobar este módulo. Tu progreso se guarda en tu cuenta.
           </p>
         )}
 

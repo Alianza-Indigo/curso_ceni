@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { PreguntaQuiz } from "@/lib/types";
 import { CheckCircle2, XCircle, RotateCcw } from "lucide-react";
-import { UMBRAL_APROBATORIO_PCT } from "@/lib/progress";
+import { UMBRAL_APROBATORIO_PCT } from "@/lib/constantes";
 
 type Props = {
   preguntas: PreguntaQuiz[];

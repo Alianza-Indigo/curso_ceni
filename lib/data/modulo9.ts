@@ -30,7 +30,7 @@ const modulo9: Modulo = {
       parrafos: ["La responsabilidad es de aplicación cotidiana: comunicación, manejo de crisis, respeto al stimming y uso de recursos de accesibilidad."],
       lista: {
         items: [
-          "Completar el Curso CENI completo (16 horas) y las actualizaciones anuales",
+          "Completar el Curso CENI completo (17 horas) y las actualizaciones anuales",
           "Conocer la ubicación y el protocolo de acceso al espacio de calma",
           "Aplicar el protocolo de comunicación neuroafirmativa en todas las interacciones",
           "Reportar barreras de accesibilidad a través del canal oficial",
