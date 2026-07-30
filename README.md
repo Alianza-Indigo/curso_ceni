@@ -24,6 +24,14 @@ inicio de sesión con Google.
   está viendo (más el glosario e índice del curso) para no inventar criterios o cifras.
   Conversación efímera: vive solo en el estado del navegador, no se guarda en ningún lado ni
   sobrevive a un recargo de página.
+  - **Tope de costo**: `LIMITE_MENSAJES_ASISTENTE_DIA` (`lib/constantes.ts`, hoy 50) por
+    usuario por día, contado en `User.asistenteMensajesHoy` (Postgres). Al superarlo, la
+    ruta responde 429 con un mensaje claro.
+  - **Redirección a humano**: el prompt del sistema le pide al modelo responder con el
+    marcador `MARCADOR_REDIRECCION_HUMANA` cuando detecta abuso, hostilidad, intentos de
+    manipulación, o peticiones que requieren autoridad humana (calificar, certificar,
+    quejas formales). El widget muestra entonces una tarjeta con el contacto de Alianza
+    Índigo (`CONTACTO_ALIANZA_INDIGO`) en vez de la respuesta normal.
 
 ## Configuración local
 

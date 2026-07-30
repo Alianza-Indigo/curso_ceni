@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import { MessageCircle, X, Send, Loader2 } from "lucide-react";
+import { MessageCircle, X, Send, Loader2, UserRound } from "lucide-react";
+import { CONTACTO_ALIANZA_INDIGO, MARCADOR_REDIRECCION_HUMANA } from "@/lib/constantes";
 
 type Mensaje = { role: "user" | "model"; texto: string };
 
@@ -90,18 +91,40 @@ export default function AsistenteChat() {
                 conversación no se guarda: se borra al recargar o salir de la página.
               </p>
             )}
-            {mensajes.map((m, i) => (
-              <div
-                key={i}
-                className={`max-w-[85%] rounded-xl px-3 py-2 text-sm leading-relaxed ${
-                  m.role === "user"
-                    ? "ml-auto bg-[#4b18a8] text-white"
-                    : "bg-[#f5f1ff] text-[#20234a]"
-                }`}
-              >
-                {m.texto || (enviando && i === mensajes.length - 1 ? "…" : "")}
-              </div>
-            ))}
+            {mensajes.map((m, i) => {
+              if (m.role === "model" && m.texto.startsWith(MARCADOR_REDIRECCION_HUMANA)) {
+                const motivo = m.texto.slice(MARCADOR_REDIRECCION_HUMANA.length).trim();
+                return (
+                  <div
+                    key={i}
+                    className="max-w-[90%] rounded-xl border border-[#dda632] bg-[#fff8e8] px-3 py-2 text-sm text-[#5a4300]"
+                  >
+                    <p className="flex items-center gap-1.5 font-black uppercase tracking-wide text-xs">
+                      <UserRound className="h-3.5 w-3.5" /> Esto necesita a una persona
+                    </p>
+                    {motivo && <p className="mt-1">{motivo}</p>}
+                    <a
+                      href={`mailto:${CONTACTO_ALIANZA_INDIGO}`}
+                      className="mt-2 inline-block font-bold underline"
+                    >
+                      Escribe a {CONTACTO_ALIANZA_INDIGO}
+                    </a>
+                  </div>
+                );
+              }
+              return (
+                <div
+                  key={i}
+                  className={`max-w-[85%] rounded-xl px-3 py-2 text-sm leading-relaxed ${
+                    m.role === "user"
+                      ? "ml-auto bg-[#4b18a8] text-white"
+                      : "bg-[#f5f1ff] text-[#20234a]"
+                  }`}
+                >
+                  {m.texto || (enviando && i === mensajes.length - 1 ? "…" : "")}
+                </div>
+              );
+            })}
             {error && (
               <p className="rounded-xl bg-red-50 px-3 py-2 text-xs text-[#7a2b2b]">{error}</p>
             )}

@@ -18,6 +18,10 @@ model User {
   progresoModulos ProgresoModulo[]
   resultadoExamen ResultadoExamen?
 
+  // Tope diario de mensajes al asistente virtual (protección de costo).
+  asistenteMensajesHoy Int       @default(0)
+  asistenteMensajesDia DateTime?
+
   createdAt DateTime @default(now())
 }
 

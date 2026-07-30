@@ -1,6 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 import { auth } from "@/auth";
 import { construirSystemInstruction } from "@/lib/asistente-contexto";
+import { consumirMensajeAsistente } from "@/lib/asistente-limite";
 
 const MODELO = "gemini-3.1-flash-lite";
 const MAX_MENSAJES = 20;
@@ -38,6 +39,14 @@ export async function POST(request: Request) {
     )
   ) {
     return new Response("Conversación inválida", { status: 400 });
+  }
+
+  const limite = await consumirMensajeAsistente(session.user.id);
+  if (!limite.permitido) {
+    return new Response(
+      `Alcanzaste el límite de ${limite.limite} mensajes al asistente por hoy. Vuelve mañana o escribe directamente a Alianza Índigo.`,
+      { status: 429 }
+    );
   }
 
   const ai = new GoogleGenAI({ apiKey });
