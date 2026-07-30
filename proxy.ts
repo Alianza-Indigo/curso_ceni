@@ -5,8 +5,10 @@ const PUBLIC_PATHS = ["/login"];
 
 export default auth((req) => {
   const { pathname } = req.nextUrl;
-  const isPublic =
-    PUBLIC_PATHS.includes(pathname) || pathname.startsWith("/api/auth");
+  // Las rutas /api/* manejan su propia sesión y devuelven 401/403 JSON o texto;
+  // redirigirlas a /login rompería a los clientes fetch() (recibirían HTML).
+  const isApiRoute = pathname.startsWith("/api/");
+  const isPublic = PUBLIC_PATHS.includes(pathname) || isApiRoute;
 
   if (!req.auth && !isPublic) {
     const loginUrl = new URL("/login", req.nextUrl.origin);

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import "./globals.css";
 import HeaderCurso from "@/components/HeaderCurso";
+import AsistenteChat from "@/components/AsistenteChat";
 import { auth } from "@/auth";
 
 const display = Fraunces({
@@ -43,6 +44,7 @@ export default async function RootLayout({
         <footer className="border-t border-[#e5def4] bg-[#fbfaff] py-6 text-center text-xs text-[#6c6690]">
           Alianza Índigo Neurodivergente A.C. · Curso CENI v1.0 — 2025 · &quot;No necesitas PARECER para SER&quot;
         </footer>
+        {session?.user && <AsistenteChat />}
       </body>
     </html>
   );

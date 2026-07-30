@@ -19,6 +19,11 @@ inicio de sesión con Google.
   gestiona con `db push` a mano. El script `build` corre `prisma migrate deploy` antes de
   `next build`, así que cada deploy en producción aplica automáticamente las migraciones
   pendientes contra `DATABASE_URL` — no hace falta tocar la base de datos manualmente.
+- **Asistente virtual**: widget de chat (`/api/asistente` + `components/AsistenteChat.tsx`)
+  con Gemini 3.1 Flash Lite, anclado estrictamente al contenido del módulo que el estudiante
+  está viendo (más el glosario e índice del curso) para no inventar criterios o cifras.
+  Conversación efímera: vive solo en el estado del navegador, no se guarda en ningún lado ni
+  sobrevive a un recargo de página.
 
 ## Configuración local
 
@@ -72,10 +77,13 @@ inicio de sesión con Google.
 | `AUTH_SECRET` | Secreto aleatorio (`openssl rand -base64 32`) para firmar cookies de sesión |
 | `AUTH_TRUST_HOST` | `"true"` si Auth.js corre detrás de un proxy/CDN |
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Credenciales OAuth de Google Cloud Console |
+| `GEMINI_API_KEY` | API key de [Google AI Studio](https://aistudio.google.com/apikey) para el asistente virtual |
 
 Sin estas variables configuradas, el login con Google y la persistencia de progreso no
 funcionarán — la aplicación no puede generarlas por sí sola, deben provenir de tu propia
-cuenta de Google Cloud y de tu propio proveedor de base de datos.
+cuenta de Google Cloud y de tu propio proveedor de base de datos. Si falta `GEMINI_API_KEY`
+específicamente, el resto del curso funciona normal — solo el widget del asistente
+responderá con un aviso de que no está configurado.
 
 ## Scripts
 
