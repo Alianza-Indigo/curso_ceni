@@ -9,9 +9,12 @@ type Props = {
   preguntas: PreguntaQuiz[];
   onFinalizar: (respuestas: Record<string, number>, aciertos: number, total: number) => void;
   tituloBoton?: string;
+  // Si se provee, se invoca al reintentar (además de limpiar el estado interno).
+  // Úsalo para pedirle al padre una nueva selección aleatoria de preguntas.
+  onReintentar?: () => void;
 };
 
-export default function Quiz({ preguntas, onFinalizar, tituloBoton = "Calificar quiz" }: Props) {
+export default function Quiz({ preguntas, onFinalizar, tituloBoton = "Calificar quiz", onReintentar }: Props) {
   const [respuestas, setRespuestas] = useState<Record<string, number>>({});
   const [enviado, setEnviado] = useState(false);
 
@@ -33,6 +36,7 @@ export default function Quiz({ preguntas, onFinalizar, tituloBoton = "Calificar 
   function reintentar() {
     setRespuestas({});
     setEnviado(false);
+    onReintentar?.();
   }
 
   return (

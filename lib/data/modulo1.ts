@@ -6,6 +6,7 @@ const modulo1: Modulo = {
   titulo: "Neurodiversidad 101",
   duracion: "90 minutos",
   dirigidoA: "Todo público",
+  preguntasPorIntento: 10,
   objetivos: [
     "Distinguir los conceptos de neurodiversidad, neurodivergencia y neurotipicidad con precisión y sin lenguaje patologizante.",
     "Aplicar el paradigma neuroafirmativo en conversaciones cotidianas y documentos institucionales.",
@@ -242,6 +243,136 @@ const modulo1: Modulo = {
       opciones: ["Dispraxia", "Discalculia", "Hipertensión arterial", "Síndrome de Tourette"],
       correcta: 2,
       explicacion: "La hipertensión arterial es una condición médica no relacionada con el neurodesarrollo; no aparece en el listado del curso.",
+    },
+    {
+      id: "m1q11",
+      pregunta: "El módulo describe la neurodiversidad como un hecho biológico comparándola con variaciones naturales del cuerpo humano en:",
+      opciones: [
+        "Estatura, pigmentación o metabolismo",
+        "Inteligencia, personalidad o carácter",
+        "Cultura, idioma o religión",
+        "Edad, género o nacionalidad",
+      ],
+      correcta: 0,
+      explicacion:
+        "El texto compara las variaciones del funcionamiento cerebral con las variaciones que los cuerpos humanos presentan en estatura, pigmentación o metabolismo.",
+    },
+    {
+      id: "m1q12",
+      pregunta: "Según el módulo, ¿qué determina que una persona sea considerada neurodivergente?",
+      opciones: [
+        "Contar con un diagnóstico médico formal vigente",
+        "Que su neurología difiera del patrón estadísticamente mayoritario de forma que afecte su procesamiento, comunicación, relación, aprendizaje o experiencia sensorial",
+        "Presentar una discapacidad visible",
+        "Haber nacido con una condición cromosómica",
+      ],
+      correcta: 1,
+      explicacion:
+        "El módulo define neurodivergente como la persona cuya neurología difiere del patrón mayoritario (\"neurotípico\") afectando su forma de procesar información, comunicarse, relacionarse, aprender o experimentar el entorno sensorial.",
+    },
+    {
+      id: "m1q13",
+      pregunta: "Según las consecuencias prácticas del paradigma neuroafirmativo, ¿qué criterios de selección de personal deben eliminarse por discriminar el perfil neurodivergente?",
+      opciones: [
+        "Contacto visual, respuesta en tiempo real y tolerancia al ruido",
+        "Años de experiencia laboral",
+        "Nivel de estudios formales",
+        "Dominio de idiomas extranjeros",
+      ],
+      correcta: 0,
+      explicacion:
+        "El módulo señala que los protocolos de selección deben eliminar criterios como contacto visual, respuesta en tiempo real y tolerancia al ruido, por discriminar el perfil neurodivergente.",
+    },
+    {
+      id: "m1q14",
+      pregunta: "¿Cuál de las siguientes es una forma de stimming vocal según la descripción del módulo?",
+      opciones: [
+        "Balancearse o aletear las manos",
+        "Tararear o repetir palabras",
+        "Tocar texturas o aplicar presión profunda",
+        "Mirar objetos giratorios o luces",
+      ],
+      correcta: 1,
+      explicacion:
+        "El módulo clasifica el stimming vocal como tararear o repetir palabras, distinto del motor (balanceo, aleteo), sensorial (texturas, presión) o visual (objetos giratorios, luces).",
+    },
+    {
+      id: "m1q15",
+      pregunta: "El módulo compara el esfuerzo cognitivo y emocional del masking sostenido con:",
+      opciones: [
+        "Aprender a tocar un instrumento musical",
+        "Actuar en un idioma extranjero todo el día",
+        "Correr una maratón diariamente",
+        "Memorizar un libro completo",
+      ],
+      correcta: 1,
+      explicacion:
+        "El texto describe el masking como un esfuerzo cognitivo y emocional enorme, equivalente a actuar en un idioma extranjero todo el día.",
+    },
+    {
+      id: "m1q16",
+      pregunta: "¿Cuál de los siguientes NO es un elemento que, según el módulo, deben incorporar los entornos CENI para apoyar la autorregulación?",
+      opciones: [
+        "Zonas de calma",
+        "Señalización predecible",
+        "Evaluaciones de desempeño constantes y sorpresivas",
+        "Tiempos de transición adecuados",
+      ],
+      correcta: 2,
+      explicacion:
+        "El módulo indica que los entornos CENI deben diseñarse con zonas de calma, señalización predecible, reducción de estímulos no esenciales y tiempos de transición adecuados, no con evaluaciones sorpresivas.",
+    },
+    {
+      id: "m1q17",
+      pregunta: "Según el protocolo CENI sobre stimming, ¿qué debe incluir el Reglamento Interno de Neuroinclusión?",
+      opciones: [
+        "Una cláusula anti-represalia por stimming",
+        "Un límite de tiempo permitido para el stimming",
+        "Un listado de conductas de stimming prohibidas",
+        "Un requisito de autorización previa para estimular",
+      ],
+      correcta: 0,
+      explicacion:
+        "El protocolo CENI establece incluir una cláusula anti-represalia por stimming en el Reglamento Interno de Neuroinclusión.",
+    },
+    {
+      id: "m1q18",
+      pregunta: "¿Qué establece el Derecho 4 — Derecho al masking libre?",
+      opciones: [
+        "Que nadie puede ser forzado a ocultar sus rasgos identitarios como condición de participación social, laboral o educativa",
+        "Que el masking es obligatorio en entornos laborales formales",
+        "Que el masking debe ser evaluado clínicamente antes de suprimirse",
+        "Que el masking solo aplica a personas con diagnóstico de autismo",
+      ],
+      correcta: 0,
+      explicacion:
+        "El Derecho 4 establece que nadie puede ser forzado a ocultar sus rasgos identitarios como condición de participación social, laboral o educativa.",
+    },
+    {
+      id: "m1q19",
+      pregunta: "El Derecho 5 — Protección frente a discriminación algorítmica se refiere específicamente a:",
+      opciones: [
+        "Que los sistemas de IA, selección de personal y evaluación de desempeño no discriminen por perfil neurodivergente",
+        "El uso de lenguaje patologizante en documentos institucionales",
+        "La falta de zonas de calma en los espacios de trabajo",
+        "La ausencia de un diagnóstico médico formal",
+      ],
+      correcta: 0,
+      explicacion:
+        "El Derecho 5 protege frente a que los sistemas de IA, selección de personal y evaluación de desempeño discriminen por perfil neurodivergente.",
+    },
+    {
+      id: "m1q20",
+      pregunta: "Según el módulo, los Derechos Índigo son:",
+      opciones: [
+        "Seis derechos específicos de cuarta generación que protegen la existencia neurodivergente en su integralidad",
+        "Cuatro derechos de primera generación con carácter recomendatorio",
+        "Ocho principios éticos sin carácter vinculante",
+        "Una lista abierta de buenas prácticas internacionales no oficiales",
+      ],
+      correcta: 0,
+      explicacion:
+        "El módulo define los Derechos Índigo como seis derechos específicos de cuarta generación que protegen la existencia neurodivergente en su integralidad.",
     },
   ],
 };

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Modulo } from "@/lib/types";
 import Quiz from "@/components/Quiz";
+import { armarIntento } from "@/lib/quiz-shuffle";
 import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
 
 type ResultadoQuiz = {
@@ -30,6 +31,10 @@ export default function ModuloAcciones({
 }) {
   const router = useRouter();
   const [resultado, setResultado] = useState<ResultadoQuiz | null>(resultadoInicial);
+  const [intento, setIntento] = useState(0);
+  const [preguntasIntento, setPreguntasIntento] = useState(() =>
+    armarIntento(modulo.quiz, modulo.preguntasPorIntento)
+  );
 
   async function onFinalizar(respuestas: Record<string, number>, aciertos: number, total: number) {
     const res = await fetch("/api/progreso/modulo", {
@@ -48,7 +53,7 @@ export default function ModuloAcciones({
     <div>
       <section className="mb-8">
         <h3 className="font-serif text-xl font-bold text-[#070b2f]">
-          Quiz de evaluación · {modulo.quiz.length} preguntas
+          Quiz de evaluación · {modulo.preguntasPorIntento} preguntas
         </h3>
         {resultado ? (
           <div
@@ -71,7 +76,15 @@ export default function ModuloAcciones({
 
         {(!resultado || !resultado.aprobado) && (
           <div className="mt-5">
-            <Quiz preguntas={modulo.quiz} onFinalizar={onFinalizar} />
+            <Quiz
+              key={intento}
+              preguntas={preguntasIntento}
+              onFinalizar={onFinalizar}
+              onReintentar={() => {
+                setPreguntasIntento(armarIntento(modulo.quiz, modulo.preguntasPorIntento));
+                setIntento((n) => n + 1);
+              }}
+            />
           </div>
         )}
       </section>

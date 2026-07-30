@@ -1,20 +1,22 @@
 import { PreguntaQuiz } from "@/lib/types";
 import { modulos } from "./modulos";
+import { armarIntento, barajar } from "@/lib/quiz-shuffle";
 
 // El examen integrador toma una muestra representativa de cada módulo para cubrir
 // los 10 módulos, tal como especifica el curso: "50 preguntas cubriendo los 10
-// módulos". Los módulos 6 y 7 (CENI Laboral / CENI Espacios, banco de 15 reactivos
-// cada uno) aportan más preguntas por ser el núcleo de la certificación; el módulo 9
-// aporta las 6 que tiene disponibles. 7×4 + 2×8 + 1×6 = 50.
+// módulos". Los módulos 6 y 7 (CENI Laboral / CENI Espacios) aportan más preguntas
+// por ser el núcleo de la certificación. 7×4 + 2×8 + 1×6 = 50.
+// La selección es aleatoria (banco > cantidad tomada) y el orden de preguntas y
+// opciones se baraja en cada intento, para que dos intentos no sean idénticos.
 export function construirExamenFinal(): PreguntaQuiz[] {
   const preguntas: PreguntaQuiz[] = [];
   modulos.forEach((m) => {
-    const n = m.numero === 6 || m.numero === 7 ? 8 : m.numero === 9 ? m.quiz.length : 4;
-    m.quiz.slice(0, n).forEach((q) => {
+    const n = m.numero === 6 || m.numero === 7 ? 8 : m.numero === 9 ? 6 : 4;
+    armarIntento(m.quiz, n).forEach((q) => {
       preguntas.push({ ...q, id: `final-${m.id}-${q.id}` });
     });
   });
-  return preguntas;
+  return barajar(preguntas);
 }
 
 export const casoPracticoFinal = {

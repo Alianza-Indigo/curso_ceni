@@ -37,5 +37,9 @@ export type Modulo = {
   secciones: Seccion[];
   actividades: Actividad[];
   evaluacion: EvaluacionComponente[];
+  // Banco completo de reactivos del módulo. Debe ser más grande que
+  // `preguntasPorIntento` para que cada intento muestre una selección distinta.
   quiz: PreguntaQuiz[];
+  // Cuántas preguntas de `quiz` se muestran (al azar) en cada intento.
+  preguntasPorIntento: number;
 };

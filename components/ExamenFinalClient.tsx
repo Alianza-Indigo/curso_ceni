@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Quiz from "@/components/Quiz";
 import { PreguntaQuiz } from "@/lib/types";
+import { construirExamenFinal } from "@/lib/data/examenFinal";
 import { Award, Download } from "lucide-react";
 
 type ResultadoQuiz = {
@@ -18,7 +19,7 @@ type ResultadoQuiz = {
 };
 
 export default function ExamenFinalClient({
-  preguntas,
+  preguntas: preguntasIniciales,
   resultadoInicial,
 }: {
   preguntas: PreguntaQuiz[];
@@ -26,6 +27,10 @@ export default function ExamenFinalClient({
 }) {
   const router = useRouter();
   const [resultado, setResultado] = useState<ResultadoQuiz | null>(resultadoInicial);
+  const [intento, setIntento] = useState(0);
+  // El primer intento usa la selección ya armada (y barajada) por el servidor;
+  // cada reintento arma una selección nueva para no repetir el examen.
+  const [preguntas, setPreguntas] = useState(preguntasIniciales);
 
   async function onFinalizar(respuestas: Record<string, number>, aciertos: number, total: number) {
     const res = await fetch("/api/progreso/examen", {
@@ -73,7 +78,16 @@ export default function ExamenFinalClient({
 
       {(!resultado || !resultado.aprobado) && (
         <div className="mt-5">
-          <Quiz preguntas={preguntas} onFinalizar={onFinalizar} tituloBoton="Calificar examen final" />
+          <Quiz
+            key={intento}
+            preguntas={preguntas}
+            onFinalizar={onFinalizar}
+            tituloBoton="Calificar examen final"
+            onReintentar={() => {
+              setPreguntas(construirExamenFinal());
+              setIntento((n) => n + 1);
+            }}
+          />
         </div>
       )}
     </section>
