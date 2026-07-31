@@ -24,6 +24,11 @@ inicio de sesión con Google.
   Un módulo solo cuenta como completo — y desbloquea el siguiente — cuando el quiz está
   aprobado **y** se entregó cada actividad (`components/ActividadesEntrega.tsx` +
   `EntregaActividad` en Postgres); el quiz aprobado por sí solo ya no basta.
+- **Evaluación final completa**: el examen integrador (`/examen-final`) también reparte su
+  nota en tres partes (examen de opción múltiple 40%, caso práctico aplicado 40%,
+  retroalimentación del curso 20%). La constancia solo se emite — con folio y vigencia —
+  cuando los tres componentes están completos (`components/EntregaFinalForm.tsx` +
+  `EntregaFinal` en Postgres); antes solo se exigía el examen de opción múltiple.
 - **Migraciones versionadas**: el schema vive en `prisma/migrations/` (Prisma Migrate), no se
   gestiona con `db push` a mano. El script `build` corre `prisma migrate deploy` antes de
   `next build`, así que cada deploy en producción aplica automáticamente las migraciones

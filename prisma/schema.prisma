@@ -18,6 +18,7 @@ model User {
   progresoModulos   ProgresoModulo[]
   resultadoExamen   ResultadoExamen?
   entregasActividad EntregaActividad[]
+  entregaFinal      EntregaFinal?
 
   // Tope diario de mensajes al asistente virtual (protección de costo).
   asistenteMensajesHoy Int       @default(0)
@@ -80,18 +81,37 @@ model ProgresoModulo {
 }
 
 // Resultado del examen integrador final. Un registro por usuario (se sobrescribe en cada intento).
+// `aprobado` representa la certificación COMPLETA (examen 40% + caso práctico 40% +
+// retroalimentación 20%, según componentesEvaluacionFinal), no solo el examen de opción
+// múltiple — ver recalcularCertificacionFinal() en lib/progreso-server.ts.
 model ResultadoExamen {
-  id            String    @id @default(cuid())
-  userId        String    @unique
-  respuestas    Json
-  aciertos      Int
-  total         Int
-  porcentaje    Int
-  aprobado      Boolean
-  fecha         DateTime  @default(now())
-  folio         String?   @unique
-  // Vigencia de 1 año desde la aprobación, como especifica el curso original.
-  vigenciaHasta DateTime?
+  id                 String    @id @default(cuid())
+  userId             String    @unique
+  respuestas         Json
+  aciertos           Int
+  total              Int
+  porcentaje         Int
+  aprobado           Boolean
+  fecha              DateTime  @default(now())
+  folio              String?   @unique
+  // Momento en que se completaron los tres componentes de la evaluación final.
+  fechaCertificacion DateTime?
+  // Vigencia de 1 año desde fechaCertificacion, como especifica el curso original.
+  vigenciaHasta      DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Caso práctico aplicado y retroalimentación del curso — los otros dos componentes
+// de la evaluación final (40% y 20% respectivamente) además del examen de opción
+// múltiple. Un registro por usuario; se sobrescribe con cada guardado.
+model EntregaFinal {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  casoPractico      String?  @db.Text
+  retroalimentacion String?  @db.Text
+  actualizadoEn     DateTime @updatedAt
+  creadoEn          DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

@@ -2,9 +2,18 @@ import "server-only";
 import { randomUUID } from "crypto";
 import { prisma } from "@/lib/db";
 import { modulos, getModuloById, actividadesCompletas } from "@/lib/data/modulos";
-import { UMBRAL_APROBATORIO_PCT } from "@/lib/constantes";
+import {
+  UMBRAL_APROBATORIO_PCT,
+  MIN_PALABRAS_CASO_PRACTICO,
+  MIN_CARACTERES_RETROALIMENTACION,
+} from "@/lib/constantes";
 
 const UN_ANIO_MS = 365 * 24 * 60 * 60 * 1000;
+
+function contarPalabras(texto: string): number {
+  const limpio = texto.trim();
+  return limpio.length === 0 ? 0 : limpio.split(/\s+/).length;
+}
 
 export type ResultadoQuiz = {
   moduloId: string;
@@ -20,7 +29,19 @@ export type ProgresoCurso = {
   modulosCompletados: string[];
   resultadosQuiz: Record<string, ResultadoQuiz>;
   entregasPorModulo: Record<string, Record<string, string>>;
-  examenFinal?: ResultadoQuiz & { folio?: string | null; vigenciaHasta?: string | null; vigente?: boolean };
+  examenFinal?: ResultadoQuiz & {
+    folio?: string | null;
+    vigenciaHasta?: string | null;
+    vigente?: boolean;
+    // aprobado (heredado de ResultadoQuiz) = certificación completa (examen + caso
+    // práctico + retroalimentación). quizAprobado es solo el 40% del examen de opción
+    // múltiple, para poder mostrar el estado intermedio en la UI.
+    quizAprobado: boolean;
+  };
+  casoPractico: string | null;
+  retroalimentacion: string | null;
+  casoPracticoEntregado: boolean;
+  retroalimentacionEntregada: boolean;
 };
 
 function calcularResultado(
@@ -43,10 +64,11 @@ function calcularResultado(
 }
 
 export async function obtenerProgreso(userId: string): Promise<ProgresoCurso> {
-  const [modulosProgreso, examen, entregas] = await Promise.all([
+  const [modulosProgreso, examen, entregas, entregaFinal] = await Promise.all([
     prisma.progresoModulo.findMany({ where: { userId } }),
     prisma.resultadoExamen.findUnique({ where: { userId } }),
     prisma.entregaActividad.findMany({ where: { userId } }),
+    prisma.entregaFinal.findUnique({ where: { userId } }),
   ]);
 
   const entregasPorModulo: Record<string, Record<string, string>> = {};
@@ -74,6 +96,9 @@ export async function obtenerProgreso(userId: string): Promise<ProgresoCurso> {
     })
     .map((m) => m.id);
 
+  const casoPractico = entregaFinal?.casoPractico ?? null;
+  const retroalimentacion = entregaFinal?.retroalimentacion ?? null;
+
   return {
     modulosCompletados,
     resultadosQuiz,
@@ -86,13 +111,61 @@ export async function obtenerProgreso(userId: string): Promise<ProgresoCurso> {
           total: examen.total,
           porcentaje: examen.porcentaje,
           aprobado: examen.aprobado,
+          quizAprobado: examen.porcentaje >= UMBRAL_APROBATORIO_PCT,
           fecha: examen.fecha.toISOString(),
           folio: examen.folio,
           vigenciaHasta: examen.vigenciaHasta?.toISOString() ?? null,
           vigente: Boolean(examen.vigenciaHasta && examen.vigenciaHasta.getTime() > Date.now()),
         }
       : undefined,
+    casoPractico,
+    retroalimentacion,
+    casoPracticoEntregado: contarPalabras(casoPractico ?? "") >= MIN_PALABRAS_CASO_PRACTICO,
+    retroalimentacionEntregada: (retroalimentacion ?? "").trim().length >= MIN_CARACTERES_RETROALIMENTACION,
   };
+}
+
+/**
+ * Recalcula si la certificación final está completa (examen 40% + caso práctico 40% +
+ * retroalimentación 20%, según componentesEvaluacionFinal) y actualiza folio/vigencia
+ * en consecuencia. Se llama tanto al calificar el examen como al guardar cualquiera de
+ * las otras dos entregas, porque cualquiera de las tres puede ser la última en llegar.
+ */
+async function recalcularCertificacionFinal(userId: string) {
+  const [examen, entregaFinal] = await Promise.all([
+    prisma.resultadoExamen.findUnique({ where: { userId } }),
+    prisma.entregaFinal.findUnique({ where: { userId } }),
+  ]);
+  if (!examen) return;
+
+  const quizAprobado = examen.porcentaje >= UMBRAL_APROBATORIO_PCT;
+  const casoPracticoCompleto = contarPalabras(entregaFinal?.casoPractico ?? "") >= MIN_PALABRAS_CASO_PRACTICO;
+  const retroalimentacionCompleta =
+    (entregaFinal?.retroalimentacion ?? "").trim().length >= MIN_CARACTERES_RETROALIMENTACION;
+  const completo = quizAprobado && casoPracticoCompleto && retroalimentacionCompleta;
+
+  const folio = completo ? examen.folio ?? `CENI-${randomUUID().slice(0, 8).toUpperCase()}` : null;
+  const fechaCertificacion = completo ? examen.fechaCertificacion ?? new Date() : null;
+  const vigenciaHasta = fechaCertificacion ? new Date(fechaCertificacion.getTime() + UN_ANIO_MS) : null;
+
+  await prisma.resultadoExamen.update({
+    where: { userId },
+    data: { aprobado: completo, folio, fechaCertificacion, vigenciaHasta },
+  });
+}
+
+export async function guardarEntregaFinal(
+  userId: string,
+  campo: "casoPractico" | "retroalimentacion",
+  contenido: string
+): Promise<void> {
+  const data = campo === "casoPractico" ? { casoPractico: contenido } : { retroalimentacion: contenido };
+  await prisma.entregaFinal.upsert({
+    where: { userId },
+    create: { userId, ...data },
+    update: data,
+  });
+  await recalcularCertificacionFinal(userId);
 }
 
 export async function guardarEntregaActividad(
@@ -155,15 +228,15 @@ export async function registrarResultadoExamen(
   respuestas: Record<string, number>,
   aciertos: number,
   total: number
-): Promise<ResultadoQuiz & { folio?: string | null; vigenciaHasta?: string | null }> {
+): Promise<ResultadoQuiz & { folio?: string | null; vigenciaHasta?: string | null; quizAprobado: boolean }> {
   const fecha = new Date();
   const resultado = calcularResultado("examen-final", respuestas, aciertos, total, fecha);
+  const quizAprobado = resultado.aprobado;
 
-  const existente = await prisma.resultadoExamen.findUnique({ where: { userId } });
-  const folio = resultado.aprobado ? existente?.folio ?? `CENI-${randomUUID().slice(0, 8).toUpperCase()}` : null;
-  // Vigencia de 1 año desde la aprobación, como especifica el curso original.
-  const vigenciaHasta = resultado.aprobado ? new Date(fecha.getTime() + UN_ANIO_MS) : null;
-
+  // El examen de opción múltiple es solo 40% de la nota final (ver
+  // componentesEvaluacionFinal): guarda el resultado crudo del quiz aquí, y
+  // recalcularCertificacionFinal decide si folio/vigencia aplican, según también
+  // el caso práctico y la retroalimentación.
   await prisma.resultadoExamen.upsert({
     where: { userId },
     create: {
@@ -172,24 +245,28 @@ export async function registrarResultadoExamen(
       aciertos,
       total,
       porcentaje: resultado.porcentaje,
-      aprobado: resultado.aprobado,
+      aprobado: false,
       fecha,
-      folio,
-      vigenciaHasta,
     },
     update: {
       respuestas,
       aciertos,
       total,
       porcentaje: resultado.porcentaje,
-      aprobado: resultado.aprobado,
       fecha,
-      folio,
-      vigenciaHasta,
     },
   });
 
-  return { ...resultado, folio, vigenciaHasta: vigenciaHasta?.toISOString() ?? null };
+  await recalcularCertificacionFinal(userId);
+  const actualizado = await prisma.resultadoExamen.findUniqueOrThrow({ where: { userId } });
+
+  return {
+    ...resultado,
+    aprobado: actualizado.aprobado,
+    quizAprobado,
+    folio: actualizado.folio,
+    vigenciaHasta: actualizado.vigenciaHasta?.toISOString() ?? null,
+  };
 }
 
 export async function reiniciarProgreso(userId: string) {
@@ -197,6 +274,7 @@ export async function reiniciarProgreso(userId: string) {
     prisma.progresoModulo.deleteMany({ where: { userId } }),
     prisma.resultadoExamen.deleteMany({ where: { userId } }),
     prisma.entregaActividad.deleteMany({ where: { userId } }),
+    prisma.entregaFinal.deleteMany({ where: { userId } }),
   ]);
 }
 

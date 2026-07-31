@@ -21,6 +21,7 @@ export default async function Dashboard({
   const totalModulos = modulos.length;
   const porcentajeGeneral = Math.round((completados / totalModulos) * 100);
   const examenAprobado = progreso.examenFinal?.aprobado ?? false;
+  const quizFinalAprobado = progreso.examenFinal?.quizAprobado ?? false;
   const examenDesbloqueado = completados >= totalModulos;
   const constanciaVigente = progreso.examenFinal?.vigente ?? false;
   const vigenciaTexto = progreso.examenFinal?.vigenciaHasta
@@ -175,10 +176,12 @@ export default async function Dashboard({
               <p className="font-bold text-[#070b2f]">Evaluación final y constancia</p>
               <p className="text-sm text-[#6c6690]">
                 {examenAprobado
-                  ? "Aprobaste el examen integrador. Descarga tu constancia."
-                  : examenDesbloqueado
-                    ? "Ya aprobaste los 10 módulos. Puedes presentar el examen final."
-                    : `Aprueba los ${totalModulos} módulos para desbloquearlo (llevas ${completados}/${totalModulos}).`}
+                  ? "Completaste la evaluación final. Descarga tu constancia."
+                  : quizFinalAprobado
+                    ? "Aprobaste el examen de opción múltiple — entrega el caso práctico y la retroalimentación para completar tu certificación."
+                    : examenDesbloqueado
+                      ? "Ya aprobaste los 10 módulos. Puedes presentar el examen final."
+                      : `Aprueba los ${totalModulos} módulos para desbloquearlo (llevas ${completados}/${totalModulos}).`}
               </p>
               {examenAprobado && vigenciaTexto && (
                 <p className={`mt-1 text-xs font-bold ${constanciaVigente ? "text-green-700" : "text-[#b45309]"}`}>

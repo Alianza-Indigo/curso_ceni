@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import ExamenFinalClient from "@/components/ExamenFinalClient";
+import EntregaFinalForm from "@/components/EntregaFinalForm";
 import { construirExamenFinal, casoPracticoFinal, componentesEvaluacionFinal } from "@/lib/data/examenFinal";
 import { obtenerProgreso } from "@/lib/progreso-server";
 import { modulos } from "@/lib/data/modulos";
@@ -71,9 +72,21 @@ export default async function ExamenFinalPage() {
           ))}
         </ol>
         <p className="mt-3 text-xs italic text-[#6c6690]">{casoPracticoFinal.formato}</p>
+
+        <EntregaFinalForm
+          casoPracticoInicial={progreso.casoPractico}
+          retroalimentacionInicial={progreso.retroalimentacion}
+          casoPracticoEntregado={progreso.casoPracticoEntregado}
+          retroalimentacionEntregada={progreso.retroalimentacionEntregada}
+        />
       </section>
 
-      <ExamenFinalClient preguntas={preguntas} resultadoInicial={progreso.examenFinal ?? null} />
+      <ExamenFinalClient
+        preguntas={preguntas}
+        resultadoInicial={progreso.examenFinal ?? null}
+        casoPracticoEntregado={progreso.casoPracticoEntregado}
+        retroalimentacionEntregada={progreso.retroalimentacionEntregada}
+      />
     </div>
   );
 }

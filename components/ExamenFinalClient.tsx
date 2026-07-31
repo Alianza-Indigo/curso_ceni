@@ -14,6 +14,7 @@ type ResultadoQuiz = {
   total: number;
   porcentaje: number;
   aprobado: boolean;
+  quizAprobado: boolean;
   fecha: string;
   folio?: string | null;
 };
@@ -21,9 +22,13 @@ type ResultadoQuiz = {
 export default function ExamenFinalClient({
   preguntas: preguntasIniciales,
   resultadoInicial,
+  casoPracticoEntregado,
+  retroalimentacionEntregada,
 }: {
   preguntas: PreguntaQuiz[];
   resultadoInicial: ResultadoQuiz | null;
+  casoPracticoEntregado: boolean;
+  retroalimentacionEntregada: boolean;
 }) {
   const router = useRouter();
   const [resultado, setResultado] = useState<ResultadoQuiz | null>(resultadoInicial);
@@ -31,6 +36,13 @@ export default function ExamenFinalClient({
   // El primer intento usa la selección ya armada (y barajada) por el servidor;
   // cada reintento arma una selección nueva para no repetir el examen.
   const [preguntas, setPreguntas] = useState(preguntasIniciales);
+
+  // La certificación completa depende también del caso práctico y la retroalimentación,
+  // que se entregan en un formulario hermano (EntregaFinalForm). Esas props sí llegan
+  // frescas en cada re-render tras router.refresh(); `resultado.aprobado` en cambio es
+  // el snapshot del último POST al quiz y no se entera de esas otras entregas, así que
+  // la certificación completa se recalcula aquí en vez de leerla de ese estado viejo.
+  const completo = Boolean(resultado?.quizAprobado) && casoPracticoEntregado && retroalimentacionEntregada;
 
   async function onFinalizar(respuestas: Record<string, number>, aciertos: number, total: number) {
     const res = await fetch("/api/progreso/examen", {
@@ -54,18 +66,26 @@ export default function ExamenFinalClient({
       {resultado ? (
         <div
           className={`mt-4 rounded-2xl border p-5 ${
-            resultado.aprobado ? "border-green-500 bg-green-50" : "border-[#dda632] bg-[#fff8e8]"
+            completo ? "border-green-500 bg-green-50" : "border-[#dda632] bg-[#fff8e8]"
           }`}
         >
           <p className="flex items-center gap-2 text-lg font-black text-[#070b2f]">
             <Award className="h-5 w-5" /> {resultado.porcentaje}% ({resultado.aciertos}/{resultado.total})
           </p>
           <p className="mt-1 text-sm text-[#20234a]">
-            {resultado.aprobado
-              ? "¡Felicidades! Aprobaste el examen integrador. Junto con el caso práctico y la retroalimentación del curso, esto completa tu evaluación final."
-              : "No alcanzaste el 70% mínimo. Puedes repetir el examen."}
+            {!resultado.quizAprobado
+              ? "No alcanzaste el 70% mínimo en el examen de opción múltiple. Puedes repetirlo."
+              : completo
+                ? "¡Felicidades! Completaste los tres componentes de la evaluación final."
+                : "Aprobaste el examen de opción múltiple (40% de tu nota). Faltan por entregar:"}
           </p>
-          {resultado.aprobado && (
+          {resultado.quizAprobado && !completo && (
+            <ul className="mt-2 space-y-1 text-sm text-[#5a4300]">
+              {!casoPracticoEntregado && <li>— El caso práctico aplicado (40%)</li>}
+              {!retroalimentacionEntregada && <li>— La retroalimentación del curso (20%)</li>}
+            </ul>
+          )}
+          {completo && (
             <a
               href="/api/constancia"
               className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-lg bg-[#4b18a8] px-5 text-sm font-black uppercase text-white hover:bg-[#351176]"
@@ -76,7 +96,7 @@ export default function ExamenFinalClient({
         </div>
       ) : null}
 
-      {(!resultado || !resultado.aprobado) && (
+      {(!resultado || !resultado.quizAprobado) && (
         <div className="mt-5">
           <Quiz
             key={intento}
