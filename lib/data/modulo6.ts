@@ -137,6 +137,11 @@ const modulo6: Modulo = {
       parrafos: [
         "La auditoría es realizada por auditores certificados por Alianza Índigo, en cuatro etapas: (1) Solicitud y documentación — semanas 1-2; (2) Revisión documental — semanas 3-4; (3) Visita de auditoría in situ — semana 5, incluye medición sensorial, entrevistas confidenciales y mystery client; (4) Dictamen y plan de mejora — semana 6.",
       ],
+      destacado: {
+        titulo: "CENI Laboral y evidencia para la NOM-035 (ver módulo 5.5-5.9)",
+        texto:
+          "Buena parte de la evidencia que ya reúnes para certificarte en CENI Laboral sirve también para tu expediente de cumplimiento de la NOM-035: D2 (ambiente sensorial) alimenta el dominio de condiciones del entorno; D3 (comunicación) y D4 (carga de trabajo) cubren justo los dominios que el cuestionario oficial evalúa; y el canal de retroalimentación de D3-C5 puede ser el mismo canal de atención a violencia laboral que exige la norma. No sustituye las Guías oficiales, pero evita duplicar trabajo.",
+      },
     },
   ],
   actividades: [

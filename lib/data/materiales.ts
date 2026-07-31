@@ -1,5 +1,7 @@
 export const glosario: { termino: string; definicion: string }[] = [
+  { termino: "Acontecimiento traumático severo", definicion: "Evento identificado por la Guía de Referencia I de la NOM-035-STPS-2018 (accidentes graves, asaltos, violencia extrema, riesgo de vida, muerte de compañeros) que obliga a referir a la persona trabajadora a atención médica o psicológica." },
   { termino: "Ajuste razonable", definicion: "Toda modificación o adaptación necesaria y adecuada que no imponga una carga desproporcionada, realizada para garantizar que la persona neurodivergente pueda ejercer sus derechos en igualdad de condiciones. (CDPD, Art. 2)" },
+  { termino: "Anexo neurodivergente NOM-035", definicion: "Conjunto de reactivos complementarios, recomendados por Alianza Índigo, que se aplican junto con el cuestionario oficial de la NOM-035 (Guía II o III) para capturar factores de riesgo psicosocial específicos de personal neurodivergente que el instrumento oficial no pregunta." },
   { termino: "Auditor CENI", definicion: "Persona certificada por Alianza Índigo Neurodivergente A.C. para realizar evaluaciones externas de certificación CENI. No tiene relación comercial con la organización evaluada." },
   { termino: "Burnout autista", definicion: "Estado de agotamiento severo resultante de la práctica sostenida del masking y la sobrecarga sensorial o cognitiva." },
   { termino: "CENI", definicion: "Certificación de Entornos Neuroinclusivos. Sistema de evaluación, certificación y mejora continua desarrollado por Alianza Índigo Neurodivergente A.C." },
@@ -22,6 +24,7 @@ export const glosario: { termino: string; definicion: string }[] = [
   { termino: "Neurodivergencia", definicion: "Condición de tener una neurología que difiere del patrón estadísticamente mayoritario, afectando el procesamiento de información, comunicación, aprendizaje o experiencia sensorial." },
   { termino: "Neurodiversidad", definicion: "Hecho biológico de que los cerebros humanos presentan variaciones naturales en su funcionamiento." },
   { termino: "Neurotipicidad", definicion: "Condición de tener una neurología que sigue el patrón estadísticamente dominante en la especie humana." },
+  { termino: "NOM-035-STPS-2018", definicion: "Norma Oficial Mexicana \"Factores de riesgo psicosocial en el trabajo — Identificación, análisis y prevención\". Obliga a todo centro de trabajo en México a identificar, analizar y prevenir el riesgo psicosocial, con obligaciones escalonadas según el número de trabajadores." },
   { termino: "PMCN", definicion: "Plan de Mejora Continua de Neuroinclusión. Instrumento de gestión que conecta auditorías y retroalimentación con acciones de mejora." },
   { termino: "Responsable de Neuroinclusión (RN)", definicion: "Figura institucional designada formalmente para garantizar la operación del sistema de neuroinclusión de la organización." },
   { termino: "RIN", definicion: "Reglamento Interno de Neuroinclusión. Documento normativo que establece derechos, obligaciones, protocolos y sanciones en una organización laboral." },
@@ -159,6 +162,7 @@ export const referenciasMarco: { categoria: string; items: string[] }[] = [
       "Ley Federal para Prevenir y Eliminar la Discriminación. DOF: 11 de junio de 2003.",
       "Ley General de Educación. DOF: 30 de septiembre de 2019.",
       "Ley Federal del Trabajo, especialmente artículos 2, 56 Bis y 133.",
+      "NOM-035-STPS-2018, Factores de riesgo psicosocial en el trabajo — Identificación, análisis y prevención. DOF: 23 de octubre de 2018.",
     ],
   },
   {
