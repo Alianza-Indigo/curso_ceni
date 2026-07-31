@@ -12,8 +12,11 @@ export default async function ExamenFinalPage() {
   if (!session?.user?.id) redirect("/login");
 
   const progreso = await obtenerProgreso(session.user.id);
-  const preguntas = construirExamenFinal();
   const modulosCompletados = progreso.modulosCompletados.length;
+
+  if (modulosCompletados < modulos.length) redirect("/?examenBloqueado=1");
+
+  const preguntas = construirExamenFinal();
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10">
@@ -32,13 +35,6 @@ export default async function ExamenFinalPage() {
         Cubre los 10 módulos del curso. Puntaje mínimo aprobatorio: 70%. Puedes repetirlo hasta
         dos veces.
       </p>
-
-      {modulosCompletados < modulos.length && (
-        <div className="mt-4 rounded-xl border border-[#dda632] bg-[#fff8e8] p-4 text-sm text-[#5a4300]">
-          Llevas {modulosCompletados}/{modulos.length} módulos aprobados. Puedes intentar el
-          examen ahora, pero te recomendamos completar todos los módulos primero.
-        </div>
-      )}
 
       <div className="mt-6 overflow-x-auto rounded-xl border border-[#e5def4]">
         <table className="w-full text-left text-sm">

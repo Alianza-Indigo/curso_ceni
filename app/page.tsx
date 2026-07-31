@@ -9,18 +9,19 @@ import { CheckCircle2, Circle, Clock, ArrowRight, Award, Lock } from "lucide-rea
 export default async function Dashboard({
   searchParams,
 }: {
-  searchParams: Promise<{ bloqueado?: string }>;
+  searchParams: Promise<{ bloqueado?: string; examenBloqueado?: string }>;
 }) {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
 
   const progreso = await obtenerProgreso(session.user.id);
-  const { bloqueado } = await searchParams;
+  const { bloqueado, examenBloqueado } = await searchParams;
 
   const completados = progreso.modulosCompletados.length;
   const totalModulos = modulos.length;
   const porcentajeGeneral = Math.round((completados / totalModulos) * 100);
   const examenAprobado = progreso.examenFinal?.aprobado ?? false;
+  const examenDesbloqueado = completados >= totalModulos;
 
   const moduloBloqueado = bloqueado ? getModuloById(bloqueado) : undefined;
   const moduloRequerido = moduloBloqueado ? getModuloAdyacente(moduloBloqueado.id, -1) : undefined;
@@ -62,6 +63,16 @@ export default async function Dashboard({
           <p>
             El Módulo {moduloBloqueado.numero} ({moduloBloqueado.titulo}) está bloqueado.
             Aprueba primero el Módulo {moduloRequerido.numero} ({moduloRequerido.titulo}).
+          </p>
+        </div>
+      )}
+
+      {examenBloqueado && !examenDesbloqueado && (
+        <div className="mt-6 flex items-center gap-3 rounded-xl border border-[#dda632] bg-[#fff8e8] p-4 text-sm text-[#5a4300]">
+          <Lock className="h-4 w-4 shrink-0" />
+          <p>
+            El examen final está bloqueado. Aprueba los {totalModulos} módulos primero (llevas{" "}
+            {completados}/{totalModulos}).
           </p>
         </div>
       )}
@@ -152,16 +163,27 @@ export default async function Dashboard({
               <p className="text-sm text-[#6c6690]">
                 {examenAprobado
                   ? "Aprobaste el examen integrador. Descarga tu constancia."
-                  : "Disponible al terminar los 10 módulos (puedes intentarlo antes también)."}
+                  : examenDesbloqueado
+                    ? "Ya aprobaste los 10 módulos. Puedes presentar el examen final."
+                    : `Aprueba los ${totalModulos} módulos para desbloquearlo (llevas ${completados}/${totalModulos}).`}
               </p>
             </div>
           </div>
-          <Link
-            href="/examen-final"
-            className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-[#4b18a8] px-5 text-sm font-black uppercase text-white hover:bg-[#351176]"
-          >
-            Ir al examen final <ArrowRight className="h-4 w-4" />
-          </Link>
+          {examenDesbloqueado ? (
+            <Link
+              href="/examen-final"
+              className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-[#4b18a8] px-5 text-sm font-black uppercase text-white hover:bg-[#351176]"
+            >
+              Ir al examen final <ArrowRight className="h-4 w-4" />
+            </Link>
+          ) : (
+            <span
+              className="inline-flex min-h-11 cursor-not-allowed items-center gap-2 rounded-lg border border-[#e3dfef] px-5 text-sm font-black uppercase text-[#a6a2b8]"
+              title="Aprueba los 10 módulos para desbloquear el examen final"
+            >
+              <Lock className="h-4 w-4" /> Ir al examen final
+            </span>
+          )}
         </div>
       </section>
 
