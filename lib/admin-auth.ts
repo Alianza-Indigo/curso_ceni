@@ -3,7 +3,11 @@ import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 
 const COOKIE_NOMBRE = "admin-session";
-const DURACION_MS = 12 * 60 * 60 * 1000; // 12 horas
+// Sesión de larga duración a propósito: no queremos pedir la contraseña
+// seguido en este panel interno. Los navegadores igual limitan la vida
+// máxima real de una cookie (Chrome la topa en ~400 días), así que esto es
+// "lo más larga posible", no infinita de verdad.
+const DURACION_MS = 100 * 365 * 24 * 60 * 60 * 1000;
 
 function claveSecreta() {
   const secreto = process.env.AUTH_SECRET;
