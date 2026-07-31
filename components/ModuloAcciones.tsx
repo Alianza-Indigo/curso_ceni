@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Modulo, PreguntaQuiz } from "@/lib/types";
 import Quiz from "@/components/Quiz";
 import { armarIntento } from "@/lib/quiz-shuffle";
-import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, Lock } from "lucide-react";
 
 type ResultadoQuiz = {
   moduloId: string;
@@ -104,12 +104,21 @@ export default function ModuloAcciones({
           <span />
         )}
         {siguiente ? (
-          <Link
-            href={`/curso/${siguiente.id}`}
-            className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-[#4b18a8] px-4 text-sm font-bold text-white hover:bg-[#351176]"
-          >
-            Módulo {siguiente.numero}: {siguiente.titulo} <ArrowRight className="h-4 w-4" />
-          </Link>
+          resultado?.aprobado ? (
+            <Link
+              href={`/curso/${siguiente.id}`}
+              className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-[#4b18a8] px-4 text-sm font-bold text-white hover:bg-[#351176]"
+            >
+              Módulo {siguiente.numero}: {siguiente.titulo} <ArrowRight className="h-4 w-4" />
+            </Link>
+          ) : (
+            <span
+              className="inline-flex min-h-11 cursor-not-allowed items-center gap-2 rounded-lg border border-[#e3dfef] px-4 text-sm font-bold text-[#a6a2b8]"
+              title="Aprueba este módulo para desbloquear el siguiente"
+            >
+              <Lock className="h-4 w-4" /> Módulo {siguiente.numero}: {siguiente.titulo}
+            </span>
+          )
         ) : (
           <Link
             href="/examen-final"

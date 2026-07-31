@@ -33,4 +33,15 @@ export function getModuloAdyacente(id: string, direccion: 1 | -1): Modulo | unde
   return modulos[idx + direccion];
 }
 
+/**
+ * Un módulo está desbloqueado si es el primero, o si el módulo anterior ya
+ * fue aprobado. El curso se hace secuencial: hay que aprobar el N-1 para
+ * pasar al N.
+ */
+export function moduloDesbloqueado(modulo: Modulo, modulosCompletados: string[]): boolean {
+  if (modulo.numero <= 1) return true;
+  const anterior = getModuloAdyacente(modulo.id, -1);
+  return !anterior || modulosCompletados.includes(anterior.id);
+}
+
 export const totalPreguntasQuiz = modulos.reduce((acc, m) => acc + m.quiz.length, 0);

@@ -1,4 +1,4 @@
-import { modulos, getModuloById, getModuloAdyacente } from "@/lib/data/modulos";
+import { modulos, getModuloById, getModuloAdyacente, moduloDesbloqueado } from "@/lib/data/modulos";
 import { SeccionBloque, ActividadesBloque, EvaluacionBloque } from "@/components/ContenidoModulo";
 import ModuloAcciones from "@/components/ModuloAcciones";
 import { notFound, redirect } from "next/navigation";
@@ -16,6 +16,10 @@ export default async function ModuloPage({ params }: { params: Promise<{ id: str
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
   const progreso = await obtenerProgreso(session.user.id);
+
+  if (!moduloDesbloqueado(modulo, progreso.modulosCompletados)) {
+    redirect(`/?bloqueado=${modulo.id}`);
+  }
 
   const anteriorM = getModuloAdyacente(id, -1);
   const siguienteM = getModuloAdyacente(id, 1);
