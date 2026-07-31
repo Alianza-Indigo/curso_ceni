@@ -35,12 +35,13 @@ inicio de sesión con Google.
 - **Bloqueo secuencial de módulos**: hay que aprobar el módulo N-1 para acceder al N
   (`lib/data/modulos.ts#moduloDesbloqueado`), tanto en la UI del dashboard como en la propia
   página del módulo (acceso directo por URL también se bloquea).
-- **Panel de administración** (`/admin`): login propio con correo + contraseña
-  (`ADMIN_EMAIL` / `ADMIN_PASSWORD_HASH`), independiente del login de Google de los
-  estudiantes — usa una cookie firmada (JWT con `jose`, misma clave `AUTH_SECRET`), no
-  Auth.js. Muestra usuarios registrados, aprobación por módulo, y la tabla de constancias
-  emitidas con su folio. Un solo administrador por ahora (un email fijo); para varios habría
-  que extenderlo.
+- **Panel de administración** (`/admin`): login propio con correo + contraseña, independiente
+  del login de Google de los estudiantes — usa una cookie firmada (JWT con `jose`, misma clave
+  `AUTH_SECRET`), no Auth.js. Las credenciales viven en la tabla `AdminUsuario` (Postgres),
+  sembrada por la migración `20260731040600_admin_usuario` — no en variables de entorno. La
+  contraseña se cambia desde el propio panel (sección "Cambiar contraseña"), sin tocar Vercel
+  ni el repo. Muestra usuarios registrados, aprobación por módulo, y la tabla de constancias
+  emitidas con su folio. Un solo administrador por ahora; para varios habría que extenderlo.
 
 ## Configuración local
 
@@ -95,8 +96,9 @@ inicio de sesión con Google.
 | `AUTH_TRUST_HOST` | `"true"` si Auth.js corre detrás de un proxy/CDN |
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Credenciales OAuth de Google Cloud Console |
 | `GEMINI_API_KEY` | API key de [Google AI Studio](https://aistudio.google.com/apikey) para el asistente virtual |
-| `ADMIN_EMAIL` | Correo del único administrador con acceso a `/admin` |
-| `ADMIN_PASSWORD_HASH` | Hash bcrypt de su contraseña — generar con `node -e "console.log(require('bcryptjs').hashSync('...', 12))"`, nunca poner la contraseña en texto plano |
+
+El panel de administración (`/admin`) no necesita variables de entorno propias — su usuario
+se siembra vía migración y la contraseña se cambia desde el propio panel.
 
 Sin estas variables configuradas, el login con Google y la persistencia de progreso no
 funcionarán — la aplicación no puede generarlas por sí sola, deben provenir de tu propia

@@ -4,6 +4,7 @@ import { logoutAdminAction } from "@/app/actions/admin-auth";
 import { prisma } from "@/lib/db";
 import { modulos } from "@/lib/data/modulos";
 import AdminTablaUsuarios, { FilaUsuario } from "@/components/AdminTablaUsuarios";
+import AdminCambiarPassword from "@/components/AdminCambiarPassword";
 import { Users, Award, GraduationCap, LogOut } from "lucide-react";
 
 export const metadata = { title: "Panel de administración · Curso CENI" };
@@ -132,6 +133,10 @@ export default async function AdminPage() {
         <div className="mt-3">
           <AdminTablaUsuarios usuarios={usuarios} />
         </div>
+      </section>
+
+      <section className="mt-8 mb-10">
+        <AdminCambiarPassword />
       </section>
     </div>
   );

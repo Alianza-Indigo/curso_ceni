@@ -92,3 +92,14 @@ model ResultadoExamen {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
+// Credenciales del panel de administración. Login propio (no Google OAuth).
+// La contraseña se puede cambiar desde el propio panel; no vive en variables
+// de entorno para no depender de tocar la configuración de Vercel.
+model AdminUsuario {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  passwordHash  String
+  actualizadoEn DateTime @updatedAt
+  creadoEn      DateTime @default(now())
+}
