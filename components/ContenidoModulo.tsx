@@ -1,5 +1,5 @@
-import { Seccion, Actividad, EvaluacionComponente } from "@/lib/types";
-import { ClipboardList, Sparkles } from "lucide-react";
+import { Seccion, EvaluacionComponente } from "@/lib/types";
+import { ClipboardList } from "lucide-react";
 
 export function SeccionBloque({ seccion }: { seccion: Seccion }) {
   return (
@@ -64,28 +64,6 @@ export function SeccionBloque({ seccion }: { seccion: Seccion }) {
           <p className="mt-2 text-sm leading-relaxed text-white/90">{seccion.destacado.texto}</p>
         </div>
       )}
-    </section>
-  );
-}
-
-export function ActividadesBloque({ actividades }: { actividades: Actividad[] }) {
-  if (!actividades.length) return null;
-  return (
-    <section className="mb-8">
-      <h3 className="flex items-center gap-2 font-serif text-xl font-bold text-[#070b2f]">
-        <Sparkles className="h-5 w-5 text-[#dda632]" /> Actividades del módulo
-      </h3>
-      <div className="mt-3 grid gap-3">
-        {actividades.map((a) => (
-          <div key={a.codigo} className="rounded-xl border border-[#e5def4] bg-white p-4">
-            <p className="text-xs font-black uppercase tracking-wide text-[#4b18a8]">
-              Actividad {a.codigo} · {a.duracion}
-            </p>
-            <p className="mt-1 font-bold text-[#070b2f]">{a.titulo}</p>
-            <p className="mt-1 text-sm leading-relaxed text-[#3a3d63]">{a.descripcion}</p>
-          </div>
-        ))}
-      </div>
     </section>
   );
 }

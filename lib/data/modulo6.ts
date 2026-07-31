@@ -45,38 +45,95 @@ const modulo6: Modulo = {
       },
     },
     {
-      titulo: "6.3 Criterios clave por dimensión",
-      parrafos: [],
-      lista: {
-        titulo: "D1 — Selección y reclutamiento (30 pts cada criterio)",
-        items: [
-          "D1-C1: las vacantes usan lenguaje funcional, sin perfiles de personalidad neurotípicos excluyentes",
-          "D1-C2: el proceso ofrece al menos dos modalidades de entrevista (oral + escrita, asíncrona, video sin cámara obligatoria)",
-          "D1-C3: los evaluadores completaron el curso CENI o equivalente (mínimo 8 horas)",
-          "D1-C4: la descripción de puesto declara inclusión neurodivergente y ajustes disponibles",
-          "D1-C5: protocolo de inducción adaptado — menor densidad de información, mentor asignado, primera semana sin evaluación",
-        ],
-      },
-      destacado: {
-        titulo: "D2 — Ambiente de trabajo sensorial (40 pts cada criterio)",
-        texto:
-          "Ruido en áreas de trabajo ≤ 55 dB medido semestralmente; iluminación 300–500 lux sin parpadeo; un espacio de calma por cada 50 colaboradores con acceso libre; política de fragancia cero escrita; opciones de personalización de estación de trabajo sin justificación médica.",
-      },
-    },
-    {
-      titulo: "6.4 Dimensiones 3 a 6 — resumen operativo",
-      parrafos: [],
-      lista: {
-        items: [
-          "D3 — Comunicación: agenda escrita con 24h de anticipación; minutas enviadas en 4h; protocolo de comunicación accesible; evaluaciones de desempeño con criterios objetivos y cuantitativos; canal de retroalimentación anónima con respuesta en máximo 5 días hábiles.",
-          "D4 — Carga de trabajo: instrucciones escritas y desglosadas; derecho a extensiones de plazo sin justificación médica; dos descansos activos mínimo de 10 minutos; política de desconexión digital; modalidades flexibles de trabajo.",
-          "D5 — Desarrollo y permanencia: Plan de Desarrollo Individual (PDI) revisado cada 6 meses; capacitación en formato accesible; política anti-represalia explícita; criterios de ascenso públicos y no discriminatorios; encuesta anual de clima neuroinclusivo.",
-          "D6 — Gobernanza: Responsable de Neuroinclusión designado formalmente con presupuesto propio; Reglamento Interno de Neuroinclusión (RIN) aprobado; auditoría interna semestral; 80% del personal gerencial capacitado; Plan de Mejora Continua (PMCN) revisado trimestralmente.",
+      titulo: "6.3 Dimensión 1 — Selección y reclutamiento neuroinclusivo (150 pts)",
+      parrafos: [
+        "Esta dimensión evalúa si el proceso de incorporación de nuevas personas colaboradoras está diseñado para permitir que personas neurodivergentes demuestren sus competencias reales, eliminando las barreras comunicativas, sociales y de formato que sistemáticamente las excluyen.",
+      ],
+      tabla: {
+        encabezados: ["#", "Criterio", "Evidencia requerida", "Pts"],
+        filas: [
+          ["D1-C1", "Las vacantes usan lenguaje funcional (describe tareas, no perfiles de personalidad neurotípicos). No incluyen términos como \"proactivo\", \"dinámico\", \"trabajo en equipo intensivo\" como requisitos excluyentes.", "Últimas 3 ofertas de trabajo publicadas", "30"],
+          ["D1-C2", "El proceso de selección ofrece al menos dos modalidades de entrevista (oral + escrita, asíncrona, por video sin cámara obligatoria). Los candidatos conocen las opciones con antelación.", "Protocolo escrito de proceso de selección", "30"],
+          ["D1-C3", "Los evaluadores de selección han completado el curso CENI o equivalente de mínimo 8 horas en neurodiversidad. Registro de capacitación disponible.", "Constancias de capacitación del equipo evaluador", "30"],
+          ["D1-C4", "La descripción de puesto incluye una declaración explícita de inclusión neurodivergente y describe los ajustes razonables disponibles.", "Formato de descripción de puesto + declaración", "30"],
+          ["D1-C5", "Existe un protocolo de periodo de inducción adaptado para personas neurodivergentes: menor densidad de información por sesión, materiales escritos, mentor asignado, primera semana sin evaluación de desempeño.", "Protocolo de inducción neuroinclusiva", "30"],
         ],
       },
     },
     {
-      titulo: "6.5 Proceso de auditoría CENI Laboral",
+      titulo: "6.4 Dimensión 2 — Ambiente de trabajo sensorial (200 pts)",
+      parrafos: [
+        "El ambiente sensorial es frecuentemente la barrera más inmediata y menos visible para personas neurodivergentes en entornos laborales. Esta dimensión evalúa las condiciones físicas del espacio de trabajo.",
+      ],
+      tabla: {
+        encabezados: ["#", "Criterio", "Evidencia requerida", "Pts"],
+        filas: [
+          ["D2-C1", "Nivel de ruido en áreas de trabajo concentrado ≤ 55 dB promedio en horario de jornada. Medición documentada con sonómetro al menos una vez por semestre.", "Registro de mediciones con fecha, instrumento y resultado", "40"],
+          ["D2-C2", "Iluminación en áreas de trabajo entre 300–500 lux. Ausencia de luz fluorescente parpadeante (< 3 Hz). Al menos 40% de la iluminación puede ser natural o difusa.", "Registro de mediciones de luxómetro + fotografías", "40"],
+          ["D2-C3", "Existe al menos un espacio de calma certificado CENI (criterios del Módulo 3) por cada 50 colaboradores. Acceso libre, sin solicitud previa.", "Fotografías + plano de ubicación + política de acceso libre", "40"],
+          ["D2-C4", "Política de fragancia cero en áreas de trabajo y reuniones. La política está escrita, publicada y forma parte del Reglamento Interno de Neuroinclusión.", "Reglamento interno + evidencia de comunicación al equipo", "40"],
+          ["D2-C5", "Las personas neurodivergentes tienen acceso a opciones de personalización de su estación de trabajo: auriculares, divisores, luz de escritorio, herramientas sensoriales. No requieren justificación médica.", "Política escrita + inventario de recursos disponibles", "40"],
+        ],
+      },
+    },
+    {
+      titulo: "6.5 Dimensión 3 — Comunicación y coordinación accesible (150 pts)",
+      parrafos: [],
+      tabla: {
+        encabezados: ["#", "Criterio", "Evidencia requerida", "Pts"],
+        filas: [
+          ["D3-C1", "Todas las reuniones cuentan con agenda escrita enviada con mínimo 24 horas de anticipación. Las reuniones sorpresa o convocadas con menos de 2 horas de anticipación requieren un procedimiento de excepción documentado.", "Registro de últimas 10 reuniones con evidencia de agenda anticipada", "30"],
+          ["D3-C2", "Los acuerdos y resultados de reuniones se documentan siempre por escrito y se envían a todos los participantes en las siguientes 4 horas.", "Muestra de minutas de últimas 5 reuniones", "30"],
+          ["D3-C3", "Existe un protocolo escrito de comunicación accesible para colaboradores neurodivergentes: opciones de comunicación escrita equivalente a verbal, canales asíncronos, políticas de tiempos de respuesta sin presión de inmediatez.", "Protocolo escrito aprobado + evidencia de comunicación al equipo", "30"],
+          ["D3-C4", "Las evaluaciones de desempeño se basan en criterios objetivos y cuantitativos, no en criterios como \"actitud\", \"trabajo en equipo\" o \"comunicación\" sin descriptores conductuales específicos.", "Formato de evaluación de desempeño vigente", "30"],
+          ["D3-C5", "Existe un canal dedicado de retroalimentación anónima para que colaboradores reporten barreras de comunicación o accesibilidad. El canal tiene una persona responsable y un tiempo de respuesta definido (máximo 5 días hábiles).", "Canal activo + registro de consultas y respuestas", "30"],
+        ],
+      },
+    },
+    {
+      titulo: "6.6 Dimensión 4 — Carga de trabajo y gestión del tiempo (200 pts)",
+      parrafos: [],
+      tabla: {
+        encabezados: ["#", "Criterio", "Evidencia requerida", "Pts"],
+        filas: [
+          ["D4-C1", "La asignación de tareas se hace con instrucciones escritas, desglosadas en pasos específicos y con fechas límite claramente definidas. No se asignan tareas exclusivamente de manera verbal en reuniones.", "Muestra de asignaciones de tareas de los últimos 30 días", "40"],
+          ["D4-C2", "Las personas neurodivergentes tienen derecho a solicitar tiempos adicionales o extensiones en plazos sin penalización y sin requerir justificación médica, mediante un procedimiento simple y documentado.", "Política escrita de ajuste de tiempos + registro de solicitudes", "40"],
+          ["D4-C3", "La jornada laboral incluye al menos dos periodos de descanso activo de mínimo 10 minutos cada uno, además del tiempo de comida. Los descansos son derechos, no recompensas.", "Política de descansos escrita + horario publicado", "40"],
+          ["D4-C4", "No existe la cultura de la \"disponibilidad 24/7\": hay una política clara de desconexión digital fuera de horario laboral, con protocolos de urgencia definidos y limitados.", "Política de desconexión digital + evidencia de comunicación", "40"],
+          ["D4-C5", "Existen modalidades flexibles de trabajo (horario flexible, trabajo remoto, trabajo híbrido) disponibles para personas neurodivergentes que las requieran como ajuste razonable, sin carga burocrática excesiva.", "Política de flexibilidad laboral + registro de solicitudes aprobadas", "40"],
+        ],
+      },
+    },
+    {
+      titulo: "6.7 Dimensión 5 — Desarrollo y permanencia (150 pts)",
+      parrafos: [],
+      tabla: {
+        encabezados: ["#", "Criterio", "Evidencia requerida", "Pts"],
+        filas: [
+          ["D5-C1", "Existe un Plan de Desarrollo Individual (PDI) para cada colaborador neurodivergente, diseñado con la persona y revisado al menos cada 6 meses. El PDI incluye objetivos, apoyos y cronograma.", "PDI de colaboradores identificados + evidencia de construcción conjunta", "30"],
+          ["D5-C2", "Los programas de capacitación interna están disponibles en formato accesible: materiales escritos, ritmo flexible, posibilidad de completar de manera asíncrona o individual.", "Catálogo de capacitaciones + versiones accesibles disponibles", "30"],
+          ["D5-C3", "Existe una política explícita anti-represalia: ningún colaborador puede ser perjudicado por solicitar ajustes razonables, por identificarse como neurodivergente o por reportar barreras de accesibilidad.", "Política escrita + mecanismo de denuncia activo", "30"],
+          ["D5-C4", "Los procesos de ascenso y promoción usan criterios equivalentes a los de selección inicial: no discriminan por perfil comunicativo neurotípico. Los criterios están documentados y son públicos.", "Criterios de ascenso documentados + últimos 3 procesos", "30"],
+          ["D5-C5", "La organización realiza una encuesta anónima anual de clima neuroinclusivo con al menos 5 indicadores específicos de neurodiversidad. Los resultados se publican internamente y generan compromisos de mejora.", "Encuesta más reciente + resultados + plan de acción", "30"],
+        ],
+      },
+    },
+    {
+      titulo: "6.8 Dimensión 6 — Gobernanza e institucionalización (150 pts)",
+      parrafos: [],
+      tabla: {
+        encabezados: ["#", "Criterio", "Evidencia requerida", "Pts"],
+        filas: [
+          ["D6-C1", "Existe un Responsable de Neuroinclusión designado formalmente: persona con cargo definido, tiempo asignado, presupuesto propio y reporte directo a la dirección. No es un rol voluntario ni de tiempo parcial mínimo.", "Nombramiento formal + descripción de puesto + presupuesto asignado", "30"],
+          ["D6-C2", "Existe un Reglamento Interno de Neuroinclusión (RIN) aprobado por la dirección, que incluye: definiciones, derechos, protocolos, canal de queja y sanciones por incumplimiento.", "RIN aprobado + fecha + firma de la dirección", "30"],
+          ["D6-C3", "Se realiza una auditoría interna semestral de cumplimiento CENI, utilizando el instrumento de autoevaluación oficial. Los resultados se documentan y se usan para actualizar el Plan de Mejora.", "Registros de últimas dos auditorías internas", "30"],
+          ["D6-C4", "Al menos el 80% del personal con responsabilidades de gestión (supervisores, gerentes, directores) ha completado el Curso CENI o equivalente en el último año. Constancias disponibles.", "Listado de personal gerencial + constancias de capacitación", "30"],
+          ["D6-C5", "Existe un Plan de Mejora Continua de Neuroinclusión (PMCN) anual, con objetivos SMART, responsables y fechas. El PMCN es revisado trimestralmente y está alineado a las observaciones de la auditoría externa CENI.", "PMCN vigente + últimas dos revisiones trimestrales", "30"],
+        ],
+      },
+    },
+    {
+      titulo: "6.9 Proceso de auditoría CENI Laboral",
       parrafos: [
         "La auditoría es realizada por auditores certificados por Alianza Índigo, en cuatro etapas: (1) Solicitud y documentación — semanas 1-2; (2) Revisión documental — semanas 3-4; (3) Visita de auditoría in situ — semana 5, incluye medición sensorial, entrevistas confidenciales y mystery client; (4) Dictamen y plan de mejora — semana 6.",
       ],

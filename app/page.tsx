@@ -22,6 +22,14 @@ export default async function Dashboard({
   const porcentajeGeneral = Math.round((completados / totalModulos) * 100);
   const examenAprobado = progreso.examenFinal?.aprobado ?? false;
   const examenDesbloqueado = completados >= totalModulos;
+  const constanciaVigente = progreso.examenFinal?.vigente ?? false;
+  const vigenciaTexto = progreso.examenFinal?.vigenciaHasta
+    ? new Date(progreso.examenFinal.vigenciaHasta).toLocaleDateString("es-MX", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : null;
 
   const moduloBloqueado = bloqueado ? getModuloById(bloqueado) : undefined;
   const moduloRequerido = moduloBloqueado ? getModuloAdyacente(moduloBloqueado.id, -1) : undefined;
@@ -80,7 +88,7 @@ export default async function Dashboard({
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {modulos.map((m) => {
           const resultado = progreso.resultadosQuiz[m.id];
-          const aprobado = resultado?.aprobado ?? false;
+          const completo = progreso.modulosCompletados.includes(m.id);
           const desbloqueado = moduloDesbloqueado(m, progreso.modulosCompletados);
 
           const contenido = (
@@ -93,7 +101,7 @@ export default async function Dashboard({
                 >
                   {m.numero}
                 </span>
-                {aprobado ? (
+                {completo ? (
                   <CheckCircle2 className="h-5 w-5 shrink-0 text-green-600" aria-label="Aprobado" />
                 ) : desbloqueado ? (
                   <Circle className="h-5 w-5 shrink-0 text-[#e3dfef]" aria-label="Pendiente" />
@@ -118,7 +126,12 @@ export default async function Dashboard({
               )}
               {desbloqueado ? (
                 <span className="mt-3 inline-flex items-center gap-1 text-xs font-black uppercase text-[#4b18a8]">
-                  {aprobado ? "Repasar módulo" : "Comenzar"} <ArrowRight className="h-3.5 w-3.5" />
+                  {completo
+                    ? "Repasar módulo"
+                    : resultado?.aprobado
+                      ? "Completar actividades"
+                      : "Comenzar"}{" "}
+                  <ArrowRight className="h-3.5 w-3.5" />
                 </span>
               ) : (
                 <span className="mt-3 inline-flex items-center gap-1 text-xs font-black uppercase text-[#a6a2b8]">
@@ -167,6 +180,13 @@ export default async function Dashboard({
                     ? "Ya aprobaste los 10 módulos. Puedes presentar el examen final."
                     : `Aprueba los ${totalModulos} módulos para desbloquearlo (llevas ${completados}/${totalModulos}).`}
               </p>
+              {examenAprobado && vigenciaTexto && (
+                <p className={`mt-1 text-xs font-bold ${constanciaVigente ? "text-green-700" : "text-[#b45309]"}`}>
+                  {constanciaVigente
+                    ? `Vigente hasta el ${vigenciaTexto}.`
+                    : `Venció el ${vigenciaTexto} — vuelve a presentar el examen final para renovarla.`}
+                </p>
+              )}
             </div>
           </div>
           {examenDesbloqueado ? (

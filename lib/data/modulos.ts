@@ -44,4 +44,13 @@ export function moduloDesbloqueado(modulo: Modulo, modulosCompletados: string[])
   return !anterior || modulosCompletados.includes(anterior.id);
 }
 
+/**
+ * Un módulo solo cuenta como completo cuando, además de aprobar el quiz, se
+ * entregó cada una de sus actividades prácticas — el quiz por sí solo es
+ * apenas 25-45% de la calificación real de cada módulo en el curso original.
+ */
+export function actividadesCompletas(modulo: Modulo, codigosEntregados: string[]): boolean {
+  return modulo.actividades.every((a) => codigosEntregados.includes(a.codigo));
+}
+
 export const totalPreguntasQuiz = modulos.reduce((acc, m) => acc + m.quiz.length, 0);

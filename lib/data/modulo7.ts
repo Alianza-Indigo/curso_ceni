@@ -32,47 +32,86 @@ const modulo7: Modulo = {
       },
     },
     {
-      titulo: "7.2 Criterios clave por dimensión",
+      titulo: "7.2 Dimensión 1 — Accesibilidad sensorial del espacio físico (200 pts)",
       parrafos: [],
-      lista: {
-        titulo: "D1 — Accesibilidad sensorial del espacio físico (40 pts cada criterio)",
-        items: [
-          "E1-C1: ruido en áreas de atención ≤ 55 dB con medición semestral",
-          "E1-C2: iluminación 200–400 lux, sin parpadeo, regulable o con zonas de menor intensidad",
-          "E1-C3: política de fragancia cero en todas las áreas de atención al público",
-          "E1-C4: espacio de calma accesible al público durante todo el horario de servicio",
-          "E1-C5: rutas de circulación con contrastes visuales claros, sin patrones complejos en zonas de tránsito",
-        ],
-      },
-      destacado: {
-        titulo: "D2, D3 y D4 — resumen operativo",
-        texto:
-          "D2: pictogramas ARASAAC junto a texto, mapa visual en la entrada, fuente sans-serif 16pt+, documentos en Lectura Fácil, señalización de advertencia previa a zonas de alta estimulación. D3: personal capacitado en comunicación neuroafirmativa, SAAC básico en el punto de atención, protocolo de tiempos de procesamiento extendidos, opción de atención escrita, canal de retroalimentación específico. D4: kit sensorial de libre acceso, opciones de espera alternativa, catálogos digitales accesibles, acompañante de servicio sin costo adicional, horarios de baja estimulación publicados.",
-      },
-    },
-    {
-      titulo: "7.3 D5 — Inclusión en servicios y procesos (40 pts cada criterio)",
-      parrafos: [],
-      lista: {
-        items: [
-          "E5-C1: servicios accesibles sin ninguna política escrita o informal que excluya a personas neurodivergentes",
-          "E5-C2: proceso de queja accesible, resuelto en máximo 5 días hábiles",
-          "E5-C3: al menos dos sesiones anuales de mystery client neurodivergente con informe y compromisos de mejora",
-          "E5-C4: al menos una consulta o co-diseño con personas neurodivergentes en los últimos 12 meses",
-          "E5-C5: precios y condiciones de servicio exactamente iguales, sin recargo por apoyos o acompañante",
+      tabla: {
+        encabezados: ["#", "Criterio", "Evidencia requerida", "Pts"],
+        filas: [
+          ["E1-C1", "Nivel de ruido en áreas de atención y espera ≤ 55 dB durante horario de servicio. Medición con sonómetro en días de operación normal, con registro semestral.", "Registro de mediciones con fecha, hora e instrumento", "40"],
+          ["E1-C2", "Iluminación en todas las áreas de atención entre 200–400 lux. Ausencia de luz fluorescente parpadeante. La iluminación es regulable o tiene zonas de menor intensidad.", "Registro de mediciones de luxómetro + fotografías del sistema de iluminación", "40"],
+          ["E1-C3", "Política de fragancia cero en todas las áreas de atención al público: sin ambientadores, sin incienso, sin perfumes o difusor. La política está escrita y publicada en área visible.", "Política escrita + fotografía del espacio + cartel de política publicado", "40"],
+          ["E1-C4", "Existe al menos un espacio de calma o área de baja estimulación accesible al público durante todo el horario de servicio, con los criterios del Módulo 3. Señalizado y de libre acceso.", "Fotografías + plano de ubicación + política de acceso libre + mediciones sensoriales", "40"],
+          ["E1-C5", "Las rutas de circulación, áreas de espera y zonas de servicio tienen contrastes visuales claros entre el suelo, paredes y mobiliario. Se evitan patrones visuales complejos en pisos y paredes de zonas de tránsito.", "Fotografías + descripción de materiales utilizados", "40"],
         ],
       },
     },
     {
-      titulo: "7.4 D6 — Gobernanza y mejora continua",
+      titulo: "7.3 Dimensión 2 — Accesibilidad cognitiva y señalización (150 pts)",
       parrafos: [],
-      lista: {
-        items: [
-          "Responsable de Accesibilidad Neurodivergente designado formalmente con tiempo y presupuesto asignados",
-          "Manual Operativo de Neuroinclusión del Espacio (MONE) aprobado por la dirección",
-          "Auditoría interna semestral usando el instrumento CENI Espacios",
-          "Distintivo CENI publicado visiblemente con vigencia actualizada",
-          "Plan de Mejora Continua (PMC) anual, con al menos una acción derivada del mystery client más reciente",
+      tabla: {
+        encabezados: ["#", "Criterio", "Evidencia requerida", "Pts"],
+        filas: [
+          ["E2-C1", "Todas las señales informativas usan pictogramas normalizados (ARASAAC o equivalente) junto al texto. El pictograma tiene al menos el 50% del tamaño del texto que acompaña.", "Fotografías de señalización existente", "30"],
+          ["E2-C2", "Existe un mapa visual del espacio disponible en la entrada principal, en formato impreso (mínimo A4) y en formato digital descargable (QR o enlace visible). El mapa incluye: zonas, baños, salidas, espacio de calma.", "Fotografía del mapa + URL o QR del formato digital", "30"],
+          ["E2-C3", "La señalización usa fuente sans-serif de mínimo 16pt para señales interiores y 24pt para señales directivas. Contraste texto-fondo mínimo 4.5:1 (WCAG AA).", "Fotografías + muestra de fuente y tamaño utilizado", "30"],
+          ["E2-C4", "Los formularios, instrucciones de servicio y documentos de uso público están disponibles en Lectura Fácil (lenguaje sencillo, frases cortas, pictogramas de apoyo).", "Muestra de documentos en versión Lectura Fácil", "30"],
+          ["E2-C5", "Existe señalización de advertencia previa a zonas de alta estimulación sensorial (área de música, espera con pantallas, zona de olores fuertes como panadería o cocina). La advertencia está en la entrada a esa zona.", "Fotografías de señalización de advertencia en zonas identificadas", "30"],
+        ],
+      },
+    },
+    {
+      titulo: "7.4 Dimensión 3 — Comunicación y atención accesible (150 pts)",
+      parrafos: [],
+      tabla: {
+        encabezados: ["#", "Criterio", "Evidencia requerida", "Pts"],
+        filas: [
+          ["E3-C1", "Todo el personal de atención al público ha completado el Módulo 2 (Comunicación Neuroafirmativa) del Curso CENI o equivalente. Registro de capacitación disponible para verificación.", "Constancias de capacitación con fecha y horas", "30"],
+          ["E3-C2", "Existe un tablero de comunicación o SAAC básico en el punto de atención principal, que permite comunicación sin lenguaje verbal (pictogramas de opciones, necesidades básicas, estados emocionales).", "Fotografía del material + descripción de su uso", "30"],
+          ["E3-C3", "El personal de atención conoce y aplica el protocolo de tiempos de procesamiento extendidos: no interrumpir, no repetir la pregunta antes de 30 segundos, no interpretar el silencio como ignorancia.", "Protocolo escrito + evidencia de capacitación específica en este criterio", "30"],
+          ["E3-C4", "Existe la opción de atención escrita (chat, formulario, papel y pluma) como alternativa equivalente a la atención verbal, disponible sin necesidad de solicitarla especialmente.", "Evidencia del sistema de atención escrita disponible", "30"],
+          ["E3-C5", "El espacio tiene un canal de retroalimentación específico para reportar barreras de accesibilidad neurodivergente (no solo accesibilidad física general). El canal es visible, simple de usar y tiene tiempo de respuesta definido.", "Canal activo (buzón, QR, formulario) + política de respuesta", "30"],
+        ],
+      },
+    },
+    {
+      titulo: "7.5 Dimensión 4 — Recursos y apoyos disponibles (150 pts)",
+      parrafos: [],
+      tabla: {
+        encabezados: ["#", "Criterio", "Evidencia requerida", "Pts"],
+        filas: [
+          ["E4-C1", "Existe un kit sensorial de libre acceso al público: auriculares antirruido, gafas de baja estimulación, objetos de estimulación táctil (fidgets). El kit no requiere identificación ni depósito.", "Fotografía del kit + política de acceso libre", "30"],
+          ["E4-C2", "El espacio ofrece opciones de espera alternativa: lista de espera con notificación por mensaje, posibilidad de esperar fuera del área ruidosa, sistema de turnos numerados con pantalla o app.", "Evidencia del sistema alternativo de espera", "30"],
+          ["E4-C3", "Las listas de precios, menús, catálogos o portafolios de servicios están disponibles en formato digital accesible (contraste adecuado, fuente legible, sin imágenes de fondo que dificulten la lectura).", "Versión digital del documento + verificación de accesibilidad básica", "30"],
+          ["E4-C4", "El personal de atención puede ofrecer un acompañante de servicio sin costo adicional: una persona del equipo que guía a un usuario neurodivergente durante su visita si lo solicita, sin tiempos de espera.", "Protocolo de acompañante de servicio + capacitación del personal", "30"],
+          ["E4-C5", "Existen horarios o franjas de baja estimulación: periodos específicos del día o de la semana en que el espacio reduce intencionalmente los estímulos (música, luces fuertes, afluencia). El horario está publicado.", "Horario de baja estimulación publicado + evidencia de implementación", "30"],
+        ],
+      },
+    },
+    {
+      titulo: "7.6 Dimensión 5 — Inclusión en servicios y procesos (200 pts)",
+      parrafos: [],
+      tabla: {
+        encabezados: ["#", "Criterio", "Evidencia requerida", "Pts"],
+        filas: [
+          ["E5-C1", "Los servicios del espacio son accesibles sin discriminación por condición neurológica. No existe ninguna política escrita o informal que excluya a personas neurodivergentes o a familias con personas neurodivergentes.", "Revisión de políticas + declaración de no discriminación firmada", "40"],
+          ["E5-C2", "El proceso de queja y reclamación está disponible en formato accesible (escrito, pictográfico, digital). Una queja por barrera de accesibilidad neurodivergente se procesa en máximo 5 días hábiles.", "Protocolo de quejas accesible + registro de quejas resueltas", "40"],
+          ["E5-C3", "Se realizan al menos dos sesiones anuales de mystery client neurodivergente: una persona neurodivergente certificada por Alianza Índigo evalúa la experiencia de usuario y presenta un informe. El informe genera compromisos de mejora.", "Informes de mystery client + compromisos de mejora documentados", "40"],
+          ["E5-C4", "El espacio ha participado en al menos una consulta o co-diseño con personas neurodivergentes y/o familias en los últimos 12 meses para mejorar algún aspecto del servicio o del espacio.", "Registro de la consulta + cambios implementados", "40"],
+          ["E5-C5", "Los precios, tarifas y condiciones de servicio son exactamente iguales para personas neurodivergentes. No existe recargo por uso de apoyos, tiempo adicional o necesidad de acompañante.", "Lista de precios + declaración de igualdad de tarifas", "40"],
+        ],
+      },
+    },
+    {
+      titulo: "7.7 Dimensión 6 — Gobernanza y mejora continua (150 pts)",
+      parrafos: [],
+      tabla: {
+        encabezados: ["#", "Criterio", "Evidencia requerida", "Pts"],
+        filas: [
+          ["E6-C1", "Existe un Responsable de Accesibilidad Neurodivergente designado formalmente, con tiempo asignado para la función, presupuesto y reporte a la dirección del espacio.", "Nombramiento formal + descripción de función", "30"],
+          ["E6-C2", "Existe un Manual Operativo de Neuroinclusión del Espacio (MONE), aprobado por la dirección, que documenta protocolos, recursos, responsables y canales de mejora.", "MONE aprobado con fecha y firma", "30"],
+          ["E6-C3", "Se realiza una auditoría interna semestral del espacio usando el instrumento CENI Espacios. Los resultados se documentan y se usan para actualizar el Plan de Mejora.", "Registros de dos auditorías internas recientes", "30"],
+          ["E6-C4", "El espacio tiene publicado (de manera visible al público) su nivel de certificación CENI, la fecha de vigencia y el canal de contacto con Alianza Índigo. El distintivo CENI está actualizado.", "Fotografía del distintivo publicado + información de vigencia", "30"],
+          ["E6-C5", "Existe un Plan de Mejora Continua (PMC) anual del espacio, con objetivos, responsables y fechas. El PMC incluye al menos una acción derivada del informe de mystery client más reciente.", "PMC vigente + trazabilidad con informe de mystery client más reciente", "30"],
         ],
       },
     },

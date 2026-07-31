@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { verificarSesionAdmin } from "@/lib/admin-auth";
 import { logoutAdminAction } from "@/app/actions/admin-auth";
 import { prisma } from "@/lib/db";
-import { modulos } from "@/lib/data/modulos";
+import { modulos, actividadesCompletas } from "@/lib/data/modulos";
 import AdminTablaUsuarios, { FilaUsuario } from "@/components/AdminTablaUsuarios";
 import AdminCambiarPassword from "@/components/AdminCambiarPassword";
 import { Users, Award, GraduationCap, LogOut } from "lucide-react";
@@ -20,6 +20,7 @@ export default async function AdminPage() {
       email: true,
       createdAt: true,
       progresoModulos: { where: { aprobado: true }, select: { moduloId: true } },
+      entregasActividad: { select: { moduloId: true, actividadCodigo: true } },
       resultadoExamen: {
         select: { aprobado: true, porcentaje: true, folio: true, fecha: true },
       },
@@ -27,11 +28,29 @@ export default async function AdminPage() {
     orderBy: { createdAt: "desc" },
   });
 
+  // Un módulo cuenta como completado solo si el quiz está aprobado Y todas sus
+  // actividades prácticas tienen entrega (igual que el gate de progreso-server.ts).
+  const modulosCompletadosPorUsuario = new Map(
+    usuariosDb.map((u) => {
+      const aprobadosQuiz = new Set(u.progresoModulos.map((p) => p.moduloId));
+      const codigosPorModulo = new Map<string, string[]>();
+      for (const e of u.entregasActividad) {
+        const arr = codigosPorModulo.get(e.moduloId) ?? [];
+        arr.push(e.actividadCodigo);
+        codigosPorModulo.set(e.moduloId, arr);
+      }
+      const completados = modulos
+        .filter((m) => aprobadosQuiz.has(m.id) && actividadesCompletas(m, codigosPorModulo.get(m.id) ?? []))
+        .map((m) => m.id);
+      return [u.id, completados];
+    })
+  );
+
   const usuarios: FilaUsuario[] = usuariosDb.map((u) => ({
     id: u.id,
     nombre: u.name ?? "(sin nombre)",
     email: u.email ?? "(sin correo)",
-    modulosAprobados: u.progresoModulos.length,
+    modulosAprobados: modulosCompletadosPorUsuario.get(u.id)?.length ?? 0,
     totalModulos: modulos.length,
     examenAprobado: u.resultadoExamen?.aprobado ?? false,
     examenPorcentaje: u.resultadoExamen?.porcentaje ?? null,
@@ -47,7 +66,7 @@ export default async function AdminPage() {
   const porModulo = modulos.map((m) => ({
     numero: m.numero,
     titulo: m.titulo,
-    aprobados: usuariosDb.filter((u) => u.progresoModulos.some((p) => p.moduloId === m.id)).length,
+    aprobados: usuariosDb.filter((u) => modulosCompletadosPorUsuario.get(u.id)?.includes(m.id)).length,
   }));
 
   return (

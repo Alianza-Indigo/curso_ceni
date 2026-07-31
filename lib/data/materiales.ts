@@ -113,6 +113,79 @@ export const guiasRapidas: { titulo: string; items: string[] }[] = [
   },
 ];
 
+export const ejerciciosAdicionales: { codigo: string; titulo: string; duracion: string; objetivo: string; instrucciones: string; reflexion?: string }[] = [
+  {
+    codigo: "E1",
+    titulo: "Auditoría de \"masking cultural\"",
+    duracion: "60 minutos, en equipos",
+    objetivo: "Identificar normas organizacionales implícitas que exigen masking como condición de participación.",
+    instrucciones:
+      "El equipo lista 20 \"normas no escritas\" de su organización (cómo se espera que la gente actúe, se comunique, reaccione). Para cada una, evalúa: ¿Esta norma excluye a personas neurodivergentes? ¿Exige suprimir rasgos naturales? ¿Tiene una función real o es pura convención social neurotípica? Producto: lista de normas a modificar, con propuesta de versión neurodivergente-amigable.",
+  },
+  {
+    codigo: "E2",
+    titulo: "Tour sensorial empático",
+    duracion: "45 minutos, individual/parejas",
+    objetivo: "Experimentar el entorno desde una perspectiva de hipersensibilidad sensorial.",
+    instrucciones:
+      "Durante 30 minutos, el participante lleva auriculares que reproducen un ruido blanco moderado (simula hiperacusia) y realiza sus tareas habituales. Registra: ¿qué fue más difícil? ¿qué estímulos fueron más perturbadores? ¿qué ajustes habrían ayudado?",
+    reflexion: "¿Cuántos de esos ajustes están ya implementados en tu espacio?",
+  },
+  {
+    codigo: "E3",
+    titulo: "Co-diseño exprés con perspectiva neurodivergente",
+    duracion: "90 minutos, equipos",
+    objetivo: "Experimentar el co-diseño como metodología de mejora de accesibilidad.",
+    instrucciones:
+      "Se invita a un participante neurodivergente (del equipo o externo) a evaluar en vivo el espacio de trabajo y proponer tres mejoras concretas. El equipo escucha sin interrumpir ni justificar. Al final, se comprometen a implementar al menos una mejora en los siguientes 15 días.",
+  },
+];
+
+export const referenciasMarco: { categoria: string; items: string[] }[] = [
+  {
+    categoria: "Instrumentos internacionales",
+    items: [
+      "Convención sobre los Derechos de las Personas con Discapacidad (CDPD). ONU, 2006. Ratificada por México el 17 de diciembre de 2007.",
+      "Convención sobre los Derechos del Niño (CDN). ONU, 1989.",
+      "Convención Americana sobre Derechos Humanos (Pacto de San José). OEA, 1969.",
+      "Protocolo adicional a la Convención Americana sobre Derechos Humanos en materia de Derechos Económicos, Sociales y Culturales (Protocolo de San Salvador). OEA, 1988.",
+    ],
+  },
+  {
+    categoria: "Marco legal nacional",
+    items: [
+      "Constitución Política de los Estados Unidos Mexicanos, especialmente artículos 1°, 4° y 133.",
+      "Ley General para la Inclusión de las Personas con Discapacidad. DOF: 30 de mayo de 2011.",
+      "Ley Federal para Prevenir y Eliminar la Discriminación. DOF: 11 de junio de 2003.",
+      "Ley General de Educación. DOF: 30 de septiembre de 2019.",
+      "Ley Federal del Trabajo, especialmente artículos 2, 56 Bis y 133.",
+    ],
+  },
+  {
+    categoria: "Marco Alianza Índigo",
+    items: [
+      "Alianza Índigo Neurodivergente A.C. Lineamientos CENI Laboral v1.0. 2025.",
+      "Alianza Índigo Neurodivergente A.C. Lineamientos CENI Espacios v1.0. 2025.",
+      "Alianza Índigo Neurodivergente A.C. Ley Índigo — Propuesta legislativa de 74 artículos. 2025.",
+      "Alianza Índigo Neurodivergente A.C. Derechos Índigo — Declaración de seis derechos de cuarta generación. 2025.",
+      "Alianza Índigo Neurodivergente A.C. Manifiesto Amor Índigo. 2025.",
+    ],
+  },
+  {
+    categoria: "Referencias académicas y técnicas",
+    items: [
+      "CAST (2018). Universal Design for Learning Guidelines version 2.2.",
+      "National Autistic Society UK (2022). Too Much Information Campaign.",
+      "Norma Oficial Mexicana NOM-001-STPS-2017: Condiciones de seguridad e higiene en los centros de trabajo.",
+      "WCAG 2.1 — Web Content Accessibility Guidelines. W3C, 2018.",
+      "ARASAAC — Sistema Aragonés de Comunicación Aumentativa y Alternativa. arasaac.org.",
+      "Singer, J. (1998). Odd people in: A study of a new tribe. University of Technology Sydney. [Primer uso académico del término \"neurodiversidad\"]",
+      "Milton, D. (2012). On the ontological status of autism. Disability & Society, 27(6), 883-887. [Teoría de la doble empatía]",
+      "Chapman, R. (2021). Neurodiversity and the Social Ecology of Mental Functions. Perspectives on Psychological Science, 16(6), 1360-1372.",
+    ],
+  },
+];
+
 export const formatosDescargables: { codigo: string; nombre: string }[] = [
   { codigo: "F-01", nombre: "Registro de Incidentes Sensoriales (RIS) — Excel y PDF editable" },
   { codigo: "F-02", nombre: "Instrumento de Autoevaluación CENI Laboral — Excel con fórmulas automáticas" },

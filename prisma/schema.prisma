@@ -13,10 +13,11 @@ model User {
   emailVerified DateTime?
   image         String?
 
-  accounts        Account[]
-  sessions        Session[]
-  progresoModulos ProgresoModulo[]
-  resultadoExamen ResultadoExamen?
+  accounts          Account[]
+  sessions          Session[]
+  progresoModulos   ProgresoModulo[]
+  resultadoExamen   ResultadoExamen?
+  entregasActividad EntregaActividad[]
 
   // Tope diario de mensajes al asistente virtual (protección de costo).
   asistenteMensajesHoy Int       @default(0)
@@ -80,17 +81,37 @@ model ProgresoModulo {
 
 // Resultado del examen integrador final. Un registro por usuario (se sobrescribe en cada intento).
 model ResultadoExamen {
-  id         String   @id @default(cuid())
-  userId     String   @unique
-  respuestas Json
-  aciertos   Int
-  total      Int
-  porcentaje Int
-  aprobado   Boolean
-  fecha      DateTime @default(now())
-  folio      String?  @unique
+  id            String    @id @default(cuid())
+  userId        String    @unique
+  respuestas    Json
+  aciertos      Int
+  total         Int
+  porcentaje    Int
+  aprobado      Boolean
+  fecha         DateTime  @default(now())
+  folio         String?   @unique
+  // Vigencia de 1 año desde la aprobación, como especifica el curso original.
+  vigenciaHasta DateTime?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Entregable escrito de una actividad práctica de un módulo. El curso original
+// pondera estas actividades como la mayor parte de la calificación de cada
+// módulo (los quizzes son 25-45%); un módulo solo cuenta como completo cuando
+// el quiz está aprobado Y todas sus actividades tienen entrega.
+model EntregaActividad {
+  id              String   @id @default(cuid())
+  userId          String
+  moduloId        String
+  actividadCodigo String
+  contenido       String   @db.Text
+  actualizadoEn   DateTime @updatedAt
+  creadoEn        DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, moduloId, actividadCodigo])
 }
 
 // Credenciales del panel de administración. Login propio (no Google OAuth).

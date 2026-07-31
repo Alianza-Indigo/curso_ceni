@@ -14,7 +14,16 @@ inicio de sesión con Google.
 - **Rutas protegidas**: `proxy.ts` (equivalente a `middleware.ts` en versiones anteriores de
   Next.js) redirige a `/login` a cualquier visitante sin sesión.
 - **Constancia**: `/api/constancia` genera un PDF real (con `pdf-lib`) al vuelo para quien haya
-  aprobado el examen integrador, con folio verificable.
+  aprobado el examen integrador, con folio verificable, vigencia de 1 año
+  (`ResultadoExamen.vigenciaHasta`) y un código QR que apunta a la página pública
+  `/verificar/[folio]` (sin autenticación) donde cualquiera puede confirmar folio, nombre,
+  fecha y si la constancia sigue vigente. Al vencer, el dashboard invita a repetir el examen
+  final para renovarla.
+- **Actividades prácticas evaluables**: cada módulo pondera su calificación entre el quiz
+  (25–45%) y entregables prácticos (mapas, scripts, autoevaluaciones, planes de mejora, etc.).
+  Un módulo solo cuenta como completo — y desbloquea el siguiente — cuando el quiz está
+  aprobado **y** se entregó cada actividad (`components/ActividadesEntrega.tsx` +
+  `EntregaActividad` en Postgres); el quiz aprobado por sí solo ya no basta.
 - **Migraciones versionadas**: el schema vive en `prisma/migrations/` (Prisma Migrate), no se
   gestiona con `db push` a mano. El script `build` corre `prisma migrate deploy` antes de
   `next build`, así que cada deploy en producción aplica automáticamente las migraciones

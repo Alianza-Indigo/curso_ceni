@@ -1,6 +1,14 @@
 import Link from "next/link";
-import { glosario, historiasSociales, scriptsComunicacion, guiasRapidas, formatosDescargables } from "@/lib/data/materiales";
-import { ArrowLeft, BookOpen, MessageSquareText, Zap, FileDown } from "lucide-react";
+import {
+  glosario,
+  historiasSociales,
+  scriptsComunicacion,
+  guiasRapidas,
+  formatosDescargables,
+  ejerciciosAdicionales,
+  referenciasMarco,
+} from "@/lib/data/materiales";
+import { ArrowLeft, BookOpen, MessageSquareText, Zap, FileDown, ClipboardList, Library } from "lucide-react";
 
 export const metadata = { title: "Materiales del curso · Curso CENI" };
 
@@ -86,7 +94,7 @@ export default function MaterialesPage() {
         </div>
       </section>
 
-      <section className="mt-10 mb-10">
+      <section className="mt-10">
         <h2 className="flex items-center gap-2 font-serif text-2xl font-bold text-[#070b2f]">
           <FileDown className="h-5 w-5 text-[#4b18a8]" /> Formatos descargables (referencia)
         </h2>
@@ -104,6 +112,49 @@ export default function MaterialesPage() {
             </li>
           ))}
         </ul>
+      </section>
+
+      <section className="mt-10">
+        <h2 className="flex items-center gap-2 font-serif text-2xl font-bold text-[#070b2f]">
+          <ClipboardList className="h-5 w-5 text-[#4b18a8]" /> Anexo E — Ejercicios prácticos adicionales
+        </h2>
+        <div className="mt-4 grid gap-4">
+          {ejerciciosAdicionales.map((e) => (
+            <div key={e.codigo} className="rounded-2xl border border-[#e5def4] bg-white p-5">
+              <p className="font-bold text-[#070b2f]">
+                Ejercicio {e.codigo} — {e.titulo}
+              </p>
+              <p className="mt-1 text-xs font-bold uppercase tracking-wide text-[#6c6690]">{e.duracion}</p>
+              <p className="mt-3 text-sm text-[#20234a]">
+                <strong className="text-[#4b18a8]">Objetivo:</strong> {e.objetivo}
+              </p>
+              <p className="mt-2 text-sm text-[#20234a]">
+                <strong className="text-[#4b18a8]">Instrucciones:</strong> {e.instrucciones}
+              </p>
+              {e.reflexion && (
+                <p className="mt-2 text-sm italic text-[#6c6690]">Reflexión: {e.reflexion}</p>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-10 mb-10">
+        <h2 className="flex items-center gap-2 font-serif text-2xl font-bold text-[#070b2f]">
+          <Library className="h-5 w-5 text-[#4b18a8]" /> Referencias y marco documental
+        </h2>
+        <div className="mt-4 grid gap-4">
+          {referenciasMarco.map((r) => (
+            <div key={r.categoria} className="rounded-2xl border border-[#e5def4] bg-[#fbfaff] p-5">
+              <p className="font-bold text-[#070b2f]">{r.categoria}</p>
+              <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[#20234a]">
+                {r.items.map((it, i) => (
+                  <li key={i}>{it}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
       </section>
     </div>
   );

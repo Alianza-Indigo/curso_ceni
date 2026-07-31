@@ -11,7 +11,11 @@ export default auth((req) => {
   // valida acceso en cada página; no debe pasar por el gate de sesión de estudiante.
   const isApiRoute = pathname.startsWith("/api/");
   const isAdminRoute = pathname.startsWith("/admin");
-  const isPublic = PUBLIC_PATHS.includes(pathname) || isApiRoute || isAdminRoute;
+  // /verificar/[folio] es la página pública de verificación de constancias —
+  // cualquiera con un folio (por ejemplo, desde el QR de la constancia) debe
+  // poder consultarla sin tener sesión ni cuenta en el curso.
+  const isVerificarRoute = pathname.startsWith("/verificar/");
+  const isPublic = PUBLIC_PATHS.includes(pathname) || isApiRoute || isAdminRoute || isVerificarRoute;
 
   if (!req.auth && !isPublic) {
     const loginUrl = new URL("/login", req.nextUrl.origin);

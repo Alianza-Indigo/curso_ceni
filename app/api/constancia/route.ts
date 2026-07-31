@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
+import QRCode from "qrcode";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 
-export async function GET() {
+export async function GET(request: Request) {
   const session = await auth();
   if (!session?.user?.id) {
     return NextResponse.json({ error: "No autenticado" }, { status: 401 });
@@ -26,6 +27,13 @@ export async function GET() {
     month: "long",
     day: "numeric",
   });
+  const vigenciaTexto = examen.vigenciaHasta
+    ? examen.vigenciaHasta.toLocaleDateString("es-MX", { year: "numeric", month: "long", day: "numeric" })
+    : null;
+
+  const origin = new URL(request.url).origin;
+  const urlVerificacion = `${origin}/verificar/${examen.folio}`;
+  const qrPngBytes = await QRCode.toBuffer(urlVerificacion, { margin: 1, width: 200 });
 
   const doc = await PDFDocument.create();
   const page = doc.addPage([842, 595]); // A4 landscape
@@ -64,8 +72,24 @@ export async function GET() {
   );
 
   centerText(`Folio verificable: ${examen.folio}`, 150, helveticaBold, 13, gold);
-  centerText(`Emitida el ${fecha}`, 128, helvetica, 11);
+  centerText(
+    vigenciaTexto ? `Emitida el ${fecha} · Vigente hasta el ${vigenciaTexto}` : `Emitida el ${fecha}`,
+    128,
+    helvetica,
+    11
+  );
   centerText('"No necesitas PARECER para SER."', 80, helvetica, 11, rgb(0.85, 0.85, 0.95));
+
+  const qrImage = await doc.embedPng(qrPngBytes);
+  const qrSize = 80;
+  page.drawImage(qrImage, { x: 842 - 48 - qrSize, y: 48, width: qrSize, height: qrSize });
+  page.drawText("Escanea para verificar", {
+    x: 842 - 48 - qrSize,
+    y: 40,
+    size: 8,
+    font: helvetica,
+    color: rgb(0.85, 0.85, 0.95),
+  });
 
   const bytes = await doc.save();
 

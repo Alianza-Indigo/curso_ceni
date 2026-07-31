@@ -1,5 +1,6 @@
-import { modulos, getModuloById, getModuloAdyacente, moduloDesbloqueado } from "@/lib/data/modulos";
-import { SeccionBloque, ActividadesBloque, EvaluacionBloque } from "@/components/ContenidoModulo";
+import { modulos, getModuloById, getModuloAdyacente, moduloDesbloqueado, actividadesCompletas } from "@/lib/data/modulos";
+import { SeccionBloque, EvaluacionBloque } from "@/components/ContenidoModulo";
+import ActividadesEntrega from "@/components/ActividadesEntrega";
 import ModuloAcciones from "@/components/ModuloAcciones";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
@@ -66,14 +67,19 @@ export default async function ModuloPage({ params }: { params: Promise<{ id: str
         {modulo.secciones.map((s, i) => (
           <SeccionBloque key={i} seccion={s} />
         ))}
-        <ActividadesBloque actividades={modulo.actividades} />
         <EvaluacionBloque evaluacion={modulo.evaluacion} />
+        <ActividadesEntrega
+          moduloId={modulo.id}
+          actividades={modulo.actividades}
+          entregasIniciales={progreso.entregasPorModulo[modulo.id] ?? {}}
+        />
       </div>
 
       <ModuloAcciones
         modulo={modulo}
         preguntasIniciales={armarIntento(modulo.quiz, modulo.preguntasPorIntento)}
         resultadoInicial={progreso.resultadosQuiz[modulo.id] ?? null}
+        actividadesCompletas={actividadesCompletas(modulo, Object.keys(progreso.entregasPorModulo[modulo.id] ?? {}))}
         anterior={anteriorM ? { id: anteriorM.id, titulo: anteriorM.titulo, numero: anteriorM.numero } : undefined}
         siguiente={siguienteM ? { id: siguienteM.id, titulo: siguienteM.titulo, numero: siguienteM.numero } : undefined}
       />

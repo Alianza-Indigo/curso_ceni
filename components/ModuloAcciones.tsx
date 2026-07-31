@@ -22,12 +22,14 @@ export default function ModuloAcciones({
   modulo,
   preguntasIniciales,
   resultadoInicial,
+  actividadesCompletas,
   anterior,
   siguiente,
 }: {
   modulo: Modulo;
   preguntasIniciales: PreguntaQuiz[];
   resultadoInicial: ResultadoQuiz | null;
+  actividadesCompletas: boolean;
   anterior?: { id: string; titulo: string; numero: number };
   siguiente?: { id: string; titulo: string; numero: number };
 }) {
@@ -38,6 +40,7 @@ export default function ModuloAcciones({
   // hidratación: Math.random() no puede correr en un Client Component que también se
   // renderiza en el servidor). Los reintentos sí arman una nueva selección en el cliente.
   const [preguntasIntento, setPreguntasIntento] = useState(preguntasIniciales);
+  const moduloCompleto = Boolean(resultado?.aprobado) && actividadesCompletas;
 
   async function onFinalizar(respuestas: Record<string, number>, aciertos: number, total: number) {
     const res = await fetch("/api/progreso/modulo", {
@@ -61,14 +64,18 @@ export default function ModuloAcciones({
         {resultado ? (
           <div
             className={`mt-3 flex items-center gap-3 rounded-xl border p-4 ${
-              resultado.aprobado ? "border-green-500 bg-green-50" : "border-[#dda632] bg-[#fff8e8]"
+              moduloCompleto ? "border-green-500 bg-green-50" : "border-[#dda632] bg-[#fff8e8]"
             }`}
           >
-            {resultado.aprobado && <CheckCircle2 className="h-5 w-5 shrink-0 text-green-600" />}
+            {moduloCompleto && <CheckCircle2 className="h-5 w-5 shrink-0 text-green-600" />}
             <p className="text-sm text-[#20234a]">
               Ya completaste este quiz: <strong>{resultado.porcentaje}%</strong> (
               {resultado.aciertos}/{resultado.total}).{" "}
-              {resultado.aprobado ? "Módulo aprobado." : "Puedes volver a intentarlo."}
+              {!resultado.aprobado
+                ? "Puedes volver a intentarlo."
+                : moduloCompleto
+                  ? "Módulo aprobado."
+                  : "Quiz aprobado — entrega también las actividades de abajo para completar el módulo."}
             </p>
           </div>
         ) : (
@@ -104,7 +111,7 @@ export default function ModuloAcciones({
           <span />
         )}
         {siguiente ? (
-          resultado?.aprobado ? (
+          moduloCompleto ? (
             <Link
               href={`/curso/${siguiente.id}`}
               className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-[#4b18a8] px-4 text-sm font-bold text-white hover:bg-[#351176]"
@@ -114,18 +121,25 @@ export default function ModuloAcciones({
           ) : (
             <span
               className="inline-flex min-h-11 cursor-not-allowed items-center gap-2 rounded-lg border border-[#e3dfef] px-4 text-sm font-bold text-[#a6a2b8]"
-              title="Aprueba este módulo para desbloquear el siguiente"
+              title="Aprueba el quiz y entrega las actividades de este módulo para desbloquear el siguiente"
             >
               <Lock className="h-4 w-4" /> Módulo {siguiente.numero}: {siguiente.titulo}
             </span>
           )
-        ) : (
+        ) : moduloCompleto ? (
           <Link
             href="/examen-final"
             className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-[#dda632] px-4 text-sm font-black uppercase text-[#070b2f] hover:bg-[#f0c85b]"
           >
             Ir al examen final <ArrowRight className="h-4 w-4" />
           </Link>
+        ) : (
+          <span
+            className="inline-flex min-h-11 cursor-not-allowed items-center gap-2 rounded-lg border border-[#e3dfef] px-4 text-sm font-bold text-[#a6a2b8]"
+            title="Aprueba el quiz y entrega las actividades de este módulo para desbloquear el examen final"
+          >
+            <Lock className="h-4 w-4" /> Ir al examen final
+          </span>
         )}
       </nav>
     </div>
