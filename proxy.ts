@@ -7,8 +7,11 @@ export default auth((req) => {
   const { pathname } = req.nextUrl;
   // Las rutas /api/* manejan su propia sesión y devuelven 401/403 JSON o texto;
   // redirigirlas a /login rompería a los clientes fetch() (recibirían HTML).
+  // /admin/* tiene su propio sistema de sesión (cookie firmada, no Auth.js) y
+  // valida acceso en cada página; no debe pasar por el gate de sesión de estudiante.
   const isApiRoute = pathname.startsWith("/api/");
-  const isPublic = PUBLIC_PATHS.includes(pathname) || isApiRoute;
+  const isAdminRoute = pathname.startsWith("/admin");
+  const isPublic = PUBLIC_PATHS.includes(pathname) || isApiRoute || isAdminRoute;
 
   if (!req.auth && !isPublic) {
     const loginUrl = new URL("/login", req.nextUrl.origin);

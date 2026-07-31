@@ -32,6 +32,15 @@ inicio de sesión con Google.
     manipulación, o peticiones que requieren autoridad humana (calificar, certificar,
     quejas formales). El widget muestra entonces una tarjeta con el contacto de Alianza
     Índigo (`CONTACTO_ALIANZA_INDIGO`) en vez de la respuesta normal.
+- **Bloqueo secuencial de módulos**: hay que aprobar el módulo N-1 para acceder al N
+  (`lib/data/modulos.ts#moduloDesbloqueado`), tanto en la UI del dashboard como en la propia
+  página del módulo (acceso directo por URL también se bloquea).
+- **Panel de administración** (`/admin`): login propio con correo + contraseña
+  (`ADMIN_EMAIL` / `ADMIN_PASSWORD_HASH`), independiente del login de Google de los
+  estudiantes — usa una cookie firmada (JWT con `jose`, misma clave `AUTH_SECRET`), no
+  Auth.js. Muestra usuarios registrados, aprobación por módulo, y la tabla de constancias
+  emitidas con su folio. Un solo administrador por ahora (un email fijo); para varios habría
+  que extenderlo.
 
 ## Configuración local
 
@@ -86,6 +95,8 @@ inicio de sesión con Google.
 | `AUTH_TRUST_HOST` | `"true"` si Auth.js corre detrás de un proxy/CDN |
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Credenciales OAuth de Google Cloud Console |
 | `GEMINI_API_KEY` | API key de [Google AI Studio](https://aistudio.google.com/apikey) para el asistente virtual |
+| `ADMIN_EMAIL` | Correo del único administrador con acceso a `/admin` |
+| `ADMIN_PASSWORD_HASH` | Hash bcrypt de su contraseña — generar con `node -e "console.log(require('bcryptjs').hashSync('...', 12))"`, nunca poner la contraseña en texto plano |
 
 Sin estas variables configuradas, el login con Google y la persistencia de progreso no
 funcionarán — la aplicación no puede generarlas por sí sola, deben provenir de tu propia
