@@ -50,7 +50,32 @@ const modulo10: Modulo = {
       },
     },
     {
-      titulo: "10.3 Organización del expediente de evidencias",
+      titulo: "10.3 Checklist de cumplimiento NOM-035",
+      parrafos: [
+        "La NOM-035-STPS-2018 es de cumplimiento obligatorio e independiente de la certificación CENI, pero buena parte de su evidencia se integra al mismo expediente. Antes de la auditoría, verifica que la organización cumple lo que le corresponde según su número de trabajadores (ver módulo 5.5–5.12).",
+      ],
+      lista: {
+        titulo: "Verificable antes de la auditoría",
+        items: [
+          "Política de prevención de riesgos psicosociales por escrito, implantada y difundida (todos los tamaños; puede ser el propio RIN)",
+          "Evidencia de difusión de la información a los trabajadores (folletos, boletines o carteles)",
+          "Guía I aplicada y mecanismo de canalización a atención médica o psicológica (todos los tamaños)",
+          "Identificación y análisis de los factores de riesgo psicosocial vigente, con antigüedad no mayor a dos años (16+ trabajadores)",
+          "Evaluación del entorno organizacional (más de 50 trabajadores)",
+          "Informe de resultados con el contenido del numeral 7.7, disponible para consulta y con confidencialidad de los datos individuales",
+          "Programa de intervención documentado si el nivel de riesgo resultó medio, alto o muy alto",
+          "Mecanismo seguro y confidencial de recepción de quejas por violencia laboral",
+          "Registros del numeral 5.8 (resultados, medidas de control y personal con exposición comprobada)",
+        ],
+      },
+      destacado: {
+        titulo: "No dupliques evidencia",
+        texto:
+          "El RIN sirve como política de prevención; el canal de retroalimentación como mecanismo de quejas; las auditorías internas se coordinan con la reevaluación bienal. Un solo expediente puede sostener CENI y NOM-035 a la vez.",
+      },
+    },
+    {
+      titulo: "10.4 Organización del expediente de evidencias",
       parrafos: [
         "El expediente se organiza siguiendo la estructura oficial: una carpeta por dimensión, una subcarpeta por criterio, con archivos nombrados como [LÍNEA]-[DIMENSIÓN]-[CRITERIO]-[NOMBRE_CORTO]. Ejemplo: LABORAL-D1-C2-PROTOCOLO_SELECCION.pdf",
       ],
@@ -67,7 +92,7 @@ const modulo10: Modulo = {
       },
     },
     {
-      titulo: "10.4 Renovación de la certificación",
+      titulo: "10.5 Renovación de la certificación",
       parrafos: [],
       tabla: {
         encabezados: ["Nivel", "Proceso de renovación"],
@@ -288,6 +313,25 @@ const modulo10: Modulo = {
       opciones: ["1 año", "2 años", "3 años", "5 años"],
       correcta: 1,
       explicacion: "El nivel Plata tiene una vigencia de 2 años antes de la renovación.",
+    },
+    {
+      id: "m10q21",
+      pregunta: "En el checklist de cumplimiento NOM-035, ¿con qué antigüedad máxima debe estar vigente la identificación y análisis de los factores de riesgo psicosocial?",
+      opciones: ["No mayor a dos años", "No mayor a diez años", "No importa la antigüedad", "Solo el día de la auditoría"],
+      correcta: 0,
+      explicacion: "El numeral 7.9 exige reevaluar los factores de riesgo psicosocial al menos cada dos años, por lo que el resultado vigente no debe tener más de dos años.",
+    },
+    {
+      id: "m10q22",
+      pregunta: "¿Qué documento de la organización puede servir a la vez como política de prevención de riesgos psicosociales de la NOM-035?",
+      opciones: [
+        "El Reglamento Interno de Neuroinclusión (RIN), si incluye la prevención del riesgo psicosocial, de la violencia laboral y la promoción del entorno favorable",
+        "El organigrama",
+        "El estado de resultados financiero",
+        "El menú de la cafetería",
+      ],
+      correcta: 0,
+      explicacion: "Un RIN bien redactado puede cumplir la política de prevención del numeral 5.1 de la NOM-035, evitando duplicar documentos en el expediente.",
     },
   ],
 };

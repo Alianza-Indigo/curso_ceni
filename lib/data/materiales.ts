@@ -13,7 +13,10 @@ export const glosario: { termino: string; definicion: string }[] = [
   { termino: "Diseño Universal", definicion: "Enfoque de diseño que busca crear productos, entornos, programas y servicios accesibles para todas las personas, sin necesidad de adaptación especializada." },
   { termino: "DUA", definicion: "Diseño Universal para el Aprendizaje. Marco pedagógico que flexibiliza representación, acción/expresión y motivación para el acceso universal." },
   { termino: "Enmascaramiento (masking)", definicion: "Proceso por el cual una persona neurodivergente suprime o camufla sus rasgos naturales para cumplir expectativas sociales neurotípicas." },
+  { termino: "Entorno organizacional favorable", definicion: "Aquel en el que se promueve el sentido de pertenencia, la formación para las tareas, la definición precisa de responsabilidades, la comunicación, la distribución adecuada de cargas y el reconocimiento del desempeño (NOM-035-STPS-2018). Su evaluación es obligatoria solo para centros de más de 50 trabajadores (Guía III)." },
   { termino: "Espacio de calma", definicion: "Área diseñada para que cualquier persona pueda autorregularse de manera segura, con estímulos reducidos y libre acceso." },
+  { termino: "Factores de riesgo psicosocial", definicion: "Según la NOM-035-STPS-2018, aquellos que pueden provocar trastornos de ansiedad, del ciclo sueño-vigilia o de estrés grave y de adaptación, derivados de la naturaleza del puesto, el tipo de jornada, la exposición a acontecimientos traumáticos severos o los actos de violencia laboral." },
+  { termino: "Guías de referencia (NOM-035)", definicion: "Los cinco anexos de la NOM-035-STPS-2018: Guía I (acontecimientos traumáticos severos), Guía II (identificación y análisis de factores de riesgo, 16–50 trabajadores, 46 reactivos), Guía III (lo anterior + evaluación del entorno organizacional, +50 trabajadores, 72 reactivos), Guía IV (ejemplo de política de prevención) y Guía V (datos del trabajador y confidencialidad)." },
   { termino: "Horario de baja estimulación", definicion: "Periodos en que un espacio reduce intencionalmente sus estímulos sensoriales para favorecer el acceso neurodivergente." },
   { termino: "Kit sensorial", definicion: "Conjunto de herramientas de autorregulación sensorial de libre acceso en un entorno certificado CENI." },
   { termino: "Lenguaje neuroafirmativo", definicion: "Forma de comunicación que reconoce la neurodivergencia como variación legítima, evitando la patologización." },
@@ -26,12 +29,14 @@ export const glosario: { termino: string; definicion: string }[] = [
   { termino: "Neurotipicidad", definicion: "Condición de tener una neurología que sigue el patrón estadísticamente dominante en la especie humana." },
   { termino: "NOM-035-STPS-2018", definicion: "Norma Oficial Mexicana \"Factores de riesgo psicosocial en el trabajo — Identificación, análisis y prevención\". Obliga a todo centro de trabajo en México a identificar, analizar y prevenir el riesgo psicosocial, con obligaciones escalonadas según el número de trabajadores." },
   { termino: "PMCN", definicion: "Plan de Mejora Continua de Neuroinclusión. Instrumento de gestión que conecta auditorías y retroalimentación con acciones de mejora." },
+  { termino: "Programa de intervención (NOM-035)", definicion: "Programa que exige la NOM-035 cuando el nivel de riesgo es medio, alto o muy alto. Debe indicar las áreas o trabajadores sujetos, el tipo de acciones y medidas de control, las fechas, el control de avances, la evaluación posterior y el responsable de su ejecución (numerales 8.3 y 8.4)." },
   { termino: "Responsable de Neuroinclusión (RN)", definicion: "Figura institucional designada formalmente para garantizar la operación del sistema de neuroinclusión de la organización." },
   { termino: "RIN", definicion: "Reglamento Interno de Neuroinclusión. Documento normativo que establece derechos, obligaciones, protocolos y sanciones en una organización laboral." },
   { termino: "RIS", definicion: "Registro de Incidentes Sensoriales. Formato de documentación de crisis sensoriales ocurridas en el espacio." },
   { termino: "SAAC", definicion: "Sistemas Alternativos y Aumentativos de Comunicación. Métodos que complementan o reemplazan el lenguaje verbal oral." },
   { termino: "Shutdown", definicion: "Crisis de desconexión neurológica en que el sistema nervioso se apaga, manifestándose como inmovilidad, mutismo y ausencia de respuesta." },
   { termino: "Stimming (autoestimulación)", definicion: "Comportamiento repetitivo, rítmico o sensorial que una persona neurodivergente realiza para regular su sistema nervioso. Es funcional y no debe suprimirse." },
+  { termino: "Violencia laboral", definicion: "Según la NOM-035-STPS-2018, los actos de hostigamiento, acoso o malos tratos contra el trabajador que pueden dañar su integridad o salud. La organización debe disponer de mecanismos seguros y confidenciales para recibir quejas y denunciarla." },
 ];
 
 export const historiasSociales: { titulo: string; texto: string }[] = [
@@ -181,6 +186,7 @@ export const referenciasMarco: { categoria: string; items: string[] }[] = [
       "CAST (2018). Universal Design for Learning Guidelines version 2.2.",
       "National Autistic Society UK (2022). Too Much Information Campaign.",
       "Norma Oficial Mexicana NOM-001-STPS-2017: Condiciones de seguridad e higiene en los centros de trabajo.",
+      "Norma Oficial Mexicana NOM-030-STPS-2009: Servicios preventivos de seguridad y salud en el trabajo — Funciones y actividades (diagnóstico al que se integra la NOM-035).",
       "WCAG 2.1 — Web Content Accessibility Guidelines. W3C, 2018.",
       "ARASAAC — Sistema Aragonés de Comunicación Aumentativa y Alternativa. arasaac.org.",
       "Singer, J. (1998). Odd people in: A study of a new tribe. University of Technology Sydney. [Primer uso académico del término \"neurodiversidad\"]",
@@ -206,4 +212,7 @@ export const formatosDescargables: { codigo: string; nombre: string }[] = [
   { codigo: "F-13", nombre: "Guía de elaboración de mapa sensorial para usuarios (versión familia)" },
   { codigo: "F-14", nombre: "Modelo de declaración de política de neuroinclusión para sitio web y cartelería" },
   { codigo: "F-15", nombre: "Informe semestral de neuroinclusión para presentar a la dirección" },
+  { codigo: "F-16", nombre: "Modelo de política de prevención de riesgos psicosociales NOM-035 (base Guía IV) — Word editable" },
+  { codigo: "F-17", nombre: "Checklist de cumplimiento NOM-035-STPS-2018 — Excel y PDF" },
+  { codigo: "F-18", nombre: "Anexo neurodivergente al cuestionario de factores de riesgo psicosocial — instrumento aplicable (Excel y PDF)" },
 ];

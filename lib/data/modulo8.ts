@@ -33,6 +33,11 @@ const modulo8: Modulo = {
           "Proceso de revisión y actualización anual",
         ],
       },
+      destacado: {
+        titulo: "El RIN y la NOM-035 (ver módulo 5.5–5.12)",
+        texto:
+          "El RIN puede cumplir a la vez la política de prevención de riesgos psicosociales que exige la NOM-035 (numeral 5.1) si incluye explícitamente la prevención de los factores de riesgo psicosocial, la prevención de la violencia laboral y la promoción del entorno organizacional favorable. Su canal de queja y denuncia con protección anti-represalia es el mismo mecanismo seguro y confidencial de recepción de quejas que pide el numeral 8.1 de la norma. No dupliques documentos: un RIN bien redactado sirve para ambos marcos.",
+      },
     },
     {
       titulo: "8.2 El Responsable de Neuroinclusión",
@@ -61,6 +66,7 @@ const modulo8: Modulo = {
           "Responsable: el Responsable de Neuroinclusión, con participación de al menos un colaborador neurodivergente",
           "Documentación: informe escrito con fecha, evaluadores, puntuación por criterio y total, hallazgos y compromisos",
           "Seguimiento: cada compromiso con responsable y fecha de verificación",
+          "Alineación NOM-035: el ciclo de auditoría interna se coordina con la reevaluación bienal de los factores de riesgo psicosocial (numeral 7.9) y con el Programa de intervención que exige la norma cuando el riesgo es medio, alto o muy alto",
         ],
       },
       destacado: {
@@ -295,6 +301,18 @@ const modulo8: Modulo = {
       ],
       correcta: 1,
       explicacion: "La documentación de la auditoría debe ser un informe escrito con fecha, evaluadores, puntuación por criterio y total, hallazgos y compromisos.",
+    },
+    {
+      id: "m8q21",
+      pregunta: "¿Cómo se relaciona el RIN con la NOM-035?",
+      opciones: [
+        "No tienen ninguna relación",
+        "El RIN puede cumplir a la vez la política de prevención de riesgos psicosociales que exige la NOM-035 si incluye la prevención del riesgo psicosocial, de la violencia laboral y la promoción del entorno favorable",
+        "El RIN sustituye por completo a la NOM-035 y exime de aplicarla",
+        "La NOM-035 prohíbe que las organizaciones tengan un RIN",
+      ],
+      correcta: 1,
+      explicacion: "Un RIN bien redactado puede servir a la vez como política de prevención de riesgos psicosociales (numeral 5.1 de la NOM-035) y su canal de queja como el mecanismo de recepción de quejas del numeral 8.1, sin duplicar documentos.",
     },
   ],
 };
