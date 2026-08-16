@@ -175,13 +175,14 @@ export default function Landing() {
               >
                 Quiero inscribirme <ArrowRight className="h-4 w-4" />
               </button>
-              <button
-                type="button"
-                onClick={abrir}
+              <a
+                href="/landing/Temario_Curso_CENI.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-[#d9cef2] bg-white px-6 py-3.5 text-sm font-black text-[#6d28d9] transition-colors hover:bg-[#f5f1ff]"
               >
                 Descargar temario <Download className="h-4 w-4" />
-              </button>
+              </a>
             </div>
 
             <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold text-[#4a4568]">
