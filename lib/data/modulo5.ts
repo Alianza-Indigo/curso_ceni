@@ -4,15 +4,16 @@ const modulo5: Modulo = {
   id: "m5",
   numero: 5,
   titulo: "Ética, Derechos Humanos y Ley Índigo",
-  duracion: "90 minutos",
+  duracion: "180 minutos",
   dirigidoA: "Propietarios, directivos, RRHH, prestadores de servicios públicos",
-  preguntasPorIntento: 12,
+  preguntasPorIntento: 14,
   objetivos: [
     "Ubicar los Derechos Índigo en el marco internacional de los derechos humanos de cuarta generación.",
     "Identificar las obligaciones legales aplicables a empresas, instituciones educativas y prestadores de servicios en materia de neuroinclusión.",
     "Analizar casos prácticos de vulneración de derechos neurodivergentes y su tratamiento jurídico.",
     "Aplicar el control de convencionalidad como herramienta de autoevaluación institucional.",
-    "Identificar qué factores de riesgo psicosocial exigidos por la NOM-035-STPS-2018 pasan desapercibidos en personal neurodivergente, y aplicar el anexo neurodivergente al cuestionario oficial.",
+    "Explicar qué obliga la NOM-035-STPS-2018, a quién según el tamaño del centro de trabajo, y cómo se identifican, evalúan y clasifican por nivel de riesgo los factores de riesgo psicosocial.",
+    "Identificar los puntos ciegos de la NOM-035 frente a la neurodivergencia y aplicar el anexo neurodivergente como complemento del cuestionario oficial.",
   ],
   secciones: [
     {
@@ -42,6 +43,7 @@ const modulo5: Modulo = {
           "CDPD (ONU): ajustes razonables y accesibilidad universal",
           "Ley Federal para Prevenir y Eliminar la Discriminación",
           "Ley General para la Inclusión de las Personas con Discapacidad",
+          "NOM-035-STPS-2018 (STPS): obligación vigente y exigible de identificar, analizar y prevenir los factores de riesgo psicosocial y promover un entorno organizacional favorable en todo centro de trabajo",
           "Ley Índigo (en proceso legislativo): obligaciones específicas de certificación, capacitación y gobernanza",
         ],
       },
@@ -73,30 +75,97 @@ const modulo5: Modulo = {
       },
     },
     {
-      titulo: "5.5 NOM-035-STPS-2018 y su relación con CENI",
+      titulo: "5.5 NOM-035-STPS-2018: qué obliga y a quién",
       parrafos: [
-        "La NOM-035-STPS-2018 (\"Factores de riesgo psicosocial en el trabajo — Identificación, análisis y prevención\") obliga a todo centro de trabajo en México a identificar, analizar y prevenir el riesgo psicosocial, y a promover un entorno organizacional favorable. Las obligaciones se escalonan según el tamaño del centro de trabajo, y se instrumentan con cuatro guías de referencia oficiales.",
+        "La NOM-035-STPS-2018 (\"Factores de riesgo psicosocial en el trabajo — Identificación, análisis y prevención\") es una Norma Oficial Mexicana de cumplimiento obligatorio en todo el territorio nacional. Obliga a todo centro de trabajo a identificar, analizar y prevenir los factores de riesgo psicosocial y a promover un entorno organizacional favorable. Las obligaciones se escalonan según el número de trabajadores, y se instrumentan con cinco guías de referencia oficiales (I a V).",
+        "Un factor de riesgo psicosocial es, según la norma, aquel que puede provocar trastornos de ansiedad, del ciclo sueño-vigilia o de estrés grave y de adaptación, derivado de la naturaleza del puesto, el tipo de jornada, la exposición a acontecimientos traumáticos severos o los actos de violencia laboral.",
       ],
       tabla: {
-        encabezados: ["Tamaño del centro de trabajo", "Guías aplicables", "Obligación adicional"],
+        encabezados: ["Tamaño del centro de trabajo", "Qué debe hacer", "Guías aplicables"],
         filas: [
-          ["1 a 15 trabajadores", "Guía I + Guía IV", "Política de prevención, difusión, identificación de acontecimientos traumáticos severos"],
-          ["16 a 50 trabajadores", "Guía I + Guía II + Guía IV", "Identificación y análisis de factores de riesgo psicosocial (46 reactivos) y evaluación del entorno organizacional"],
-          ["Más de 50 trabajadores", "Guía I + Guía III + Guía IV", "Versión completa del cuestionario (72 reactivos, escala Likert de 5 opciones)"],
+          ["Hasta 15 trabajadores", "Política de prevención, difusión de información e identificación de acontecimientos traumáticos severos (Guía I). No requiere aplicar cuestionario.", "Guía I + Guía IV"],
+          ["16 a 50 trabajadores", "Lo anterior + identificación y análisis de los factores de riesgo psicosocial, a todos los trabajadores. No incluye evaluación del entorno organizacional.", "Guía I + Guía II + Guía IV"],
+          ["Más de 50 trabajadores", "Lo anterior + evaluación del entorno organizacional. La aplicación puede hacerse sobre una muestra representativa.", "Guía I + Guía III + Guía IV"],
         ],
       },
       lista: {
-        titulo: "Qué cubre cada guía de referencia",
+        titulo: "Obligaciones del patrón (Capítulo 5) y de los trabajadores (Capítulo 6)",
         items: [
-          "Guía I — Identifica a quienes fueron sujetos de acontecimientos traumáticos severos durante o con motivo del trabajo (accidentes graves, asaltos, violencia extrema, riesgo de vida, muerte de compañeros). Obligatoria para cualquier tamaño de centro de trabajo; obliga a referir a la persona a atención médica o psicológica.",
-          "Guía II — Cuestionario de identificación y análisis de factores de riesgo psicosocial y evaluación del entorno organizacional, para centros de 16 a 50 trabajadores.",
-          "Guía III — La misma evaluación en su versión completa, para centros de más de 50 trabajadores.",
-          "Guía IV — Ejemplo de política de prevención de riesgos psicosociales, aplicable a cualquier tamaño.",
+          "Patrón: establecer por escrito, implantar y difundir una política de prevención de riesgos psicosociales (aplica a cualquier tamaño).",
+          "Patrón: identificar y analizar los factores de riesgo psicosocial (16+) y evaluar el entorno organizacional (50+).",
+          "Patrón: adoptar medidas de prevención y control, difundir información, llevar registros y practicar exámenes médicos/psicológicos cuando el resultado o las quejas lo sugieran.",
+          "Patrón: identificar a quienes vivieron acontecimientos traumáticos severos y canalizarlos a atención médica o psicológica.",
+          "Trabajadores: observar las medidas de prevención, participar en la identificación, abstenerse de prácticas contrarias al entorno favorable y denunciar la violencia laboral.",
+          "Trabajadores: informar por escrito al patrón sobre acontecimientos traumáticos severos y someterse a los exámenes médicos y evaluaciones que determine la norma.",
         ],
       },
     },
     {
-      titulo: "5.6 Los puntos ciegos de la NOM-035 frente a la neurodivergencia",
+      titulo: "5.6 Cómo se identifican, analizan y evalúan los factores",
+      parrafos: [
+        "El centro de trabajo puede usar las Guías de referencia oficiales (Guía II para 16–50 trabajadores, con 46 reactivos; Guía III para más de 50, con 72 reactivos) o un método propio que cumpla los numerales 7.4 y 7.5. Ambos cuestionarios se responden con una escala Likert de cinco opciones (Siempre / Casi siempre / Algunas veces / Casi nunca / Nunca) y agrupan los reactivos por dimensión, dominio y categoría.",
+        "La diferencia clave entre ambas guías está en la última categoría: solo la Guía III —obligatoria para centros de más de 50 trabajadores— evalúa el entorno organizacional. La Guía II no lo hace.",
+      ],
+      tabla: {
+        encabezados: ["Categoría", "Qué agrupa", "Guía II (16–50)", "Guía III (+50)"],
+        filas: [
+          ["Ambiente de trabajo", "Condiciones peligrosas, inseguras, deficientes o insalubres", "Sí", "Sí"],
+          ["Factores propios de la actividad", "Cargas de trabajo y falta de control sobre el trabajo", "Sí", "Sí"],
+          ["Organización del tiempo de trabajo", "Jornada de trabajo e interferencia trabajo-familia", "Sí", "Sí"],
+          ["Liderazgo y relaciones en el trabajo", "Liderazgo, relaciones y violencia laboral", "Sí", "Sí"],
+          ["Entorno organizacional", "Reconocimiento del desempeño, sentido de pertenencia y estabilidad laboral", "No aplica", "Sí"],
+        ],
+      },
+      lista: {
+        titulo: "Además, la norma exige (numerales 5.8, 7.6 a 7.9)",
+        items: [
+          "Integrar el resultado al diagnóstico de seguridad y salud de la NOM-030-STPS-2009.",
+          "Hacer constar el resultado en un informe con contenido definido (datos del centro, método, resultados, conclusiones, recomendaciones y responsable de la evaluación).",
+          "Mantener el resultado disponible para consulta de los trabajadores, resguardando la confidencialidad de los datos individuales (Guía V — Datos del trabajador).",
+          "Llevar registros de resultados, medidas de control y personal con exposición comprobada.",
+          "Reevaluar los factores de riesgo psicosocial —y el entorno organizacional, en su caso— al menos cada dos años.",
+        ],
+      },
+    },
+    {
+      titulo: "5.7 Niveles de riesgo y qué hacer con el resultado",
+      parrafos: [
+        "La calificación final del cuestionario ubica al centro de trabajo en uno de cinco niveles de riesgo. Cada nivel define la acción que la norma exige adoptar. Los cortes numéricos difieren entre la Guía II (46 reactivos) y la Guía III (72 reactivos), pero la lógica de cinco niveles es la misma.",
+      ],
+      tabla: {
+        encabezados: ["Nivel de riesgo", "Acción que exige la norma (Tabla 4 / Tabla 7)"],
+        filas: [
+          ["Nulo o despreciable", "No se requieren medidas adicionales."],
+          ["Bajo", "Mayor difusión de la política y de los programas de prevención."],
+          ["Medio", "Revisar la política y los programas y reforzar su aplicación y difusión, mediante un Programa de intervención."],
+          ["Alto", "Analizar cada categoría y dominio y aplicar un Programa de intervención (puede incluir evaluación específica), además de revisar la política."],
+          ["Muy alto", "Analizar cada categoría y dominio y aplicar un Programa de intervención que debe incluir evaluaciones específicas y campañas de sensibilización, además de revisar la política."],
+        ],
+      },
+      lista: {
+        titulo: "Los tres niveles de intervención (numeral 8.5)",
+        items: [
+          "Primer nivel (organizacional): actuar sobre la política de prevención y la organización del trabajo.",
+          "Segundo nivel (grupal): sensibilización, manejo de conflictos, trabajo en equipo, comunicación asertiva y refuerzo del apoyo social.",
+          "Tercer nivel (individual): intervención clínica o terapéutica cuando hay signos de alteración a la salud; debe realizarla, invariablemente, un médico, psicólogo o psiquiatra.",
+        ],
+      },
+      destacado: {
+        titulo: "El Programa de intervención (numerales 8.3 y 8.4)",
+        texto:
+          "Cuando el resultado es medio, alto o muy alto, las acciones de control se implementan mediante un Programa que debe indicar: las áreas o trabajadores sujetos al programa, el tipo de acciones y medidas de control, las fechas de realización, el control de avances, la evaluación posterior y el responsable de su ejecución.",
+      },
+    },
+    {
+      titulo: "5.8 Guía I: acontecimientos traumáticos severos y derivación",
+      parrafos: [
+        "La Guía I identifica a las personas trabajadoras que fueron sujetos de un acontecimiento traumático severo durante o con motivo del trabajo (accidentes graves o mortales, asaltos, actos violentos, secuestros, amenazas o cualquier evento que ponga en riesgo la vida o la salud). Es obligatoria para todo centro de trabajo, sin importar su tamaño. Cuando el cuestionario detecta afectación, la norma obliga a canalizar a la persona a atención médica o psicológica (institución de seguridad social o privada, o el médico de la empresa).",
+        "El patrón también debe practicar exámenes médicos y evaluaciones psicológicas cuando existan signos de alteración a la salud, cuando el análisis de los factores de riesgo lo sugiera, o cuando haya quejas de violencia laboral (numeral 5.6).",
+        "Nota de práctica neuroafirmativa: para personal neurodivergente esta derivación tiene un riesgo específico. Una crisis sensorial (meltdown o shutdown) mal entendida por un evaluador sin formación neuroafirmativa puede patologizarse como una crisis psiquiátrica, cuando en realidad es una respuesta neurológica normal a la sobrecarga. Al derivar, la organización debe verificar que quien evalúa tenga formación neuroafirmativa o, como mínimo, advertir explícitamente ese contexto.",
+      ],
+    },
+    {
+      titulo: "5.9 Los puntos ciegos de la NOM-035 frente a la neurodivergencia",
       parrafos: [
         "Los cuestionarios oficiales de la NOM-035 fueron diseñados pensando en una plantilla neurotípica. Eso no los invalida, pero sí significa que pueden no detectar riesgo psicosocial real y severo que sí está presente en personal neurodivergente, porque simplemente no preguntan por él.",
       ],
@@ -117,9 +186,10 @@ const modulo5: Modulo = {
       },
     },
     {
-      titulo: "5.7 Anexo neurodivergente al cuestionario de factores de riesgo psicosocial",
+      titulo: "5.10 Anexo neurodivergente al cuestionario de factores de riesgo psicosocial",
       parrafos: [
         "Este anexo no sustituye ni forma parte de las Guías oficiales de la NOM-035 — es un complemento que Alianza Índigo recomienda aplicar junto con el cuestionario oficial (Guía II o III, según el tamaño del centro de trabajo) para no dejar ciego el riesgo psicosocial específico de personal neurodivergente. Se responde con la misma escala Likert de 5 opciones (Siempre / Casi siempre / Algunas veces / Casi nunca / Nunca).",
+        "Al ser un complemento y no el instrumento oficial, el anexo no reemplaza la validación estadística que el numeral 7.5 exige a los cuestionarios propios (alfa de Cronbach superior a 0.7, entre otros): esa exigencia recae sobre el cuestionario oficial que se sigue aplicando. El anexo aporta señales cualitativas para orientar ajustes y evaluaciones específicas, no una calificación formal de nivel de riesgo.",
       ],
       lista: {
         titulo: "Reactivos sugeridos (aplicar junto con el cuestionario oficial vigente)",
@@ -136,7 +206,7 @@ const modulo5: Modulo = {
       },
     },
     {
-      titulo: "5.8 Protocolo de violencia laboral con enfoque neuroafirmativo",
+      titulo: "5.11 Protocolo de violencia laboral con enfoque neuroafirmativo",
       parrafos: [
         "La NOM-035 obliga a prevenir y atender la violencia laboral, pero su definición genérica de acoso y hostigamiento no siempre reconoce formas de discriminación que solo se activan contra personal neurodivergente. El protocolo de la organización debe nombrarlas explícitamente para que de verdad proteja a esa población, no solo en el papel.",
       ],
@@ -152,10 +222,17 @@ const modulo5: Modulo = {
       },
     },
     {
-      titulo: "5.9 Derivación a exámenes médicos o psicológicos: nota de práctica neuroafirmativa",
+      titulo: "5.12 Verificación, evaluación de la conformidad y vigencia",
       parrafos: [
-        "Cuando la Guía I detecta un acontecimiento traumático severo, la NOM-035 obliga a referir a la persona a atención médica o psicológica (IMSS, ISSSTE, institución privada o el médico de la empresa). Para personal neurodivergente esto tiene un riesgo específico: una crisis sensorial (meltdown o shutdown) mal entendida por un evaluador sin formación neuroafirmativa puede patologizarse como una crisis psiquiátrica, cuando en realidad es una respuesta neurológica normal a sobrecarga.",
-        "Recomendación práctica: al referir a una persona neurodivergente a esta evaluación, la organización debe verificar que quien evalúa tenga formación en el paradigma neuroafirmativo o, como mínimo, advertir explícitamente ese contexto al derivar el caso.",
+        "El cumplimiento de la NOM-035 lo verifica la autoridad laboral (STPS) mediante inspección, y el patrón puede además contratar de forma voluntaria una unidad de verificación acreditada, cuyo dictamen tiene una vigencia de dos años. La evaluación de la conformidad se realiza por constatación, revisión documental, registros o entrevistas.",
+        "La norma entró en vigor de forma escalonada: la política de prevención, la difusión y la identificación de acontecimientos traumáticos severos al año de su publicación; y la identificación y análisis de los factores de riesgo psicosocial, la evaluación del entorno organizacional, el Programa de intervención y las acciones de control, a los dos años. Los centros con certificado vigente de la NMX-R-025-SCFI-2015 (Igualdad Laboral y No Discriminación) dan por cumplidos algunos numerales de la norma.",
+        "Este bloque es el puente hacia el Módulo 10: buena parte de la evidencia documental de cumplimiento de la NOM-035 (política, informe de resultados, registros, Programa) se integra al mismo expediente que se prepara para la certificación CENI.",
+      ],
+    },
+    {
+      titulo: "5.13 Evaluación del módulo 5",
+      parrafos: [
+        "La evaluación del módulo pondera el quiz teórico junto con tres herramientas aplicadas. El quiz debe aprobarse y las tres actividades deben entregarse para dar el módulo por completo.",
       ],
     },
   ],
@@ -174,17 +251,17 @@ const modulo5: Modulo = {
     },
     {
       codigo: "5.C",
-      titulo: "Aplicación del anexo neurodivergente NOM-035",
+      titulo: "Diagnóstico de cumplimiento NOM-035 + anexo neurodivergente",
       duracion: "individual",
       descripcion:
-        "Aplica los ocho reactivos del anexo neurodivergente (sección 5.7) a tu propia organización o a un caso hipotético, e identifica qué factor de riesgo psicosocial revela que el cuestionario oficial de la NOM-035 no habría detectado por sí solo.",
+        "Determina qué guías de la NOM-035 aplican a tu organización según su número de trabajadores; identifica qué obligaciones ya cumple y cuáles no. Después aplica los ocho reactivos del anexo neurodivergente (sección 5.10) e indica qué factor de riesgo psicosocial revela que el cuestionario oficial no habría detectado por sí solo.",
     },
   ],
   evaluacion: [
-    { componente: "Quiz de 12 preguntas sobre derechos humanos, obligaciones legales y NOM-035", tipo: "Opción múltiple", valor: "25%" },
+    { componente: "Quiz de 14 preguntas sobre derechos humanos, obligaciones legales y NOM-035", tipo: "Opción múltiple", valor: "25%" },
     { componente: "Análisis de un cuarto caso práctico", tipo: "Escrito — 400 palabras", valor: "30%" },
     { componente: "Autoevaluación de convencionalidad de la organización", tipo: "Herramienta aplicada", valor: "25%" },
-    { componente: "Aplicación del anexo neurodivergente NOM-035", tipo: "Herramienta aplicada", valor: "20%" },
+    { componente: "Diagnóstico de cumplimiento NOM-035 + anexo neurodivergente", tipo: "Herramienta aplicada", valor: "20%" },
   ],
   quiz: [
     {
@@ -446,34 +523,113 @@ const modulo5: Modulo = {
       pregunta: "Un centro de trabajo con 30 empleados, ¿qué guías de la NOM-035 debe aplicar?",
       opciones: ["Guía I + Guía II + Guía IV", "Solo Guía I", "Guía I + Guía III + Guía IV", "Ninguna, está exento por su tamaño"],
       correcta: 0,
-      explicacion: "Los centros de trabajo de 16 a 50 trabajadores aplican Guía I, Guía II (identificación y análisis de factores de riesgo psicosocial y entorno organizacional) y Guía IV (política).",
+      explicacion: "Los centros de trabajo de 16 a 50 trabajadores aplican Guía I, Guía II (identificación y análisis de factores de riesgo psicosocial) y Guía IV (política).",
     },
     {
       id: "m5q24",
-      pregunta: "Según el módulo, ¿qué le \"pasa desapercibido\" al dominio de Carga de trabajo y control de la NOM-035 en personal neurodivergente?",
+      pregunta: "¿Cuál es la diferencia central entre la Guía II y la Guía III de la NOM-035?",
       opciones: [
-        "La sobrecarga sensorial del entorno y la necesidad de rutina y predictibilidad",
-        "El número de horas trabajadas por semana",
-        "El salario base del puesto",
-        "La antigüedad en la empresa",
+        "Solo la Guía III (más de 50 trabajadores) evalúa el entorno organizacional; la Guía II no lo hace",
+        "La Guía II evalúa el entorno organizacional y la Guía III no",
+        "Ambas evalúan exactamente lo mismo, solo cambia el número de páginas",
+        "La Guía II es para más de 50 trabajadores y la Guía III para 16 a 50",
       ],
       correcta: 0,
-      explicacion: "El cuestionario oficial mide ritmo y autonomía sobre las tareas, pero no pregunta por sobrecarga sensorial ni por la necesidad de rutina y predictibilidad.",
+      explicacion: "La Guía II (16–50 trabajadores) solo identifica y analiza factores de riesgo psicosocial; la evaluación del entorno organizacional es exclusiva de la Guía III, obligatoria para más de 50 trabajadores.",
     },
     {
       id: "m5q25",
-      pregunta: "¿Por qué el burnout autista por masking sostenido no queda bien capturado por la Guía I de acontecimientos traumáticos severos?",
+      pregunta: "¿Cuáles son las cinco categorías que agrupa el cuestionario oficial (Guía III) de la NOM-035?",
       opciones: [
-        "Porque la Guía I está pensada para eventos puntuales (accidentes, asaltos), no para una acumulación sostenida en el tiempo",
-        "Porque el burnout autista no es un fenómeno real",
-        "Porque la Guía I solo aplica a puestos directivos",
-        "Porque el burnout autista solo ocurre fuera del trabajo",
+        "Ambiente de trabajo; factores propios de la actividad; organización del tiempo de trabajo; liderazgo y relaciones; entorno organizacional",
+        "Salario, prestaciones, horario, vacaciones y aguinaldo",
+        "Reclutamiento, selección, inducción, desarrollo y retención",
+        "Iluminación, ruido, temperatura, olores y señalización",
       ],
       correcta: 0,
-      explicacion: "La Guía I está diseñada para eventos traumáticos puntuales y severos; el burnout autista es una acumulación de agotamiento por masking sostenido, no un evento único, por lo que el instrumento no lo captura bien.",
+      explicacion: "El cuestionario agrupa los reactivos en cinco categorías: ambiente de trabajo; factores propios de la actividad; organización del tiempo de trabajo; liderazgo y relaciones en el trabajo; y entorno organizacional (esta última solo en la Guía III).",
     },
     {
       id: "m5q26",
+      pregunta: "Cuando el resultado del cuestionario arroja un nivel de riesgo \"muy alto\", ¿qué exige la norma?",
+      opciones: [
+        "Analizar cada categoría y dominio y aplicar un Programa de intervención con evaluaciones específicas y campañas de sensibilización",
+        "No tomar ninguna medida adicional",
+        "Despedir al personal con mayor puntaje",
+        "Reducir el cuestionario a la mitad de reactivos",
+      ],
+      correcta: 0,
+      explicacion: "Para el nivel muy alto la norma exige analizar cada categoría y dominio y aplicar un Programa de intervención que debe incluir evaluaciones específicas y campañas de sensibilización, además de revisar la política.",
+    },
+    {
+      id: "m5q27",
+      pregunta: "El Programa de intervención de la NOM-035 (numerales 8.3–8.4) debe contener, entre otros:",
+      opciones: [
+        "Áreas o trabajadores sujetos, tipo de acciones, fechas, control de avances, evaluación posterior y responsable",
+        "Solo el nombre del director general",
+        "Únicamente el presupuesto de marketing",
+        "El organigrama completo de la empresa",
+      ],
+      correcta: 0,
+      explicacion: "El Programa debe indicar las áreas o trabajadores sujetos, el tipo de acciones y medidas de control, las fechas, el control de avances, la evaluación posterior y el responsable de su ejecución.",
+    },
+    {
+      id: "m5q28",
+      pregunta: "El tercer nivel de intervención de la NOM-035 (numeral 8.5) se refiere a:",
+      opciones: [
+        "Intervención clínica o terapéutica individual, realizada por médico, psicólogo o psiquiatra",
+        "Acciones sobre la política de prevención de toda la organización",
+        "Sensibilización grupal y trabajo en equipo",
+        "La contratación de más personal de limpieza",
+      ],
+      correcta: 0,
+      explicacion: "El tercer nivel es individual: se desarrolla cuando hay signos de alteración a la salud e incluye intervención clínica o terapéutica, que debe realizar invariablemente un médico, psicólogo o psiquiatra.",
+    },
+    {
+      id: "m5q29",
+      pregunta: "¿Con qué periodicidad mínima debe reevaluarse la identificación y análisis de los factores de riesgo psicosocial?",
+      opciones: ["Al menos cada dos años", "Cada mes", "Una sola vez y nunca más", "Cada diez años"],
+      correcta: 0,
+      explicacion: "El numeral 7.9 exige realizar la identificación y análisis —y la evaluación del entorno organizacional, en su caso— al menos cada dos años.",
+    },
+    {
+      id: "m5q30",
+      pregunta: "Respecto al resultado de la evaluación, ¿qué exige la NOM-035 sobre su manejo?",
+      opciones: [
+        "Constar en un informe, estar disponible para consulta de los trabajadores y resguardar la confidencialidad de los datos individuales",
+        "Publicarse con nombre y puntaje de cada trabajador en el periódico mural",
+        "Destruirse inmediatamente después de aplicarse",
+        "Entregarse únicamente a la competencia",
+      ],
+      correcta: 0,
+      explicacion: "El resultado debe constar en un informe (7.7), estar disponible para consulta de los trabajadores (7.8) y resguardar la confidencialidad de los datos individuales (Guía V).",
+    },
+    {
+      id: "m5q31",
+      pregunta: "Según la NOM-035, ¿qué debe hacer el patrón cuando la Guía I detecta un acontecimiento traumático severo?",
+      opciones: [
+        "Canalizar a la persona a atención médica o psicológica",
+        "Registrar el caso y no hacer nada más",
+        "Descontar el día de trabajo",
+        "Reasignar a la persona a otra sucursal sin más",
+      ],
+      correcta: 0,
+      explicacion: "La norma obliga a identificar a quienes vivieron un acontecimiento traumático severo y canalizarlos a atención médica o psicológica (institución de seguridad social o privada, o médico de la empresa).",
+    },
+    {
+      id: "m5q32",
+      pregunta: "¿Cuál es una obligación de los trabajadores según el Capítulo 6 de la NOM-035?",
+      opciones: [
+        "Participar en la identificación de los factores de riesgo y denunciar la violencia laboral",
+        "Diseñar por su cuenta la política de prevención",
+        "Contratar a la unidad de verificación",
+        "Aprobar el presupuesto anual del centro de trabajo",
+      ],
+      correcta: 0,
+      explicacion: "Los trabajadores deben observar las medidas de prevención, participar en la identificación de los factores de riesgo, abstenerse de prácticas contrarias al entorno favorable y denunciar la violencia laboral.",
+    },
+    {
+      id: "m5q33",
       pregunta: "¿Qué es, según el módulo, el \"anexo neurodivergente\" al cuestionario de factores de riesgo psicosocial?",
       opciones: [
         "Un complemento recomendado por Alianza Índigo para aplicar junto con la Guía oficial, no un sustituto de esta",
@@ -485,7 +641,19 @@ const modulo5: Modulo = {
       explicacion: "El anexo neurodivergente no sustituye ni forma parte de las guías oficiales; es un complemento que se aplica junto con el cuestionario oficial vigente.",
     },
     {
-      id: "m5q27",
+      id: "m5q34",
+      pregunta: "¿Por qué el burnout autista por masking sostenido no queda bien capturado por la Guía I de acontecimientos traumáticos severos?",
+      opciones: [
+        "Porque la Guía I está pensada para eventos puntuales (accidentes, asaltos), no para una acumulación sostenida en el tiempo",
+        "Porque el burnout autista no es un fenómeno real",
+        "Porque la Guía I solo aplica a puestos directivos",
+        "Porque el burnout autista solo ocurre fuera del trabajo",
+      ],
+      correcta: 0,
+      explicacion: "La Guía I está diseñada para eventos traumáticos puntuales y severos; el burnout autista es una acumulación de agotamiento por masking sostenido, no un evento único, por lo que el instrumento no lo captura bien.",
+    },
+    {
+      id: "m5q35",
       pregunta: "¿Cuál de las siguientes es una forma de violencia laboral hacia personal neurodivergente que un protocolo genérico de acoso puede no reconocer, según el módulo?",
       opciones: [
         "Burlarse o pedir que se detenga el stimming de una persona",
@@ -497,19 +665,19 @@ const modulo5: Modulo = {
       explicacion: "Burlarse del stimming es un ejemplo de violencia laboral específica hacia personas neurodivergentes que un protocolo genérico de acoso puede no nombrar explícitamente.",
     },
     {
-      id: "m5q28",
-      pregunta: "Cuando la Guía I detecta un acontecimiento traumático severo, ¿qué obliga a hacer la NOM-035?",
+      id: "m5q36",
+      pregunta: "Según el módulo, ¿qué le \"pasa desapercibido\" al dominio de carga de trabajo y control de la NOM-035 en personal neurodivergente?",
       opciones: [
-        "Referir a la persona a atención médica o psicológica (IMSS, ISSSTE, institución privada o médico de la empresa)",
-        "Despedir a la persona por seguridad de terceros",
-        "Ignorar el resultado si la persona no lo solicita expresamente",
-        "Notificar únicamente a Recursos Humanos, sin ninguna acción de atención",
+        "La sobrecarga sensorial del entorno y la necesidad de rutina y predictibilidad",
+        "El número de horas trabajadas por semana",
+        "El salario base del puesto",
+        "La antigüedad en la empresa",
       ],
       correcta: 0,
-      explicacion: "La NOM-035 obliga a referir a la persona identificada a atención médica o psicológica, ya sea institucional, privada o de la empresa.",
+      explicacion: "El cuestionario oficial mide ritmo y autonomía sobre las tareas, pero no pregunta por sobrecarga sensorial ni por la necesidad de rutina y predictibilidad.",
     },
     {
-      id: "m5q29",
+      id: "m5q37",
       pregunta: "¿Qué riesgo específico señala el módulo al derivar a una persona neurodivergente a evaluación psicológica tras una crisis sensorial?",
       opciones: [
         "Que un evaluador sin formación neuroafirmativa patologice una respuesta neurológica normal como si fuera una crisis psiquiátrica",
@@ -521,7 +689,7 @@ const modulo5: Modulo = {
       explicacion: "Un meltdown o shutdown mal entendido por alguien sin formación neuroafirmativa puede patologizarse como crisis psiquiátrica, cuando es una respuesta neurológica normal a sobrecarga.",
     },
     {
-      id: "m5q30",
+      id: "m5q38",
       pregunta: "¿Con qué escala de respuesta se sugiere aplicar el anexo neurodivergente, para ser consistente con el cuestionario oficial de la NOM-035?",
       opciones: [
         "Escala Likert de 5 opciones (Siempre / Casi siempre / Algunas veces / Casi nunca / Nunca)",
@@ -531,6 +699,25 @@ const modulo5: Modulo = {
       ],
       correcta: 0,
       explicacion: "El anexo se responde con la misma escala Likert de 5 opciones que usa el cuestionario oficial de la NOM-035, para mantener consistencia metodológica.",
+    },
+    {
+      id: "m5q39",
+      pregunta: "El dictamen de una unidad de verificación de la NOM-035 tiene una vigencia de:",
+      opciones: ["Dos años", "Un mes", "Diez años", "No tiene vigencia definida"],
+      correcta: 0,
+      explicacion: "El dictamen emitido por una unidad de verificación acreditada tiene una vigencia de dos años, siempre que no se modifiquen las condiciones que sirvieron para su emisión.",
+    },
+    {
+      id: "m5q40",
+      pregunta: "¿Por qué el anexo neurodivergente no está sujeto a la validación estadística del numeral 7.5 (alfa de Cronbach, etc.)?",
+      opciones: [
+        "Porque es un complemento cualitativo, no el instrumento oficial que arroja la calificación de nivel de riesgo",
+        "Porque la STPS lo eximió expresamente",
+        "Porque ningún cuestionario en México requiere validación",
+        "Porque reemplaza por completo a la Guía II o III",
+      ],
+      correcta: 0,
+      explicacion: "La validación del 7.5 recae sobre el cuestionario oficial que sigue aplicándose; el anexo aporta señales cualitativas para orientar ajustes, no una calificación formal de nivel de riesgo.",
     },
   ],
 };

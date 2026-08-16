@@ -37,6 +37,7 @@ Situación actual:
     "Diseña un Plan de Mejora Prioritizado con 5 acciones SMART para los próximos 90 días.",
     "Propón el perfil del Responsable de Neuroinclusión que debería contratar Los Pinos.",
     "Indica qué nivel CENI podría alcanzar Los Pinos al implementar tu plan, y en cuánto tiempo.",
+    "Cumplimiento NOM-035: con sus 45 empleados, indica qué guías de la NOM-035 le aplican, qué obligaciones incumple hoy (política, identificación y análisis de factores de riesgo, mecanismo de quejas por violencia laboral) y cómo tu plan CENI genera evidencia para cumplirlas.",
   ],
   formato: "Entrega en formato escrito (mínimo 1,000 palabras) o presentación de 10–15 diapositivas.",
 };
