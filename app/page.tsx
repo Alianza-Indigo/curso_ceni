@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { modulos, getModuloById, getModuloAdyacente, moduloDesbloqueado } from "@/lib/data/modulos";
 import { obtenerProgreso } from "@/lib/progreso-server";
 import ReiniciarProgreso from "@/components/ReiniciarProgreso";
+import Landing from "@/components/Landing";
 import { CheckCircle2, Circle, Clock, ArrowRight, Award, Lock } from "lucide-react";
 
 export default async function Dashboard({
@@ -12,7 +12,7 @@ export default async function Dashboard({
   searchParams: Promise<{ bloqueado?: string; examenBloqueado?: string }>;
 }) {
   const session = await auth();
-  if (!session?.user?.id) redirect("/login");
+  if (!session?.user?.id) return <Landing />;
 
   const progreso = await obtenerProgreso(session.user.id);
   const { bloqueado, examenBloqueado } = await searchParams;

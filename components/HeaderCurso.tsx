@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useEffect, useSyncExternalStore } from "react";
 import { Waves, GraduationCap, LogOut } from "lucide-react";
 import { signOutAction } from "@/app/actions/auth";
@@ -29,6 +30,7 @@ function leerCalmaServidor() {
 }
 
 export default function HeaderCurso({ usuario }: { usuario: Usuario }) {
+  const pathname = usePathname();
   const calma = useSyncExternalStore(subscribeCalma, leerCalma, leerCalmaServidor);
 
   useEffect(() => {
@@ -39,6 +41,9 @@ export default function HeaderCurso({ usuario }: { usuario: Usuario }) {
     window.localStorage.setItem(CALM_KEY, String(!calma));
     window.dispatchEvent(new Event(CALM_EVENT));
   }
+
+  // La landing pública (usuario no autenticado en "/") trae su propio encabezado.
+  if (!usuario && pathname === "/") return null;
 
   return (
     <header className="sticky top-0 z-40 border-b border-[#eee9f7] bg-white/95 backdrop-blur">
