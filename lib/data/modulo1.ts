@@ -104,14 +104,14 @@ const modulo1: Modulo = {
     {
       codigo: "1.A",
       titulo: "Glosario personal neuroafirmativo",
-      duracion: "15 minutos · individual o en parejas",
+      duracion: "15 minutos · individual",
       descripcion:
         'Revisa una lista de 20 frases comunes sobre neurodivergencia y reescríbelas usando lenguaje neuroafirmativo. Ejemplo: "El niño sufre de autismo severo" → "El niño es autista y requiere apoyos de alta intensidad."',
     },
     {
       codigo: "1.B",
       titulo: "Mapa de mi entorno",
-      duracion: "20 minutos · equipos de 3-5",
+      duracion: "20 minutos · individual",
       descripcion:
         "Selecciona un espacio de tu organización y analízalo desde la perspectiva de una persona neurodivergente: ¿qué barreras sensoriales existen? ¿Qué situaciones podrían requerir masking? ¿Hay espacio para el stimming?",
     },
@@ -126,7 +126,7 @@ const modulo1: Modulo = {
   evaluacion: [
     { componente: "Quiz de 10 preguntas (definiciones y paradigma neuroafirmativo)", tipo: "Opción múltiple", valor: "40%" },
     { componente: "Actividad 1.B — Mapa del entorno (entregable escrito)", tipo: "Práctica", valor: "40%" },
-    { componente: "Participación en plenaria", tipo: "Observacional", valor: "20%" },
+    { componente: "Actividad 1.C — Reflexión sobre los Derechos Índigo (entregable escrito)", tipo: "Reflexión", valor: "20%" },
   ],
   quiz: [
     {

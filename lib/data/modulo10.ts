@@ -114,7 +114,7 @@ const modulo10: Modulo = {
     {
       codigo: "10.B",
       titulo: "Simulacro de organización de expediente",
-      duracion: "en equipo",
+      duracion: "individual",
       descripcion: "Organiza un expediente de evidencias de muestra siguiendo la nomenclatura oficial CENI.",
     },
   ],

@@ -75,26 +75,26 @@ const modulo3: Modulo = {
   actividades: [
     {
       codigo: "3.A",
-      titulo: "Simulacro de crisis sensorial",
-      duracion: "con facilitador",
-      descripcion: "Se simula una crisis de shutdown en el espacio de trabajo. El equipo debe identificar la crisis, aplicar el protocolo y documentar el incidente.",
+      titulo: "Análisis de un caso de crisis sensorial",
+      duracion: "individual",
+      descripcion: "A partir de un caso escrito de crisis de shutdown, identifica las señales de pre-crisis, enumera paso a paso las acciones correctas del protocolo de acompañamiento no punitivo (por fase) y las que nunca deben hacerse.",
     },
     {
       codigo: "3.B",
       titulo: "Diseño de espacio de calma",
-      duracion: "en equipo",
+      duracion: "individual",
       descripcion: "Identifica un espacio disponible en tu organización y elabora un plano de adecuación que cumpla los ocho requisitos CENI, con presupuesto estimado y cronograma.",
     },
     {
       codigo: "3.C",
       titulo: "Formato RIS",
       duracion: "individual",
-      descripcion: "Completa un Registro de Incidentes Sensoriales usando un caso hipotético proporcionado por el facilitador.",
+      descripcion: "Completa un Registro de Incidentes Sensoriales usando un caso hipotético proporcionado en el material del módulo.",
     },
   ],
   evaluacion: [
     { componente: "Quiz de 10 preguntas sobre meltdown, shutdown y protocolos", tipo: "Opción múltiple", valor: "30%" },
-    { componente: "Simulacro de crisis — evaluación del facilitador", tipo: "Práctica observacional", valor: "40%" },
+    { componente: "Análisis de caso de crisis sensorial (entregable escrito)", tipo: "Práctica aplicada", valor: "40%" },
     { componente: "Diseño de espacio de calma (plano + presupuesto)", tipo: "Práctica aplicada", valor: "30%" },
   ],
   quiz: [

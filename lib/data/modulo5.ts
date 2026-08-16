@@ -242,7 +242,7 @@ const modulo5: Modulo = {
       codigo: "5.A",
       titulo: "Análisis de un cuarto caso práctico",
       duracion: "individual · 400 palabras",
-      descripcion: "El facilitador proporciona un cuarto caso. Analízalo con el mismo esquema jurídico: hechos, análisis jurídico, respuesta CENI aplicable.",
+      descripcion: "Se te proporciona un cuarto caso en el material del módulo. Analízalo con el mismo esquema jurídico: hechos, análisis jurídico y respuesta CENI aplicable.",
     },
     {
       codigo: "5.B",

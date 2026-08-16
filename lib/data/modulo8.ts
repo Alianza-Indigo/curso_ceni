@@ -102,7 +102,7 @@ const modulo8: Modulo = {
     {
       codigo: "8.B",
       titulo: "Diseño de canal de retroalimentación y log de seguimiento",
-      duracion: "en equipo",
+      duracion: "individual",
       descripcion: "Diseña un canal de retroalimentación simple, accesible, anónimo y trazable, con su log de seguimiento.",
     },
   ],
