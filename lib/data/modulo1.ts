@@ -4,7 +4,7 @@ const modulo1: Modulo = {
   id: "m1",
   numero: 1,
   titulo: "Neurodiversidad 101",
-  duracion: "90 minutos",
+  duracion: "20 minutos",
   dirigidoA: "Todo público",
   preguntasPorIntento: 10,
   objetivos: [
@@ -20,6 +20,7 @@ const modulo1: Modulo = {
       parrafos: [
         'El término neurodiversidad, acuñado por la socióloga autista Judy Singer en 1998, describe el hecho biológico de que los cerebros humanos presentan variaciones naturales en su funcionamiento, igual que los cuerpos humanos presentan variaciones en estatura, pigmentación o metabolismo. La neurodiversidad no es una patología: es un descriptor de la realidad biológica de la especie.',
         "Se dice que una persona es neurodivergente cuando su neurología difiere del patrón estadísticamente mayoritario (llamado \"neurotípico\") de manera que afecta —positiva o negativamente— su forma de procesar información, comunicarse, relacionarse, aprender o experimentar el entorno sensorial.",
+        "Una persona neurotípica es aquella cuya neurología sigue el patrón estadísticamente dominante. Es un término descriptivo, no un elogio. El mundo está mayoritariamente diseñado para personas neurotípicas, lo que genera barreras sistemáticas para personas neurodivergentes.",
       ],
       lista: {
         titulo: "Variaciones del neurodesarrollo más documentadas",
@@ -72,7 +73,9 @@ const modulo1: Modulo = {
         "El stimming (autoestimulación) es cualquier comportamiento repetitivo, rítmico o sensorial que una persona neurodivergente realiza para regular su sistema nervioso: motor (balanceo, aleteo de manos, saltar), sensorial (tocar texturas, presión profunda), vocal (tararear, repetir palabras) o visual (mirar objetos giratorios, luces).",
         "El stimming es funcional, no problemático. Suprimirlo —mediante regaños, \"corrección de conducta\" o cualquier forma de presión social— produce ansiedad, desregulación y daño psicológico. El Derecho 1 de los Derechos Índigo protege explícitamente el stimming sin sanción.",
         "El masking (enmascaramiento) es el proceso por el cual una persona neurodivergente suprime o camufla sus rasgos neurodivergentes naturales para cumplir expectativas sociales neurotípicas. Implica un esfuerzo cognitivo y emocional enorme —equivalente a actuar en un idioma extranjero todo el día— y su práctica sostenida está asociada con agotamiento severo (burnout autista), depresión y pérdida de identidad.",
-        "La autorregulación es la capacidad de modular el estado interno (sensorial, emocional, cognitivo) para funcionar de manera efectiva en el entorno. Los entornos CENI deben diseñarse para apoyar —no obstaculizar— los procesos de autorregulación: zonas de calma, señalización predecible, reducción de estímulos no esenciales y tiempos de transición adecuados.",
+        "CENI evalúa si los entornos promueven o exigen el masking como condición de participación. Los entornos que lo exigen no pueden certificarse, independientemente de sus puntuaciones en otras dimensiones.",
+        "La autorregulación es la capacidad de modular el estado interno (sensorial, emocional, cognitivo) para funcionar de manera efectiva en el entorno. Las personas neurodivergentes pueden tener umbrales de autorregulación diferentes: mayor sensibilidad a la sobreestimulación, mayor dificultad para recuperarse de estados de alta activación o mayor necesidad de rutina y predictibilidad.",
+        "Los entornos CENI deben diseñarse para apoyar —no obstaculizar— los procesos de autorregulación: zonas de calma, señalización predecible, reducción de estímulos no esenciales y tiempos de transición adecuados.",
       ],
       destacado: {
         titulo: "Protocolo CENI — Stimming en entornos laborales y de servicio",
