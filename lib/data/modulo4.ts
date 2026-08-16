@@ -79,13 +79,13 @@ const modulo4: Modulo = {
     {
       codigo: "4.A",
       titulo: "Auditoría sensorial con instrumentos",
-      duracion: "en equipo",
+      duracion: "individual",
       descripcion: "Con luxómetro y app de sonómetro, mide los niveles de iluminación y ruido en cinco puntos del espacio de trabajo y compáralos con los umbrales CENI.",
     },
     {
       codigo: "4.B",
       titulo: "Mapa sensorial del espacio",
-      duracion: "en equipo",
+      duracion: "individual",
       descripcion: "Elabora el mapa sensorial de tu área de trabajo usando la plantilla CENI y propón ajustes para cumplir los umbrales de certificación.",
     },
     {

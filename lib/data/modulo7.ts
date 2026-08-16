@@ -120,13 +120,13 @@ const modulo7: Modulo = {
     {
       codigo: "7.A",
       titulo: "Autoevaluación CENI Espacios",
-      duracion: "en equipo",
+      duracion: "individual",
       descripcion: "Evalúa el espacio en los 30 criterios con evidencia real disponible; calcula la puntuación por dimensión y total, e identifica la brecha hacia el nivel objetivo.",
     },
     {
       codigo: "7.B",
       titulo: "Planificación de horario de baja estimulación",
-      duracion: "en equipo",
+      duracion: "individual",
       descripcion: "Diseña un horario de baja estimulación: horarios, estímulos que se reducen, forma de comunicarlo al público, y responsable de implementación.",
     },
   ],

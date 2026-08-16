@@ -148,13 +148,13 @@ const modulo6: Modulo = {
     {
       codigo: "6.A",
       titulo: "Autoevaluación CENI Laboral",
-      duracion: "en equipo",
+      duracion: "individual",
       descripcion: "Usando el instrumento oficial, evalúa tu organización en los 30 criterios, asigna puntuación parcial o plena e identifica prioridades de mejora.",
     },
     {
       codigo: "6.B",
       titulo: "Plan de Mejora Prioritizado",
-      duracion: "en equipo",
+      duracion: "individual",
       descripcion: "Con base en la autoevaluación, elabora un plan con los 5 criterios de mayor brecha: acción, responsable, presupuesto, fecha compromiso y evidencia.",
     },
   ],

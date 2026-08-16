@@ -5,7 +5,7 @@ const modulo9: Modulo = {
   numero: 9,
   titulo: "Implementación Práctica por Tipo de Actor",
   duracion: "90 minutos",
-  dirigidoA: "Segmentado por perfil — ver instrucciones del facilitador",
+  dirigidoA: "Segmentado por perfil (elige tu ruta según tu rol)",
   preguntasPorIntento: 6,
   objetivos: [
     "Aplicar los principios CENI a las responsabilidades específicas de cada tipo de actor.",

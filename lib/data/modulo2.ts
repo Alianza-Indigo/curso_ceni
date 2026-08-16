@@ -87,22 +87,22 @@ const modulo2: Modulo = {
     {
       codigo: "2.B",
       titulo: "Script de comunicación accesible",
-      duracion: "en parejas",
+      duracion: "individual",
       descripcion:
         "Diseña un script para tres situaciones de alta demanda: informar un cambio de servicio, dar retroalimentación negativa a un colaborador neurodivergente, y responder a una crisis sensorial en atención al público.",
     },
     {
       codigo: "2.C",
-      titulo: "Roleplay con tiempos de procesamiento extendidos",
-      duracion: "en parejas",
+      titulo: "Autoobservación de tiempos de procesamiento",
+      duracion: "individual",
       descripcion:
-        "Un participante adopta el rol de persona con tiempo de procesamiento extendido (espera 30 segundos antes de responder). Reflexión: ¿cómo se sintió la espera? ¿Cuántas veces llenaste el silencio innecesariamente?",
+        "Durante un día de trabajo, observa tus propias interacciones y registra al menos tres momentos en los que llenaste un silencio antes de que la otra persona terminara de procesar o responder. Para cada uno, anota qué habrías hecho distinto para dar más tiempo de respuesta. Cierra con una reflexión de 200 palabras: ¿qué te costó y qué vas a cambiar?",
     },
   ],
   evaluacion: [
     { componente: "Quiz de 10 preguntas sobre principios y SAAC", tipo: "Opción múltiple", valor: "30%" },
     { componente: "Script de comunicación accesible (Actividad 2.B)", tipo: "Práctica escrita", valor: "50%" },
-    { componente: "Reflexión del roleplay (Actividad 2.C) — 200 palabras", tipo: "Reflexión", valor: "20%" },
+    { componente: "Autoobservación de tiempos de procesamiento (Actividad 2.C) — 200 palabras", tipo: "Reflexión", valor: "20%" },
   ],
   quiz: [
     {
