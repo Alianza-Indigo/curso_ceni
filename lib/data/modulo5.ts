@@ -105,6 +105,7 @@ const modulo5: Modulo = {
       parrafos: [
         "El centro de trabajo puede usar las Guías de referencia oficiales (Guía II para 16–50 trabajadores, con 46 reactivos; Guía III para más de 50, con 72 reactivos) o un método propio que cumpla los numerales 7.4 y 7.5. Ambos cuestionarios se responden con una escala Likert de cinco opciones (Siempre / Casi siempre / Algunas veces / Casi nunca / Nunca) y agrupan los reactivos por dimensión, dominio y categoría.",
         "La diferencia clave entre ambas guías está en la última categoría: solo la Guía III —obligatoria para centros de más de 50 trabajadores— evalúa el entorno organizacional. La Guía II no lo hace.",
+        "El curso incluye ambos cuestionarios oficiales listos para aplicar, con calificación automática y determinación del nivel de riesgo: el formato F-19 (Guía II, 46 reactivos) y el F-20 (Guía III, 72 reactivos). Con ellos la organización cumple el corazón de la norma; el anexo neurodivergente (F-18, sección 5.10) se aplica junto a ellos como complemento.",
       ],
       tabla: {
         encabezados: ["Categoría", "Qué agrupa", "Guía II (16–50)", "Guía III (+50)"],

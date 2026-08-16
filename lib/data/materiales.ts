@@ -215,4 +215,6 @@ export const formatosDescargables: { codigo: string; nombre: string }[] = [
   { codigo: "F-16", nombre: "Modelo de política de prevención de riesgos psicosociales NOM-035 (base Guía IV) — Word editable" },
   { codigo: "F-17", nombre: "Checklist de cumplimiento NOM-035-STPS-2018 — Excel y PDF" },
   { codigo: "F-18", nombre: "Anexo neurodivergente al cuestionario de factores de riesgo psicosocial — instrumento aplicable (Excel y PDF)" },
+  { codigo: "F-19", nombre: "Cuestionario oficial NOM-035 — Guía de Referencia II (16–50 trabajadores, 46 reactivos) con calificación automática — Excel y PDF" },
+  { codigo: "F-20", nombre: "Cuestionario oficial NOM-035 — Guía de Referencia III (más de 50 trabajadores, 72 reactivos) con calificación automática — Excel y PDF" },
 ];
