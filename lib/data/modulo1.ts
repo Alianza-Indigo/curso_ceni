@@ -4,7 +4,7 @@ const modulo1: Modulo = {
   id: "m1",
   numero: 1,
   titulo: "Neurodiversidad 101",
-  duracion: "90 minutos",
+  duracion: "20 minutos",
   dirigidoA: "Todo público",
   preguntasPorIntento: 10,
   objetivos: [
