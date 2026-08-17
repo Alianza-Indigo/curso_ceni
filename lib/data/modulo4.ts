@@ -7,6 +7,10 @@ const modulo4: Modulo = {
   duracion: "120 minutos",
   dirigidoA: "Propietarios, gestores, arquitectos, docentes",
   preguntasPorIntento: 10,
+  recursos: [
+    { codigo: "F-04", nombre: "Plantilla de Mapa Sensorial", formato: "Word", archivo: "/recursos/formatos/F-04_Plantilla_Mapa_Sensorial.docx" },
+    { codigo: "F-13", nombre: "Guía de mapa sensorial para usuarios y familias", formato: "PDF", archivo: "/recursos/formatos/F-13_Guia_Mapa_Sensorial_Familias.pdf" },
+  ],
   objetivos: [
     "Aplicar los principios del Diseño Universal para el Aprendizaje (DUA) y el Diseño Universal de Servicios en entornos neurodivergentes.",
     "Identificar y medir umbrales cuantitativos de accesibilidad sensorial (lux, dB, temperatura, etc.).",

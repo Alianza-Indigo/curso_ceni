@@ -7,6 +7,11 @@ const modulo6: Modulo = {
   duracion: "150 minutos",
   dirigidoA: "Propietarios, RRHH, directivos, responsables de neuroinclusión",
   preguntasPorIntento: 15,
+  recursos: [
+    { codigo: "F-02", nombre: "Instrumento de Autoevaluación CENI Laboral (con puntuación automática)", formato: "Excel", archivo: "/recursos/formatos/F-02_Autoevaluacion_CENI_Laboral.xlsx" },
+    { codigo: "F-05", nombre: "Plan de Mejora Continua de Neuroinclusión (PMCN)", formato: "Excel", archivo: "/recursos/formatos/F-05_Plan_Mejora_Continua_PMCN.xlsx" },
+    { codigo: "F-08", nombre: "Checklist pre-auditoría CENI Laboral", formato: "Excel", archivo: "/recursos/formatos/F-08_Checklist_Preauditoria_CENI_Laboral.xlsx" },
+  ],
   objetivos: [
     "Conocer en profundidad las seis dimensiones y treinta criterios de CENI Laboral.",
     "Comprender el sistema de puntuación, evidencias requeridas y umbrales de certificación.",

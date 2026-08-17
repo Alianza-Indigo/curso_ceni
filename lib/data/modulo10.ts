@@ -7,6 +7,11 @@ const modulo10: Modulo = {
   duracion: "60 minutos",
   dirigidoA: "Responsable de Neuroinclusión, propietarios, directivos",
   preguntasPorIntento: 10,
+  recursos: [
+    { codigo: "F-10", nombre: "Guía de organización del expediente de evidencias", formato: "PDF", archivo: "/recursos/formatos/F-10_Guia_Organizacion_Expediente.pdf" },
+    { codigo: "F-14", nombre: "Modelo de declaración de política de neuroinclusión (sitio web y cartelería)", formato: "Word", archivo: "/recursos/formatos/F-14_Modelo_Politica_Neuroinclusion.docx" },
+    { codigo: "F-17", nombre: "Checklist de cumplimiento NOM-035-STPS-2018", formato: "Excel", archivo: "/recursos/nom035/F-17_Checklist_Cumplimiento_NOM-035.xlsx" },
+  ],
   objetivos: [
     "Conocer el proceso completo de solicitud, evaluación y obtención de la certificación CENI.",
     "Organizar el expediente de evidencias de manera que cumpla los requisitos del auditor.",

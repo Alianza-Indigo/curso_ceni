@@ -7,6 +7,11 @@ const modulo7: Modulo = {
   duracion: "150 minutos",
   dirigidoA: "Propietarios, gestores de espacios, arquitectos, administradores públicos",
   preguntasPorIntento: 15,
+  recursos: [
+    { codigo: "F-03", nombre: "Instrumento de Autoevaluación CENI Espacios (con puntuación automática)", formato: "Excel", archivo: "/recursos/formatos/F-03_Autoevaluacion_CENI_Espacios.xlsx" },
+    { codigo: "F-07", nombre: "Plantilla de Manual Operativo de Neuroinclusión del Espacio (MONE)", formato: "Word", archivo: "/recursos/formatos/F-07_Plantilla_MONE.docx" },
+    { codigo: "F-09", nombre: "Checklist pre-auditoría CENI Espacios", formato: "Excel", archivo: "/recursos/formatos/F-09_Checklist_Preauditoria_CENI_Espacios.xlsx" },
+  ],
   objetivos: [
     "Conocer las seis dimensiones y treinta criterios de CENI Espacios con énfasis en umbrales sensoriales objetivos.",
     "Distinguir la aplicación de CENI Espacios en contextos educativos, comerciales, de salud y gubernamentales.",

@@ -7,6 +7,9 @@ const modulo3: Modulo = {
   duracion: "90 minutos",
   dirigidoA: "Todo público",
   preguntasPorIntento: 10,
+  recursos: [
+    { codigo: "F-01", nombre: "Registro de Incidentes Sensoriales (RIS)", formato: "Excel", archivo: "/recursos/formatos/F-01_Registro_Incidentes_Sensoriales.xlsx" },
+  ],
   objetivos: [
     "Distinguir correctamente entre meltdown y shutdown y su etiología sensorial/emocional.",
     "Aplicar protocolos no punitivos de acompañamiento durante una crisis.",

@@ -96,21 +96,42 @@ export default function MaterialesPage() {
 
       <section className="mt-10">
         <h2 className="flex items-center gap-2 font-serif text-2xl font-bold text-[#070b2f]">
-          <FileDown className="h-5 w-5 text-[#4b18a8]" /> Formatos descargables (referencia)
+          <FileDown className="h-5 w-5 text-[#4b18a8]" /> Formatos descargables
         </h2>
         <p className="mt-2 text-sm text-[#6c6690]">
-          Disponibles en alianzaindigo.org/ceni/recursos
+          Plantillas e instrumentos del programa CENI y de la NOM-035, listos para descargar y usar.
         </p>
         <ul className="mt-4 grid gap-2 sm:grid-cols-2">
-          {formatosDescargables.map((f) => (
-            <li
-              key={f.codigo}
-              className="flex gap-3 rounded-lg border border-[#e5def4] bg-[#fbfaff] p-3 text-sm text-[#20234a]"
-            >
-              <span className="font-black text-[#dda632]">{f.codigo}</span>
-              <span>{f.nombre}</span>
-            </li>
-          ))}
+          {formatosDescargables.map((f) =>
+            f.archivo ? (
+              <li key={f.codigo}>
+                <a
+                  href={f.archivo}
+                  download
+                  className="flex h-full items-start gap-3 rounded-lg border border-[#e5def4] bg-white p-3 text-sm text-[#20234a] transition-colors hover:border-[#4b18a8] hover:bg-[#f5f1ff]"
+                >
+                  <span className="mt-0.5 font-black text-[#dda632]">{f.codigo}</span>
+                  <span className="flex-1">
+                    {f.nombre}
+                    {f.formato && (
+                      <span className="ms-2 inline-block rounded bg-[#f3eefc] px-1.5 py-0.5 text-[10px] font-black uppercase tracking-wide text-[#4b18a8]">
+                        {f.formato}
+                      </span>
+                    )}
+                  </span>
+                  <FileDown className="mt-0.5 h-4 w-4 shrink-0 text-[#4b18a8]" aria-hidden="true" />
+                </a>
+              </li>
+            ) : (
+              <li
+                key={f.codigo}
+                className="flex gap-3 rounded-lg border border-[#e5def4] bg-[#fbfaff] p-3 text-sm text-[#20234a]"
+              >
+                <span className="font-black text-[#dda632]">{f.codigo}</span>
+                <span>{f.nombre}</span>
+              </li>
+            )
+          )}
         </ul>
       </section>
 
