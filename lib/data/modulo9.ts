@@ -53,8 +53,10 @@ const modulo9: Modulo = {
       },
     },
     {
-      titulo: "9.4 Familias, salud, comercio y gobierno",
-      parrafos: [],
+      titulo: "9.4 Familias de personas neurodivergentes",
+      parrafos: [
+        "Las familias son agentes de cambio en el entorno inmediato y aliadas estratégicas de la certificación CENI, tanto en el diagnóstico de barreras como en el co-diseño de soluciones.",
+      ],
       lista: {
         titulo: "Familias — acciones prioritarias",
         items: [
@@ -66,7 +68,7 @@ const modulo9: Modulo = {
         ],
       },
       destacado: {
-        titulo: "Salud, comercio y gobierno — acciones de mayor impacto",
+        titulo: "Referencia rápida por sector (detalle en 9.5–9.7)",
         texto:
           "Salud: eliminar objetivos de \"normalización\" de los protocolos clínicos; ofrecer horarios de baja estimulación; capacitar a recepción y triaje. Comercio: horario semanal de baja estimulación (mín. 2h); kit sensorial en el punto de atención; mapa sensorial publicado. Gobierno: declarar espacios de atención ciudadana como entornos CENI objetivo; eliminar requisitos de diagnóstico médico en trámites; fichas de turno con notificación por mensaje.",
       },
@@ -277,6 +279,42 @@ const modulo9: Modulo = {
       ],
       correcta: 1,
       explicacion: "Una acción recomendada para el sector gubernamental es que las fichas de turno cuenten con notificación por mensaje.",
+    },
+    {
+      id: "m9q13",
+      pregunta: "En el sector salud, además de eliminar los objetivos de \"normalización\", ¿qué exigencia debe eliminarse como condición para acceder a apoyos durante la consulta?",
+      opciones: [
+        "La cita previa",
+        "El diagnóstico formal",
+        "El expediente clínico",
+        "El consentimiento informado",
+      ],
+      correcta: 1,
+      explicacion: "Una acción prioritaria del sector salud es eliminar la exigencia de diagnóstico formal como condición para acceder a apoyos durante la consulta.",
+    },
+    {
+      id: "m9q14",
+      pregunta: "¿Cuál de las siguientes es una acción de mayor impacto para el sector comercial, además del horario de baja estimulación?",
+      opciones: [
+        "Aumentar la música ambiental por encima de 70 dB",
+        "Instalar un kit sensorial de libre acceso y publicar el mapa sensorial en la entrada y el sitio web",
+        "Exigir cita previa a todos los clientes",
+        "Retirar toda la señalización del establecimiento",
+      ],
+      correcta: 1,
+      explicacion: "Entre las acciones de mayor impacto del sector comercial están instalar un kit sensorial de libre acceso al público y publicar el mapa sensorial en la entrada y el sitio web, además de reducir la música ambiental a ≤ 55 dB.",
+    },
+    {
+      id: "m9q15",
+      pregunta: "Además de reportar barreras y participar como mystery client, ¿qué acción prioritaria corresponde a las familias de personas neurodivergentes?",
+      opciones: [
+        "Sustituir al Responsable de Neuroinclusión de cada organización",
+        "Conectar con la red de familias Alianza Índigo y acompañar a sus familiares en la autoidentificación y autodefensa de sus derechos",
+        "Emitir certificaciones CENI a los comercios",
+        "Realizar las auditorías internas oficiales",
+      ],
+      correcta: 1,
+      explicacion: "Las familias deben conectar con la red de familias Alianza Índigo para intercambiar experiencias y acompañar a sus familiares neurodivergentes en la autoidentificación y la autodefensa de sus derechos.",
     },
   ],
 };

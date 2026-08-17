@@ -336,6 +336,37 @@ const modulo8: Modulo = {
       correcta: 1,
       explicacion: "Un RIN bien redactado puede servir a la vez como política de prevención de riesgos psicosociales (numeral 5.1 de la NOM-035) y su canal de queja como el mecanismo de recepción de quejas del numeral 8.1, sin duplicar documentos.",
     },
+    {
+      id: "m8q22",
+      pregunta: "Para que el canal de retroalimentación sea \"Simple\", ¿cuántos pasos como máximo debe requerir el envío de un reporte?",
+      opciones: ["Un solo paso", "Máximo tres pasos", "Entre cinco y siete pasos", "No hay límite de pasos"],
+      correcta: 1,
+      explicacion: "El canal de retroalimentación accesible debe ser Simple: máximo tres pasos para enviar un reporte.",
+    },
+    {
+      id: "m8q23",
+      pregunta: "El atributo \"Accesible\" del canal de retroalimentación exige que esté disponible en varios formatos. ¿Cuáles?",
+      opciones: [
+        "Únicamente un formulario digital con CAPTCHA",
+        "Físico (buzón), digital (formulario sin CAPTCHA) y verbal (línea directa con el Responsable de Neuroinclusión)",
+        "Solo presencial y en horario de oficina",
+        "Exclusivamente por correo electrónico certificado",
+      ],
+      correcta: 1,
+      explicacion: "El canal debe ser Accesible: disponible en formato físico (buzón), digital (formulario sin CAPTCHA) y verbal (línea directa con el Responsable de Neuroinclusión).",
+    },
+    {
+      id: "m8q24",
+      pregunta: "¿Qué significa que el canal de retroalimentación sea \"Trazable\"?",
+      opciones: [
+        "Que se elimina el reporte una vez leído",
+        "Que los reportes se registran en un log con fecha, descripción, acción tomada y cierre",
+        "Que solo la dirección puede consultarlo",
+        "Que se responde de forma anónima sin dejar registro",
+      ],
+      correcta: 1,
+      explicacion: "El atributo Trazable implica que los reportes se registran en un log con fecha, descripción, acción tomada y cierre.",
+    },
   ],
 };
 
