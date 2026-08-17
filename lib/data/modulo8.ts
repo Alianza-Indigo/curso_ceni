@@ -7,6 +7,12 @@ const modulo8: Modulo = {
   duracion: "90 minutos",
   dirigidoA: "Directivos, Responsable de Neuroinclusión, RRHH",
   preguntasPorIntento: 10,
+  recursos: [
+    { codigo: "F-06", nombre: "Plantilla de Reglamento Interno de Neuroinclusión (RIN)", formato: "Word", archivo: "/recursos/formatos/F-06_Plantilla_RIN.docx" },
+    { codigo: "F-11", nombre: "Registro de capacitación del personal", formato: "Excel", archivo: "/recursos/formatos/F-11_Registro_Capacitacion.xlsx" },
+    { codigo: "F-12", nombre: "Instrumento de mystery client neurodivergente", formato: "Excel", archivo: "/recursos/formatos/F-12_Mystery_Client_Neurodivergente.xlsx" },
+    { codigo: "F-15", nombre: "Informe semestral de neuroinclusión para la dirección", formato: "Word", archivo: "/recursos/formatos/F-15_Informe_Semestral_Neuroinclusion.docx" },
+  ],
   objetivos: [
     "Diseñar e implementar un Manual Interno de Neuroinclusión operativo y verificable.",
     "Establecer el rol del Responsable de Neuroinclusión con funciones, autoridad y recursos claros.",

@@ -4,7 +4,7 @@ import ActividadesEntrega from "@/components/ActividadesEntrega";
 import ModuloAcciones from "@/components/ModuloAcciones";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Clock, Users } from "lucide-react";
+import { ArrowLeft, Clock, Users, FileDown } from "lucide-react";
 import { auth } from "@/auth";
 import { obtenerProgreso } from "@/lib/progreso-server";
 import { armarIntento } from "@/lib/quiz-shuffle";
@@ -67,6 +67,37 @@ export default async function ModuloPage({ params }: { params: Promise<{ id: str
         {modulo.secciones.map((s, i) => (
           <SeccionBloque key={i} seccion={s} />
         ))}
+
+        {modulo.recursos && modulo.recursos.length > 0 && (
+          <section className="mb-8 rounded-2xl border border-[#e5def4] bg-[#fbfaff] p-5">
+            <h3 className="flex items-center gap-2 font-serif text-xl font-bold text-[#070b2f]">
+              <FileDown className="h-5 w-5 text-[#4b18a8]" /> Descargas del módulo
+            </h3>
+            <ul className="mt-3 grid gap-2 sm:grid-cols-2">
+              {modulo.recursos.map((r) => (
+                <li key={r.codigo}>
+                  <a
+                    href={r.archivo}
+                    download
+                    className="flex h-full items-start gap-3 rounded-lg border border-[#e5def4] bg-white p-3 text-sm text-[#20234a] transition-colors hover:border-[#4b18a8] hover:bg-[#f5f1ff]"
+                  >
+                    <span className="mt-0.5 font-black text-[#dda632]">{r.codigo}</span>
+                    <span className="flex-1">
+                      {r.nombre}
+                      {r.formato && (
+                        <span className="ms-2 inline-block rounded bg-[#f3eefc] px-1.5 py-0.5 text-[10px] font-black uppercase tracking-wide text-[#4b18a8]">
+                          {r.formato}
+                        </span>
+                      )}
+                    </span>
+                    <FileDown className="mt-0.5 h-4 w-4 shrink-0 text-[#4b18a8]" aria-hidden="true" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
         <EvaluacionBloque evaluacion={modulo.evaluacion} />
         <ActividadesEntrega
           moduloId={modulo.id}

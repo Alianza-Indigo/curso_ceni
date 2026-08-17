@@ -7,6 +7,12 @@ const modulo5: Modulo = {
   duracion: "180 minutos",
   dirigidoA: "Propietarios, directivos, RRHH, prestadores de servicios públicos",
   preguntasPorIntento: 14,
+  recursos: [
+    { codigo: "F-16", nombre: "Modelo de política de prevención de riesgos psicosociales NOM-035 (base Guía IV)", formato: "Word", archivo: "/recursos/nom035/F-16_Politica_Prevencion_Riesgos_Psicosociales_NOM-035.docx" },
+    { codigo: "F-18", nombre: "Anexo neurodivergente al cuestionario de factores de riesgo psicosocial", formato: "Excel", archivo: "/recursos/nom035/F-18_Anexo_Neurodivergente_Instrumento.xlsx" },
+    { codigo: "F-19", nombre: "Cuestionario oficial NOM-035 — Guía II (16–50 trabajadores)", formato: "Excel", archivo: "/recursos/nom035/F-19_Cuestionario_Guia_II_NOM-035.xlsx" },
+    { codigo: "F-20", nombre: "Cuestionario oficial NOM-035 — Guía III (más de 50 trabajadores)", formato: "Excel", archivo: "/recursos/nom035/F-20_Cuestionario_Guia_III_NOM-035.xlsx" },
+  ],
   objetivos: [
     "Ubicar los Derechos Índigo en el marco internacional de los derechos humanos de cuarta generación.",
     "Identificar las obligaciones legales aplicables a empresas, instituciones educativas y prestadores de servicios en materia de neuroinclusión.",

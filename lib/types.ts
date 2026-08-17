@@ -42,4 +42,6 @@ export type Modulo = {
   quiz: PreguntaQuiz[];
   // Cuántas preguntas de `quiz` se muestran (al azar) en cada intento.
   preguntasPorIntento: number;
+  // Formatos descargables asociados al módulo (plantillas e instrumentos).
+  recursos?: { codigo: string; nombre: string; archivo: string; formato?: string }[];
 };
