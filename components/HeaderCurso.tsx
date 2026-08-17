@@ -45,6 +45,13 @@ export default function HeaderCurso({ usuario }: { usuario: Usuario }) {
   // La landing pública (usuario no autenticado en "/") trae su propio encabezado.
   if (!usuario && pathname === "/") return null;
 
+  function navCls(href: string) {
+    const activo = href === "/" ? pathname === "/" : pathname.startsWith(href);
+    return `whitespace-nowrap rounded-lg px-3 py-2 text-xs font-black uppercase tracking-wide ${
+      activo ? "bg-[#4b18a8] text-white" : "text-[#070b2f] hover:bg-[#f5f1ff]"
+    }`;
+  }
+
   return (
     <header className="sticky top-0 z-40 border-b border-[#eee9f7] bg-white/95 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
@@ -62,67 +69,65 @@ export default function HeaderCurso({ usuario }: { usuario: Usuario }) {
           </span>
         </Link>
 
-        {usuario && (
-          <nav aria-label="Navegación del curso" className="ms-auto hidden items-center gap-1 sm:flex">
-            <Link
-              href="/"
-              className="rounded-lg px-3 py-2 text-xs font-black uppercase tracking-wide text-[#070b2f] hover:bg-[#f5f1ff]"
-            >
+        <div className="ms-auto flex items-center gap-2">
+          <button
+            type="button"
+            onClick={toggleCalma}
+            aria-pressed={calma}
+            className="inline-flex min-h-10 items-center gap-2 rounded-lg border border-[#e3dfef] bg-white px-3 py-2 text-xs font-bold text-[#4b18a8] hover:bg-[#f5f1ff]"
+          >
+            <Waves className="h-4 w-4" aria-hidden="true" />
+            <span className="hidden sm:inline">{calma ? "Modo calma activo" : "Modo calma"}</span>
+          </button>
+
+          {usuario && (
+            <div className="flex items-center gap-2">
+              {usuario.image ? (
+                <Image
+                  src={usuario.image}
+                  alt=""
+                  width={32}
+                  height={32}
+                  className="h-8 w-8 rounded-full"
+                  referrerPolicy="no-referrer"
+                />
+              ) : null}
+              <span className="hidden text-xs font-bold text-[#070b2f] md:inline">
+                {usuario.name ?? usuario.email}
+              </span>
+              <form action={signOutAction}>
+                <button
+                  type="submit"
+                  title="Cerrar sesión"
+                  className="inline-flex min-h-10 items-center gap-1.5 rounded-lg border border-[#e3dfef] bg-white px-3 py-2 text-xs font-bold text-[#6c6690] hover:bg-[#f5f1ff]"
+                >
+                  <LogOut className="h-4 w-4" aria-hidden="true" />
+                  <span className="hidden sm:inline">Salir</span>
+                </button>
+              </form>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {usuario && (
+        <nav
+          aria-label="Navegación del curso"
+          className="border-t border-[#eee9f7] bg-white/95"
+        >
+          <div className="mx-auto flex max-w-6xl items-center gap-1 overflow-x-auto px-4 py-1.5">
+            <Link href="/" className={navCls("/")}>
               Mi progreso
             </Link>
-            <Link
-              href="/materiales"
-              className="rounded-lg px-3 py-2 text-xs font-black uppercase tracking-wide text-[#070b2f] hover:bg-[#f5f1ff]"
-            >
+            <Link href="/materiales" className={navCls("/materiales")}>
               Materiales
             </Link>
-            <Link
-              href="/examen-final"
-              className="rounded-lg px-3 py-2 text-xs font-black uppercase tracking-wide text-[#070b2f] hover:bg-[#f5f1ff]"
-            >
+            <Link href="/examen-final" className={navCls("/examen-final")}>
               Examen final
             </Link>
-          </nav>
-        )}
-
-        <button
-          type="button"
-          onClick={toggleCalma}
-          aria-pressed={calma}
-          className={`inline-flex min-h-10 items-center gap-2 rounded-lg border border-[#e3dfef] bg-white px-3 py-2 text-xs font-bold text-[#4b18a8] hover:bg-[#f5f1ff] ${usuario ? "" : "ms-auto"}`}
-        >
-          <Waves className="h-4 w-4" aria-hidden="true" />
-          <span className="hidden sm:inline">{calma ? "Modo calma activo" : "Modo calma"}</span>
-        </button>
-
-        {usuario && (
-          <div className="flex items-center gap-2">
-            {usuario.image ? (
-              <Image
-                src={usuario.image}
-                alt=""
-                width={32}
-                height={32}
-                className="h-8 w-8 rounded-full"
-                referrerPolicy="no-referrer"
-              />
-            ) : null}
-            <span className="hidden text-xs font-bold text-[#070b2f] md:inline">
-              {usuario.name ?? usuario.email}
-            </span>
-            <form action={signOutAction}>
-              <button
-                type="submit"
-                title="Cerrar sesión"
-                className="inline-flex min-h-10 items-center gap-1.5 rounded-lg border border-[#e3dfef] bg-white px-3 py-2 text-xs font-bold text-[#6c6690] hover:bg-[#f5f1ff]"
-              >
-                <LogOut className="h-4 w-4" aria-hidden="true" />
-                <span className="hidden sm:inline">Salir</span>
-              </button>
-            </form>
           </div>
-        )}
-      </div>
+        </nav>
+      )}
     </header>
   );
 }
