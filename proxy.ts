@@ -27,7 +27,21 @@ export default auth((req) => {
     return NextResponse.redirect(new URL("/", req.nextUrl.origin));
   }
 
-  return NextResponse.next();
+  const res = NextResponse.next();
+
+  // Anti back/forward cache para las páginas protegidas del curso.
+  // Sin esto, al cerrar sesión el navegador puede restaurar desde su bfcache
+  // una copia en caché de una página del curso al presionar "Atrás", mostrando
+  // contenido de una sesión ya cerrada. Con `no-store` la página deja de ser
+  // elegible para el bfcache: al presionar "Atrás" el navegador hace una
+  // petición nueva y este middleware la redirige a /login.
+  if (!isPublic) {
+    res.headers.set("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
+    res.headers.set("Pragma", "no-cache");
+    res.headers.set("Expires", "0");
+  }
+
+  return res;
 });
 
 export const config = {
