@@ -56,17 +56,67 @@ const modulo9: Modulo = {
       titulo: "9.4 Familias, salud, comercio y gobierno",
       parrafos: [],
       lista: {
-        titulo: "Familias",
+        titulo: "Familias — acciones prioritarias",
         items: [
           "Conocer los criterios CENI para exigir su cumplimiento en la comunidad",
           "Reportar barreras de accesibilidad usando el canal CENI oficial",
-          "Participar como mystery client certificado",
+          "Participar como mystery client certificado en la evaluación de espacios",
+          "Conectar con la red de familias Alianza Índigo para intercambiar experiencias y estrategias",
+          "Acompañar a sus familiares neurodivergentes en la autoidentificación y la autodefensa de sus derechos",
         ],
       },
       destacado: {
         titulo: "Salud, comercio y gobierno — acciones de mayor impacto",
         texto:
           "Salud: eliminar objetivos de \"normalización\" de los protocolos clínicos; ofrecer horarios de baja estimulación; capacitar a recepción y triaje. Comercio: horario semanal de baja estimulación (mín. 2h); kit sensorial en el punto de atención; mapa sensorial publicado. Gobierno: declarar espacios de atención ciudadana como entornos CENI objetivo; eliminar requisitos de diagnóstico médico en trámites; fichas de turno con notificación por mensaje.",
+      },
+    },
+    {
+      titulo: "9.5 Prestadores de servicios de salud",
+      parrafos: [
+        "El sector salud enfrenta una paradoja particular: es frecuentemente el primer punto de contacto institucional para personas neurodivergentes y, a la vez, uno de los entornos más hostiles desde el punto de vista sensorial y comunicativo.",
+      ],
+      lista: {
+        titulo: "Acciones prioritarias",
+        items: [
+          "Eliminar de los protocolos clínicos cualquier objetivo de \"normalización\" de rasgos neurodivergentes",
+          "Ofrecer consultas en horarios de baja estimulación y en espacios con umbrales sensoriales CENI",
+          "Capacitar al personal de recepción y triaje en comunicación neuroafirmativa y manejo de crisis sensoriales",
+          "Eliminar la exigencia de diagnóstico formal como condición para acceder a apoyos durante la consulta",
+          "Implementar el sistema de mystery client para evaluar la experiencia de usuarios neurodivergentes en las instalaciones",
+        ],
+      },
+    },
+    {
+      titulo: "9.6 Sector comercial y de servicios",
+      parrafos: [
+        "Tiendas, restaurantes, bancos, hoteles, transporte y demás servicios comerciales constituyen el tejido cotidiano del entorno neurodivergente. La certificación CENI Espacios para el sector comercial tiene el mayor potencial de impacto poblacional.",
+      ],
+      lista: {
+        titulo: "Acciones de mayor impacto inmediato",
+        items: [
+          "Implementar un horario semanal de baja estimulación (mínimo 2 horas por semana)",
+          "Instalar el kit sensorial de libre acceso al público en el punto de atención",
+          "Publicar el mapa sensorial en la entrada y en el sitio web del establecimiento",
+          "Capacitar a todo el personal de caja y atención en comunicación neuroafirmativa",
+          "Eliminar la música ambiental o reducirla a ≤ 55 dB en horario estándar",
+        ],
+      },
+    },
+    {
+      titulo: "9.7 Sector gubernamental y de servicios públicos",
+      parrafos: [
+        "Las instituciones públicas tienen una obligación reforzada en materia de neuroinclusión, dado el control de convencionalidad que aplica a toda actuación del Estado. Un servicio público que discrimina por condición neurológica incurre en responsabilidad institucional del Estado.",
+      ],
+      lista: {
+        titulo: "Acciones prioritarias",
+        items: [
+          "Declarar todos los espacios de atención ciudadana como entornos CENI objetivo, con metas de certificación en el Plan de Trabajo Anual",
+          "Eliminar de formularios, trámites y procesos los requisitos que exigen diagnóstico médico como condición de acceso a servicios de salud, educación o apoyos sociales",
+          "Implementar fichas de turno con notificación por mensaje y sistemas de espera alternativos en todas las ventanillas de atención",
+          "Capacitar al 100% del personal de atención ciudadana en el Módulo 2 (Comunicación Neuroafirmativa) del Curso CENI",
+          "Integrar el indicador de certificación CENI en los informes de gobierno y reportes de transparencia",
+        ],
       },
     },
   ],

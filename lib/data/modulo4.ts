@@ -77,6 +77,11 @@ const modulo4: Modulo = {
           "Versión impresa (mínimo A4) y digital (descargable)",
         ],
       },
+      destacado: {
+        titulo: "Qué deben publicar los espacios CENI (consentimiento informado ambiental)",
+        texto:
+          "Mapa sensorial del espacio (en formato físico y digital). Niveles de ruido habituales por zona y horario. Advertencias sobre estímulos específicos (música, megáfonos, olores, luz estroboscópica). Localización del espacio de calma y protocolo de acceso. Canales de comunicación alternativa disponibles.",
+      },
     },
   ],
   actividades: [

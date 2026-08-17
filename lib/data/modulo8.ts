@@ -97,6 +97,22 @@ const modulo8: Modulo = {
         ],
       },
     },
+    {
+      titulo: "8.5 Canal de retroalimentación accesible",
+      parrafos: [
+        "Todo entorno certificado CENI debe contar con un canal de retroalimentación específico para reportar barreras de accesibilidad neurodivergente. No basta con un buzón de sugerencias genérico: el canal debe cumplir cinco condiciones verificables.",
+      ],
+      lista: {
+        titulo: "El canal debe ser",
+        items: [
+          "Simple: máximo tres pasos para enviar un reporte.",
+          "Accesible: disponible en formato físico (buzón), digital (formulario sin CAPTCHA) y verbal (línea directa con el Responsable de Neuroinclusión).",
+          "Anónimo: no debe requerir identificación del usuario para reportar una barrera.",
+          "Respondido: todo reporte recibe acuse de recibo en 24 horas y respuesta completa en 5 días hábiles.",
+          "Trazable: los reportes se registran en un log con fecha, descripción, acción tomada y cierre.",
+        ],
+      },
+    },
   ],
   actividades: [
     {
