@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LoginModal from "@/components/LoginModal";
 import {
   ArrowRight,
@@ -99,6 +99,22 @@ const FAQS = [
 export default function Landing() {
   const [open, setOpen] = useState(false);
   const abrir = () => setOpen(true);
+
+  // Blindaje del botón "Atrás" tras cerrar sesión. El logout redirige a
+  // "/?salir=1"; en ese caso el historial detrás de esta landing contiene
+  // páginas del curso (ya sin sesión) y la pantalla de OAuth de Google. Sin
+  // esto, presionar "Atrás" volvería a esas entradas. Colocamos un estado
+  // centinela y, al presionar "Atrás", enviamos a la plataforma CENI —el mismo
+  // destino que el botón "Volver a CENI"—. Solo se activa después de cerrar
+  // sesión, para no alterar el "Atrás" de visitantes nuevos.
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("salir") !== "1") return;
+    window.history.replaceState(null, "", "/");
+    window.history.pushState(null, "", "/");
+    const alRegresar = () => window.location.replace(CENI_URL);
+    window.addEventListener("popstate", alRegresar);
+    return () => window.removeEventListener("popstate", alRegresar);
+  }, []);
 
   return (
     <div className="bg-white text-[#0e0a33]">
