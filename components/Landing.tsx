@@ -4,6 +4,7 @@ import { useState } from "react";
 import LoginModal from "@/components/LoginModal";
 import {
   ArrowRight,
+  ArrowLeft,
   Download,
   Lock,
   Clock,
@@ -21,6 +22,8 @@ import {
   Heart,
   Brain,
 } from "lucide-react";
+
+const CENI_URL = "https://ceni.alianzaindigo.org";
 
 const NAV = [
   { label: "Inicio", href: "#inicio" },
@@ -126,10 +129,18 @@ export default function Landing() {
             ))}
           </nav>
 
+          <a
+            href={CENI_URL}
+            className="ms-auto inline-flex min-h-11 items-center gap-1.5 rounded-xl border border-white/25 px-3.5 text-sm font-bold text-white/85 transition-colors hover:bg-white/10 hover:text-white lg:ms-2"
+          >
+            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+            <span className="hidden sm:inline">Volver a CENI</span>
+          </a>
+
           <button
             type="button"
             onClick={abrir}
-            className="ms-auto inline-flex min-h-11 items-center rounded-xl bg-[#6d28d9] px-5 text-sm font-black text-white transition-colors hover:bg-[#5b21b6] lg:ms-2"
+            className="inline-flex min-h-11 items-center rounded-xl bg-[#6d28d9] px-5 text-sm font-black text-white transition-colors hover:bg-[#5b21b6] lg:ms-2"
           >
             Inscríbete ahora
           </button>
