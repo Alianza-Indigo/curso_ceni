@@ -24,7 +24,54 @@ model User {
   asistenteMensajesHoy Int       @default(0)
   asistenteMensajesDia DateTime?
 
+  // Organización (empresa) externa a la que pertenece este alumno, si fue
+  // invitado desde ceni_vercel. Es un ID opaco: la organización vive en otra
+  // base de datos, así que esto NO es un foreign key real.
+  organizacionId String?
+
+  // Login por contraseña (además de Google), usado por empleados invitados.
+  // Null = este usuario solo entra con Google. La contraseña solo se crea
+  // dentro del flujo de aceptación de invitación (/invitacion/[token]).
+  passwordHash             String?
+  passwordIntentosFallidos Int       @default(0)
+  passwordBloqueadoHasta   DateTime?
+
+  invitacionesAceptadas Invitacion[]
+
   createdAt DateTime @default(now())
+
+  @@index([organizacionId])
+}
+
+enum EstadoInvitacion {
+  PENDIENTE
+  ACEPTADA
+  EXPIRADA
+}
+
+// Invitación de una organización externa (ceni_vercel) para que un empleado
+// tome el curso. `organizacionId` es un ID opaco de Organization en el otro
+// sistema — no hay FK real porque viven en bases de datos distintas.
+model Invitacion {
+  id             String           @id @default(cuid())
+  email          String
+  organizacionId String
+  // Generado con crypto.randomBytes(32), no cuid(): es un secreto de un solo
+  // uso, no un identificador interno.
+  token          String           @unique
+  estado         EstadoInvitacion @default(PENDIENTE)
+  expiresAt      DateTime
+  // Identificador opaco de quién invitó del lado de ceni_vercel; no es FK.
+  invitadoPor    String?
+  createdAt      DateTime         @default(now())
+
+  // Se llena al aceptar, para auditar qué User completó cuál invitación.
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([email, estado])
+  @@index([organizacionId, estado])
+  @@index([organizacionId, createdAt])
 }
 
 model Account {

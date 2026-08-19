@@ -15,7 +15,12 @@ export default auth((req) => {
   // cualquiera con un folio (por ejemplo, desde el QR de la constancia) debe
   // poder consultarla sin tener sesión ni cuenta en el curso.
   const isVerificarRoute = pathname.startsWith("/verificar/");
-  const isPublic = PUBLIC_PATHS.includes(pathname) || isApiRoute || isAdminRoute || isVerificarRoute;
+  // /invitacion/[token] debe verse (y ofrecer Google o crear contraseña)
+  // antes de tener sesión — no basta con dejar que el gate redirija a
+  // /login, porque ahí se perdería el contexto de a qué invitación responde.
+  const isInvitacionRoute = pathname.startsWith("/invitacion/");
+  const isPublic =
+    PUBLIC_PATHS.includes(pathname) || isApiRoute || isAdminRoute || isVerificarRoute || isInvitacionRoute;
 
   if (!req.auth && !isPublic) {
     const loginUrl = new URL("/login", req.nextUrl.origin);
