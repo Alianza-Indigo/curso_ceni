@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { buscarConstanciaPorFolio } from "@/lib/progreso-server";
+import { getCurso } from "@/lib/data/cursos";
 import { CheckCircle2, XCircle, GraduationCap } from "lucide-react";
 
 export const metadata = { title: "Verificar constancia · Curso CENI" };
@@ -57,7 +58,11 @@ export default async function VerificarFolioPage({
             <div>
               <dt className="text-xs font-black uppercase tracking-wide text-[#6c6690]">Curso</dt>
               <dd className="text-[#070b2f]">
-                Programa CENI — Certificación de Entornos Neuroinclusivos, Alianza Índigo Neurodivergente A.C.
+                {(() => {
+                  const curso = getCurso(constancia.cursoId);
+                  const nombre = curso ? `${curso.titulo} — ${curso.subtitulo ?? curso.descripcion}` : "Programa CENI";
+                  return `${nombre}, Alianza Índigo Neurodivergente A.C.`;
+                })()}
               </dd>
             </div>
             <div>

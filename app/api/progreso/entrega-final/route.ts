@@ -13,6 +13,7 @@ export async function POST(request: Request) {
 
   const body = await request.json();
   const { campo, contenido } = body ?? {};
+  const cursoId = typeof body?.cursoId === "string" ? body.cursoId : "ceni";
 
   if ((campo !== "casoPractico" && campo !== "retroalimentacion") || typeof contenido !== "string") {
     return NextResponse.json({ error: "Cuerpo inválido" }, { status: 400 });
@@ -38,6 +39,6 @@ export async function POST(request: Request) {
     );
   }
 
-  await guardarEntregaFinal(session.user.id, campo, limpio);
+  await guardarEntregaFinal(session.user.id, campo, limpio, cursoId);
   return NextResponse.json({ ok: true });
 }

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { obtenerProgreso, registrarResultadoExamen } from "@/lib/progreso-server";
-import { modulos } from "@/lib/data/modulos";
+import { getCurso } from "@/lib/data/cursos";
 
 export async function POST(request: Request) {
   const session = await auth();
@@ -9,16 +9,22 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "No autenticado" }, { status: 401 });
   }
 
-  const progreso = await obtenerProgreso(session.user.id);
-  if (progreso.modulosCompletados.length < modulos.length) {
+  const body = await request.json();
+  const { respuestas, aciertos, total } = body ?? {};
+  const cursoId = typeof body?.cursoId === "string" ? body.cursoId : "ceni";
+
+  const curso = getCurso(cursoId);
+  if (!curso || !curso.tieneExamenFinal) {
+    return NextResponse.json({ error: "Curso sin examen final" }, { status: 400 });
+  }
+
+  const progreso = await obtenerProgreso(session.user.id, curso.modulos, cursoId);
+  if (progreso.modulosCompletados.length < curso.modulos.length) {
     return NextResponse.json(
-      { error: "Debes aprobar los 10 módulos antes de presentar el examen final" },
+      { error: `Debes aprobar los ${curso.modulos.length} módulos antes de presentar el examen final` },
       { status: 403 }
     );
   }
-
-  const body = await request.json();
-  const { respuestas, aciertos, total } = body ?? {};
 
   if (
     typeof aciertos !== "number" ||
@@ -29,6 +35,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Cuerpo inválido" }, { status: 400 });
   }
 
-  const resultado = await registrarResultadoExamen(session.user.id, respuestas, aciertos, total);
+  const resultado = await registrarResultadoExamen(session.user.id, respuestas, aciertos, total, cursoId);
   return NextResponse.json(resultado);
 }

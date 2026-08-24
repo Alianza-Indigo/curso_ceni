@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { getCurso, moduloDesbloqueadoCurso } from "@/lib/data/cursos";
 import { obtenerProgreso } from "@/lib/progreso-server";
-import { CheckCircle2, Circle, Clock, ArrowRight, Lock, ArrowLeft } from "lucide-react";
+import { CheckCircle2, Circle, Clock, ArrowRight, Lock, ArrowLeft, Award } from "lucide-react";
 
 export const metadata = { title: "Diplomado NOM-035 ND · CENI" };
 
@@ -24,6 +24,17 @@ export default async function DiplomadoDashboard({
   ).length;
   const total = curso.modulos.length;
   const porcentaje = Math.round((completados / total) * 100);
+  const examenAprobado = progreso.examenFinal?.aprobado ?? false;
+  const quizFinalAprobado = progreso.examenFinal?.quizAprobado ?? false;
+  const examenDesbloqueado = completados >= total;
+  const constanciaVigente = progreso.examenFinal?.vigente ?? false;
+  const vigenciaTexto = progreso.examenFinal?.vigenciaHasta
+    ? new Date(progreso.examenFinal.vigenciaHasta).toLocaleDateString("es-MX", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : null;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
@@ -138,6 +149,50 @@ export default async function DiplomadoDashboard({
           );
         })}
       </div>
+
+      <section className="mt-8 rounded-2xl border border-[#e5def4] bg-[#fbfaff] p-6">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <span className="grid h-11 w-11 place-items-center rounded-xl bg-[#dda632]/20 text-[#dda632]">
+              <Award className="h-6 w-6" />
+            </span>
+            <div>
+              <p className="font-bold text-[#070b2f]">Evaluación final y constancia</p>
+              <p className="text-sm text-[#6c6690]">
+                {examenAprobado
+                  ? "Completaste la evaluación final. Descarga tu constancia."
+                  : quizFinalAprobado
+                    ? "Aprobaste el examen de opción múltiple — entrega el proyecto final y la retroalimentación para completar tu constancia."
+                    : examenDesbloqueado
+                      ? `Ya aprobaste los ${total} módulos. Puedes presentar el examen final.`
+                      : `Aprueba los ${total} módulos para desbloquearlo (llevas ${completados}/${total}).`}
+              </p>
+              {examenAprobado && vigenciaTexto && (
+                <p className={`mt-1 text-xs font-bold ${constanciaVigente ? "text-green-700" : "text-[#b45309]"}`}>
+                  {constanciaVigente
+                    ? `Vigente hasta el ${vigenciaTexto}.`
+                    : `Venció el ${vigenciaTexto} — vuelve a presentar el examen final para renovarla.`}
+                </p>
+              )}
+            </div>
+          </div>
+          {examenDesbloqueado ? (
+            <Link
+              href="/diplomado/examen-final"
+              className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-[#4b18a8] px-5 text-sm font-black uppercase text-white hover:bg-[#351176]"
+            >
+              Ir al examen final <ArrowRight className="h-4 w-4" />
+            </Link>
+          ) : (
+            <span
+              className="inline-flex min-h-11 cursor-not-allowed items-center gap-2 rounded-lg border border-[#e3dfef] px-5 text-sm font-black uppercase text-[#a6a2b8]"
+              title={`Aprueba los ${total} módulos para desbloquear el examen final`}
+            >
+              <Lock className="h-4 w-4" /> Ir al examen final
+            </span>
+          )}
+        </div>
+      </section>
     </div>
   );
 }

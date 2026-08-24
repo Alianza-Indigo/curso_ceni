@@ -1,4 +1,5 @@
 import { Modulo, Actividad, EvaluacionComponente, PreguntaQuiz } from "@/lib/types";
+import { recursosPorModuloDiplomado } from "./materiales";
 import cd01 from "./contenido/d01";
 import qd01 from "./quizzes/d01.json";
 import cd02 from "./contenido/d02";
@@ -59,8 +60,9 @@ type QuizData = {
 // viven dentro del propio markdown, por eso `secciones` va vacío.
 function build(numero: number, titulo: string, duracion: string, contenido: string, q: unknown): Modulo {
   const qd = q as QuizData;
+  const id = "d" + String(numero).padStart(2, "0");
   return {
-    id: "d" + String(numero).padStart(2, "0"),
+    id,
     numero,
     titulo,
     duracion,
@@ -72,6 +74,7 @@ function build(numero: number, titulo: string, duracion: string, contenido: stri
     evaluacion: qd.evaluacion,
     quiz: qd.quiz,
     preguntasPorIntento: qd.preguntasPorIntento,
+    recursos: recursosPorModuloDiplomado[id],
   };
 }
 

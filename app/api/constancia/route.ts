@@ -3,6 +3,7 @@ import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import QRCode from "qrcode";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
+import { getCurso } from "@/lib/data/cursos";
 
 export async function GET(request: Request) {
   const session = await auth();
@@ -10,8 +11,14 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "No autenticado" }, { status: 401 });
   }
 
+  const cursoIdParam = new URL(request.url).searchParams.get("curso");
+  const cursoId = cursoIdParam === "diplomado" ? "diplomado" : "ceni";
+  const curso = getCurso(cursoId);
+  const tituloCurso = curso?.titulo ?? "Curso CENI";
+  const subtituloCurso = curso?.subtitulo ?? "Certificación de Entornos Neuroinclusivos";
+
   const examen = await prisma.resultadoExamen.findUnique({
-    where: { userId: session.user.id },
+    where: { userId_cursoId: { userId: session.user.id, cursoId } },
   });
 
   if (!examen?.aprobado) {
@@ -51,15 +58,15 @@ export async function GET(request: Request) {
     page.drawText(text, { x: (842 - width) / 2, y, size, font, color });
   };
 
-  centerText("PROGRAMA CENI · ALIANZA ÍNDIGO NEURODIVERGENTE A.C.", 470, helveticaBold, 12, gold);
+  centerText("ALIANZA ÍNDIGO NEURODIVERGENTE A.C.", 470, helveticaBold, 12, gold);
   centerText("Constancia de Capacitación", 420, helveticaBold, 30, rgb(1, 1, 1));
-  centerText("Certificación de Entornos Neuroinclusivos", 390, helvetica, 14, rgb(0.85, 0.85, 0.95));
+  centerText(subtituloCurso, 390, helvetica, 14, rgb(0.85, 0.85, 0.95));
 
   centerText("Se otorga la presente constancia a:", 320, helvetica, 13);
   centerText(nombre, 280, helveticaBold, 26, gold);
 
   centerText(
-    "por haber completado y aprobado el Curso Integral de Capacitación CENI",
+    `por haber completado y aprobado el ${tituloCurso}`,
     230,
     helvetica,
     13
@@ -96,7 +103,7 @@ export async function GET(request: Request) {
   return new NextResponse(Buffer.from(bytes), {
     headers: {
       "Content-Type": "application/pdf",
-      "Content-Disposition": `attachment; filename="constancia-ceni-${examen.folio}.pdf"`,
+      "Content-Disposition": `attachment; filename="constancia-${cursoId}-${examen.folio}.pdf"`,
     },
   });
 }

@@ -27,8 +27,7 @@ export const CURSO_DIPLOMADO: Curso = {
   nivel: "Profesional",
   dirigidoA: "Consultores, responsables de RH/SST y de neuroinclusión",
   modulos: modulosDiplomado,
-  // El examen/proyecto final del diplomado se habilita en una fase posterior.
-  tieneExamenFinal: false,
+  tieneExamenFinal: true,
 };
 
 export const cursos: Curso[] = [CURSO_CENI, CURSO_DIPLOMADO];

@@ -62,7 +62,25 @@ export default function HeaderCurso({ usuario }: { usuario: Usuario }) {
   const enlacesNav: { href: string; label: string; activo: boolean }[] = enDiplomado
     ? [
         { href: "/", label: "Todos los cursos", activo: false },
-        { href: "/diplomado", label: "Mi progreso", activo: pathname.startsWith("/diplomado") },
+        {
+          href: "/diplomado",
+          label: "Mi progreso",
+          activo:
+            pathname === "/diplomado" ||
+            (pathname.startsWith("/diplomado/") &&
+              !pathname.startsWith("/diplomado/examen-final") &&
+              !pathname.startsWith("/diplomado/materiales")),
+        },
+        {
+          href: "/diplomado/materiales",
+          label: "Materiales",
+          activo: pathname.startsWith("/diplomado/materiales"),
+        },
+        {
+          href: "/diplomado/examen-final",
+          label: "Examen final",
+          activo: pathname.startsWith("/diplomado/examen-final"),
+        },
       ]
     : enCeni
       ? [
