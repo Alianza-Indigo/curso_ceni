@@ -1,8 +1,43 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
-import { formatosDiplomado, glosarioDiplomado } from "@/lib/data/diplomado/materiales";
-import { ArrowLeft, FileDown, BookOpen } from "lucide-react";
+import {
+  instrumentosOficialesDiplomado,
+  plantillasApoyoDiplomado,
+  glosarioDiplomado,
+  type FormatoDiplomado,
+} from "@/lib/data/diplomado/materiales";
+import { ArrowLeft, FileDown, BookOpen, BadgeCheck } from "lucide-react";
+
+function ListaFormatos({ formatos }: { formatos: FormatoDiplomado[] }) {
+  return (
+    <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+      {formatos.map((f) => (
+        <li key={f.codigo}>
+          <a
+            href={f.archivo}
+            download
+            className="flex h-full flex-col gap-1 rounded-xl border border-[#e5def4] bg-white p-4 transition-colors hover:border-[#4b18a8] hover:bg-[#f5f1ff]"
+          >
+            <span className="flex items-center gap-2">
+              <span className="font-black text-[#dda632]">{f.codigo}</span>
+              <span className="inline-block rounded bg-[#f3eefc] px-1.5 py-0.5 text-[10px] font-black uppercase tracking-wide text-[#4b18a8]">
+                {f.formato}
+              </span>
+              {f.oficial && (
+                <span className="inline-flex items-center gap-1 rounded bg-green-100 px-1.5 py-0.5 text-[10px] font-black uppercase tracking-wide text-green-700">
+                  <BadgeCheck className="h-3 w-3" /> Oficial
+                </span>
+              )}
+            </span>
+            <span className="font-bold text-[#20234a]">{f.nombre}</span>
+            <span className="text-xs text-[#6c6690]">{f.modulo}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
+}
 
 export const metadata = { title: "Materiales · Diplomado NOM-035 ND" };
 
@@ -30,28 +65,24 @@ export default async function MaterialesDiplomadoPage() {
 
       <section className="mt-8">
         <h2 className="flex items-center gap-2 font-serif text-2xl font-bold text-[#070b2f]">
-          <FileDown className="h-5 w-5 text-[#4b18a8]" /> Plantillas descargables
+          <BadgeCheck className="h-5 w-5 text-green-600" /> Instrumentos oficiales de la NOM-035
         </h2>
-        <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-          {formatosDiplomado.map((f) => (
-            <li key={f.codigo}>
-              <a
-                href={f.archivo}
-                download
-                className="flex h-full flex-col gap-1 rounded-xl border border-[#e5def4] bg-white p-4 transition-colors hover:border-[#4b18a8] hover:bg-[#f5f1ff]"
-              >
-                <span className="flex items-center gap-2">
-                  <span className="font-black text-[#dda632]">{f.codigo}</span>
-                  <span className="inline-block rounded bg-[#f3eefc] px-1.5 py-0.5 text-[10px] font-black uppercase tracking-wide text-[#4b18a8]">
-                    {f.formato}
-                  </span>
-                </span>
-                <span className="font-bold text-[#20234a]">{f.nombre}</span>
-                <span className="text-xs text-[#6c6690]">{f.modulo}</span>
-              </a>
-            </li>
-          ))}
-        </ul>
+        <p className="mt-1 text-sm text-[#6c6690]">
+          Basados en las Guías de Referencia de la NOM-035-STPS-2018 (texto normativo del DOF).
+          Aplica estos para el cumplimiento; el Excel incluye la calificación automática.
+        </p>
+        <ListaFormatos formatos={instrumentosOficialesDiplomado} />
+      </section>
+
+      <section className="mt-10">
+        <h2 className="flex items-center gap-2 font-serif text-2xl font-bold text-[#070b2f]">
+          <FileDown className="h-5 w-5 text-[#4b18a8]" /> Plantillas de apoyo
+        </h2>
+        <p className="mt-1 text-sm text-[#6c6690]">
+          La NOM-035 obliga a elaborar estos documentos, pero no publica un formato oficial.
+          Son plantillas de trabajo del diplomado: adáptalas a tu organización.
+        </p>
+        <ListaFormatos formatos={plantillasApoyoDiplomado} />
       </section>
 
       <section className="mt-10">
