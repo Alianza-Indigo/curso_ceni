@@ -19,6 +19,7 @@ function Entrega({
   valorInicial,
   entregadaInicial,
   mostrarContador,
+  cursoId,
 }: {
   campo: "casoPractico" | "retroalimentacion";
   titulo: string;
@@ -28,6 +29,7 @@ function Entrega({
   valorInicial: string;
   entregadaInicial: boolean;
   mostrarContador: boolean;
+  cursoId: string;
 }) {
   const router = useRouter();
   const [valor, setValor] = useState(valorInicial);
@@ -43,7 +45,7 @@ function Entrega({
     const res = await fetch("/api/progreso/entrega-final", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ campo, contenido: valor }),
+      body: JSON.stringify({ campo, contenido: valor, cursoId }),
     });
     setEnviando(false);
     if (res.ok) {
@@ -96,23 +98,30 @@ export default function EntregaFinalForm({
   retroalimentacionInicial,
   casoPracticoEntregado,
   retroalimentacionEntregada,
+  cursoId = "ceni",
+  casoPracticoTitulo = "Entrega del caso práctico",
+  casoPracticoAyuda = "Pega aquí tu análisis de Distribuidora Los Pinos (mínimo 1,000 palabras) o el resumen escrito de tu presentación.",
 }: {
   casoPracticoInicial: string | null;
   retroalimentacionInicial: string | null;
   casoPracticoEntregado: boolean;
   retroalimentacionEntregada: boolean;
+  cursoId?: string;
+  casoPracticoTitulo?: string;
+  casoPracticoAyuda?: string;
 }) {
   return (
     <div className="mt-6 grid gap-4">
       <Entrega
         campo="casoPractico"
-        titulo="Entrega del caso práctico"
-        ayuda="Pega aquí tu análisis de Distribuidora Los Pinos (mínimo 1,000 palabras) o el resumen escrito de tu presentación."
-        placeholder="Escribe o pega tu caso práctico completo..."
+        titulo={casoPracticoTitulo}
+        ayuda={casoPracticoAyuda}
+        placeholder="Escribe o pega tu entrega completa..."
         filas={10}
         valorInicial={casoPracticoInicial ?? ""}
         entregadaInicial={casoPracticoEntregado}
         mostrarContador
+        cursoId={cursoId}
       />
       <Entrega
         campo="retroalimentacion"
@@ -123,6 +132,7 @@ export default function EntregaFinalForm({
         valorInicial={retroalimentacionInicial ?? ""}
         entregadaInicial={retroalimentacionEntregada}
         mostrarContador={false}
+        cursoId={cursoId}
       />
     </div>
   );

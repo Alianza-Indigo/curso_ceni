@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Quiz from "@/components/Quiz";
 import { PreguntaQuiz } from "@/lib/types";
 import { construirExamenFinal } from "@/lib/data/examenFinal";
+import { construirExamenFinalDiplomado } from "@/lib/data/diplomado/examenFinal";
 import { Award, Download } from "lucide-react";
 
 type ResultadoQuiz = {
@@ -24,13 +25,16 @@ export default function ExamenFinalClient({
   resultadoInicial,
   casoPracticoEntregado,
   retroalimentacionEntregada,
+  cursoId = "ceni",
 }: {
   preguntas: PreguntaQuiz[];
   resultadoInicial: ResultadoQuiz | null;
   casoPracticoEntregado: boolean;
   retroalimentacionEntregada: boolean;
+  cursoId?: string;
 }) {
   const router = useRouter();
+  const rearmarExamen = cursoId === "diplomado" ? construirExamenFinalDiplomado : construirExamenFinal;
   const [resultado, setResultado] = useState<ResultadoQuiz | null>(resultadoInicial);
   const [intento, setIntento] = useState(0);
   // El primer intento usa la selección ya armada (y barajada) por el servidor;
@@ -48,7 +52,7 @@ export default function ExamenFinalClient({
     const res = await fetch("/api/progreso/examen", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ respuestas, aciertos, total }),
+      body: JSON.stringify({ respuestas, aciertos, total, cursoId }),
     });
     if (res.ok) {
       const data: ResultadoQuiz = await res.json();
@@ -87,7 +91,7 @@ export default function ExamenFinalClient({
           )}
           {completo && (
             <a
-              href="/api/constancia"
+              href={`/api/constancia?curso=${cursoId}`}
               className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-lg bg-[#4b18a8] px-5 text-sm font-black uppercase text-white hover:bg-[#351176]"
             >
               <Download className="h-4 w-4" /> Descargar constancia (PDF)
@@ -104,7 +108,7 @@ export default function ExamenFinalClient({
             onFinalizar={onFinalizar}
             tituloBoton="Calificar examen final"
             onReintentar={() => {
-              setPreguntas(construirExamenFinal());
+              setPreguntas(rearmarExamen());
               setIntento((n) => n + 1);
             }}
           />

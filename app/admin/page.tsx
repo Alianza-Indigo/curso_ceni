@@ -21,8 +21,8 @@ export default async function AdminPage() {
       createdAt: true,
       progresoModulos: { where: { aprobado: true }, select: { moduloId: true } },
       entregasActividad: { select: { moduloId: true, actividadCodigo: true } },
-      resultadoExamen: {
-        select: { aprobado: true, porcentaje: true, folio: true, fecha: true },
+      resultadosExamen: {
+        select: { cursoId: true, aprobado: true, porcentaje: true, folio: true, fecha: true },
       },
     },
     orderBy: { createdAt: "desc" },
@@ -46,17 +46,21 @@ export default async function AdminPage() {
     })
   );
 
-  const usuarios: FilaUsuario[] = usuariosDb.map((u) => ({
-    id: u.id,
-    nombre: u.name ?? "(sin nombre)",
-    email: u.email ?? "(sin correo)",
-    modulosAprobados: modulosCompletadosPorUsuario.get(u.id)?.length ?? 0,
-    totalModulos: modulos.length,
-    examenAprobado: u.resultadoExamen?.aprobado ?? false,
-    examenPorcentaje: u.resultadoExamen?.porcentaje ?? null,
-    folio: u.resultadoExamen?.folio ?? null,
-    fechaExamen: u.resultadoExamen?.fecha.toISOString() ?? null,
-  }));
+  const usuarios: FilaUsuario[] = usuariosDb.map((u) => {
+    // El panel refleja el Curso CENI (progreso por módulo CENI + su constancia).
+    const examenCeni = u.resultadosExamen.find((r) => r.cursoId === "ceni");
+    return {
+      id: u.id,
+      nombre: u.name ?? "(sin nombre)",
+      email: u.email ?? "(sin correo)",
+      modulosAprobados: modulosCompletadosPorUsuario.get(u.id)?.length ?? 0,
+      totalModulos: modulos.length,
+      examenAprobado: examenCeni?.aprobado ?? false,
+      examenPorcentaje: examenCeni?.porcentaje ?? null,
+      folio: examenCeni?.folio ?? null,
+      fechaExamen: examenCeni?.fecha.toISOString() ?? null,
+    };
+  });
 
   const totalUsuarios = usuarios.length;
   const totalCertificados = usuarios.filter((u) => u.examenAprobado).length;

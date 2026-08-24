@@ -77,7 +77,7 @@ export default async function ModuloDiplomadoPage({
       <ModuloAcciones
         modulo={modulo}
         basePath="/diplomado"
-        examenFinalHref={null}
+        examenFinalHref="/diplomado/examen-final"
         preguntasIniciales={armarIntento(modulo.quiz, modulo.preguntasPorIntento)}
         resultadoInicial={progreso.resultadosQuiz[modulo.id] ?? null}
         actividadesCompletas={actividadesCompletas(

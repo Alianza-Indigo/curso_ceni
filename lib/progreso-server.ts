@@ -67,13 +67,14 @@ function calcularResultado(
 
 export async function obtenerProgreso(
   userId: string,
-  modulosCurso: Modulo[] = modulos
+  modulosCurso: Modulo[] = modulos,
+  cursoId: string = "ceni"
 ): Promise<ProgresoCurso> {
   const [modulosProgreso, examen, entregas, entregaFinal] = await Promise.all([
     prisma.progresoModulo.findMany({ where: { userId } }),
-    prisma.resultadoExamen.findUnique({ where: { userId } }),
+    prisma.resultadoExamen.findUnique({ where: { userId_cursoId: { userId, cursoId } } }),
     prisma.entregaActividad.findMany({ where: { userId } }),
-    prisma.entregaFinal.findUnique({ where: { userId } }),
+    prisma.entregaFinal.findUnique({ where: { userId_cursoId: { userId, cursoId } } }),
   ]);
 
   const entregasPorModulo: Record<string, Record<string, string>> = {};
@@ -136,10 +137,14 @@ export async function obtenerProgreso(
  * en consecuencia. Se llama tanto al calificar el examen como al guardar cualquiera de
  * las otras dos entregas, porque cualquiera de las tres puede ser la última en llegar.
  */
-async function recalcularCertificacionFinal(userId: string) {
+function prefijoFolio(cursoId: string): string {
+  return cursoId === "diplomado" ? "DIP" : "CENI";
+}
+
+async function recalcularCertificacionFinal(userId: string, cursoId: string = "ceni") {
   const [examen, entregaFinal] = await Promise.all([
-    prisma.resultadoExamen.findUnique({ where: { userId } }),
-    prisma.entregaFinal.findUnique({ where: { userId } }),
+    prisma.resultadoExamen.findUnique({ where: { userId_cursoId: { userId, cursoId } } }),
+    prisma.entregaFinal.findUnique({ where: { userId_cursoId: { userId, cursoId } } }),
   ]);
   if (!examen) return;
 
@@ -149,12 +154,14 @@ async function recalcularCertificacionFinal(userId: string) {
     (entregaFinal?.retroalimentacion ?? "").trim().length >= MIN_CARACTERES_RETROALIMENTACION;
   const completo = quizAprobado && casoPracticoCompleto && retroalimentacionCompleta;
 
-  const folio = completo ? examen.folio ?? `CENI-${randomUUID().slice(0, 8).toUpperCase()}` : null;
+  const folio = completo
+    ? examen.folio ?? `${prefijoFolio(cursoId)}-${randomUUID().slice(0, 8).toUpperCase()}`
+    : null;
   const fechaCertificacion = completo ? examen.fechaCertificacion ?? new Date() : null;
   const vigenciaHasta = fechaCertificacion ? new Date(fechaCertificacion.getTime() + UN_ANIO_MS) : null;
 
   await prisma.resultadoExamen.update({
-    where: { userId },
+    where: { userId_cursoId: { userId, cursoId } },
     data: { aprobado: completo, folio, fechaCertificacion, vigenciaHasta },
   });
 }
@@ -162,15 +169,16 @@ async function recalcularCertificacionFinal(userId: string) {
 export async function guardarEntregaFinal(
   userId: string,
   campo: "casoPractico" | "retroalimentacion",
-  contenido: string
+  contenido: string,
+  cursoId: string = "ceni"
 ): Promise<void> {
   const data = campo === "casoPractico" ? { casoPractico: contenido } : { retroalimentacion: contenido };
   await prisma.entregaFinal.upsert({
-    where: { userId },
-    create: { userId, ...data },
+    where: { userId_cursoId: { userId, cursoId } },
+    create: { userId, cursoId, ...data },
     update: data,
   });
-  await recalcularCertificacionFinal(userId);
+  await recalcularCertificacionFinal(userId, cursoId);
 }
 
 export async function guardarEntregaActividad(
@@ -232,7 +240,8 @@ export async function registrarResultadoExamen(
   userId: string,
   respuestas: Record<string, number>,
   aciertos: number,
-  total: number
+  total: number,
+  cursoId: string = "ceni"
 ): Promise<ResultadoQuiz & { folio?: string | null; vigenciaHasta?: string | null; quizAprobado: boolean }> {
   const fecha = new Date();
   const resultado = calcularResultado("examen-final", respuestas, aciertos, total, fecha);
@@ -243,9 +252,10 @@ export async function registrarResultadoExamen(
   // recalcularCertificacionFinal decide si folio/vigencia aplican, según también
   // el caso práctico y la retroalimentación.
   await prisma.resultadoExamen.upsert({
-    where: { userId },
+    where: { userId_cursoId: { userId, cursoId } },
     create: {
       userId,
+      cursoId,
       respuestas,
       aciertos,
       total,
@@ -262,8 +272,10 @@ export async function registrarResultadoExamen(
     },
   });
 
-  await recalcularCertificacionFinal(userId);
-  const actualizado = await prisma.resultadoExamen.findUniqueOrThrow({ where: { userId } });
+  await recalcularCertificacionFinal(userId, cursoId);
+  const actualizado = await prisma.resultadoExamen.findUniqueOrThrow({
+    where: { userId_cursoId: { userId, cursoId } },
+  });
 
   return {
     ...resultado,
@@ -274,12 +286,21 @@ export async function registrarResultadoExamen(
   };
 }
 
-export async function reiniciarProgreso(userId: string) {
+/**
+ * Reinicia el progreso de UN curso: borra los resultados de quiz y entregas de
+ * los módulos de ese curso, más su examen/entrega final. No toca el progreso de
+ * otros cursos del mismo usuario.
+ */
+export async function reiniciarProgreso(
+  userId: string,
+  cursoId: string = "ceni",
+  moduloIds: string[] = modulos.map((m) => m.id)
+) {
   await prisma.$transaction([
-    prisma.progresoModulo.deleteMany({ where: { userId } }),
-    prisma.resultadoExamen.deleteMany({ where: { userId } }),
-    prisma.entregaActividad.deleteMany({ where: { userId } }),
-    prisma.entregaFinal.deleteMany({ where: { userId } }),
+    prisma.progresoModulo.deleteMany({ where: { userId, moduloId: { in: moduloIds } } }),
+    prisma.entregaActividad.deleteMany({ where: { userId, moduloId: { in: moduloIds } } }),
+    prisma.resultadoExamen.deleteMany({ where: { userId, cursoId } }),
+    prisma.entregaFinal.deleteMany({ where: { userId, cursoId } }),
   ]);
 }
 
@@ -358,6 +379,7 @@ export async function buscarConstanciaPorFolio(folio: string) {
   if (!examen || !examen.aprobado) return null;
   return {
     folio: examen.folio as string,
+    cursoId: examen.cursoId,
     nombre: examen.user.name ?? examen.user.email ?? "Participante",
     fecha: examen.fecha.toISOString(),
     porcentaje: examen.porcentaje,
