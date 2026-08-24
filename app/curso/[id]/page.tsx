@@ -7,6 +7,7 @@ import Link from "next/link";
 import { ArrowLeft, Clock, Users, FileDown } from "lucide-react";
 import { auth } from "@/auth";
 import { obtenerProgreso } from "@/lib/progreso-server";
+import { accesoSinRestriccion } from "@/lib/curso-acceso";
 import { armarIntento } from "@/lib/quiz-shuffle";
 
 export default async function ModuloPage({ params }: { params: Promise<{ id: string }> }) {
@@ -17,8 +18,9 @@ export default async function ModuloPage({ params }: { params: Promise<{ id: str
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
   const progreso = await obtenerProgreso(session.user.id);
+  const libre = await accesoSinRestriccion(session.user.email);
 
-  if (!moduloDesbloqueado(modulo, progreso.modulosCompletados)) {
+  if (!libre && !moduloDesbloqueado(modulo, progreso.modulosCompletados)) {
     redirect(`/ceni?bloqueado=${modulo.id}`);
   }
 
@@ -108,6 +110,7 @@ export default async function ModuloPage({ params }: { params: Promise<{ id: str
 
       <ModuloAcciones
         modulo={modulo}
+        libre={libre}
         preguntasIniciales={armarIntento(modulo.quiz, modulo.preguntasPorIntento)}
         resultadoInicial={progreso.resultadosQuiz[modulo.id] ?? null}
         actividadesCompletas={actividadesCompletas(modulo, Object.keys(progreso.entregasPorModulo[modulo.id] ?? {}))}

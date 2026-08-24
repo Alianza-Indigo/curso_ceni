@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { obtenerProgreso, registrarResultadoExamen } from "@/lib/progreso-server";
 import { getCurso } from "@/lib/data/cursos";
+import { accesoSinRestriccion } from "@/lib/curso-acceso";
 
 export async function POST(request: Request) {
   const session = await auth();
@@ -18,8 +19,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Curso sin examen final" }, { status: 400 });
   }
 
+  const libre = await accesoSinRestriccion(session.user.email);
   const progreso = await obtenerProgreso(session.user.id, curso.modulos, cursoId);
-  if (progreso.modulosCompletados.length < curso.modulos.length) {
+  if (!libre && progreso.modulosCompletados.length < curso.modulos.length) {
     return NextResponse.json(
       { error: `Debes aprobar los ${curso.modulos.length} módulos antes de presentar el examen final` },
       { status: 403 }

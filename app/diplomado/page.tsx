@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { getCurso, moduloDesbloqueadoCurso } from "@/lib/data/cursos";
 import { obtenerProgreso } from "@/lib/progreso-server";
+import { accesoSinRestriccion } from "@/lib/curso-acceso";
 import { CheckCircle2, Circle, Clock, ArrowRight, Lock, ArrowLeft, Award } from "lucide-react";
 
 export const metadata = { title: "Diplomado NOM-035 ND · CENI" };
@@ -16,7 +17,8 @@ export default async function DiplomadoDashboard({
   if (!session?.user?.id) redirect("/login");
 
   const curso = getCurso("diplomado")!;
-  const progreso = await obtenerProgreso(session.user.id, curso.modulos);
+  const progreso = await obtenerProgreso(session.user.id, curso.modulos, "diplomado");
+  const libre = await accesoSinRestriccion(session.user.email);
   const { bloqueado } = await searchParams;
 
   const completados = progreso.modulosCompletados.filter((id) =>
@@ -26,7 +28,7 @@ export default async function DiplomadoDashboard({
   const porcentaje = Math.round((completados / total) * 100);
   const examenAprobado = progreso.examenFinal?.aprobado ?? false;
   const quizFinalAprobado = progreso.examenFinal?.quizAprobado ?? false;
-  const examenDesbloqueado = completados >= total;
+  const examenDesbloqueado = libre || completados >= total;
   const constanciaVigente = progreso.examenFinal?.vigente ?? false;
   const vigenciaTexto = progreso.examenFinal?.vigenciaHasta
     ? new Date(progreso.examenFinal.vigenciaHasta).toLocaleDateString("es-MX", {
@@ -78,7 +80,7 @@ export default async function DiplomadoDashboard({
         {curso.modulos.map((m) => {
           const resultado = progreso.resultadosQuiz[m.id];
           const completo = progreso.modulosCompletados.includes(m.id);
-          const desbloqueado = moduloDesbloqueadoCurso(curso, m, progreso.modulosCompletados);
+          const desbloqueado = libre || moduloDesbloqueadoCurso(curso, m, progreso.modulosCompletados);
 
           const contenido = (
             <>

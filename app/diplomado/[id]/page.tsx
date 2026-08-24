@@ -14,6 +14,7 @@ import Link from "next/link";
 import { ArrowLeft, Clock, Users, FileDown } from "lucide-react";
 import { auth } from "@/auth";
 import { obtenerProgreso } from "@/lib/progreso-server";
+import { accesoSinRestriccion } from "@/lib/curso-acceso";
 import { armarIntento } from "@/lib/quiz-shuffle";
 
 export default async function ModuloDiplomadoPage({
@@ -28,9 +29,10 @@ export default async function ModuloDiplomadoPage({
 
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
-  const progreso = await obtenerProgreso(session.user.id, curso.modulos);
+  const progreso = await obtenerProgreso(session.user.id, curso.modulos, "diplomado");
+  const libre = await accesoSinRestriccion(session.user.email);
 
-  if (!moduloDesbloqueadoCurso(curso, modulo, progreso.modulosCompletados)) {
+  if (!libre && !moduloDesbloqueadoCurso(curso, modulo, progreso.modulosCompletados)) {
     redirect(`/diplomado?bloqueado=${modulo.id}`);
   }
 
@@ -108,6 +110,7 @@ export default async function ModuloDiplomadoPage({
         modulo={modulo}
         basePath="/diplomado"
         examenFinalHref="/diplomado/examen-final"
+        libre={libre}
         preguntasIniciales={armarIntento(modulo.quiz, modulo.preguntasPorIntento)}
         resultadoInicial={progreso.resultadosQuiz[modulo.id] ?? null}
         actividadesCompletas={actividadesCompletas(
