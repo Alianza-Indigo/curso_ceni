@@ -90,12 +90,20 @@ export default function ExamenFinalClient({
             </ul>
           )}
           {completo && (
-            <a
-              href={`/api/constancia?curso=${cursoId}`}
-              className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-lg bg-[#4b18a8] px-5 text-sm font-black uppercase text-white hover:bg-[#351176]"
-            >
-              <Download className="h-4 w-4" /> Descargar constancia (PDF)
-            </a>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <a
+                href={`/api/constancia?curso=${cursoId}`}
+                className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-[#4b18a8] px-5 text-sm font-black uppercase text-white hover:bg-[#351176]"
+              >
+                <Download className="h-4 w-4" /> Constancia (PDF)
+              </a>
+              <a
+                href={`/api/dc3?curso=${cursoId}`}
+                className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-[#4b18a8] px-5 text-sm font-black uppercase text-[#4b18a8] hover:bg-[#f5f1ff]"
+              >
+                <Download className="h-4 w-4" /> Constancia DC-3 (PDF)
+              </a>
+            </div>
           )}
         </div>
       ) : null}
