@@ -1,7 +1,9 @@
 import "server-only";
 import { randomUUID } from "crypto";
 import { prisma } from "@/lib/db";
-import { modulos, getModuloById, actividadesCompletas } from "@/lib/data/modulos";
+import { modulos, actividadesCompletas } from "@/lib/data/modulos";
+import { getModuloGlobal } from "@/lib/data/cursos";
+import type { Modulo } from "@/lib/types";
 import {
   UMBRAL_APROBATORIO_PCT,
   MIN_PALABRAS_CASO_PRACTICO,
@@ -63,7 +65,10 @@ function calcularResultado(
   };
 }
 
-export async function obtenerProgreso(userId: string): Promise<ProgresoCurso> {
+export async function obtenerProgreso(
+  userId: string,
+  modulosCurso: Modulo[] = modulos
+): Promise<ProgresoCurso> {
   const [modulosProgreso, examen, entregas, entregaFinal] = await Promise.all([
     prisma.progresoModulo.findMany({ where: { userId } }),
     prisma.resultadoExamen.findUnique({ where: { userId } }),
@@ -89,7 +94,7 @@ export async function obtenerProgreso(userId: string): Promise<ProgresoCurso> {
     };
   }
 
-  const modulosCompletados = modulos
+  const modulosCompletados = modulosCurso
     .filter((m) => {
       const codigosEntregados = Object.keys(entregasPorModulo[m.id] ?? {});
       return Boolean(resultadosQuiz[m.id]?.aprobado) && actividadesCompletas(m, codigosEntregados);
@@ -174,7 +179,7 @@ export async function guardarEntregaActividad(
   actividadCodigo: string,
   contenido: string
 ): Promise<void> {
-  const modulo = getModuloById(moduloId);
+  const modulo = getModuloGlobal(moduloId);
   if (!modulo || !modulo.actividades.some((a) => a.codigo === actividadCodigo)) {
     throw new Error("Actividad desconocida");
   }
@@ -192,7 +197,7 @@ export async function registrarResultadoModulo(
   aciertos: number,
   total: number
 ): Promise<ResultadoQuiz> {
-  if (!modulos.some((m) => m.id === moduloId)) {
+  if (!getModuloGlobal(moduloId)) {
     throw new Error("Módulo desconocido");
   }
   const fecha = new Date();

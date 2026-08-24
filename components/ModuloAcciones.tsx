@@ -25,6 +25,8 @@ export default function ModuloAcciones({
   actividadesCompletas,
   anterior,
   siguiente,
+  basePath = "/curso",
+  examenFinalHref = "/examen-final",
 }: {
   modulo: Modulo;
   preguntasIniciales: PreguntaQuiz[];
@@ -32,6 +34,10 @@ export default function ModuloAcciones({
   actividadesCompletas: boolean;
   anterior?: { id: string; titulo: string; numero: number };
   siguiente?: { id: string; titulo: string; numero: number };
+  // Ruta base para enlazar módulos ("/curso" para CENI, "/diplomado" para el diplomado).
+  basePath?: string;
+  // Destino del examen final del curso; null si el curso no tiene examen final habilitado.
+  examenFinalHref?: string | null;
 }) {
   const router = useRouter();
   const [resultado, setResultado] = useState<ResultadoQuiz | null>(resultadoInicial);
@@ -102,7 +108,7 @@ export default function ModuloAcciones({
       <nav className="flex flex-wrap items-center justify-between gap-3 border-t border-[#e5def4] pt-6">
         {anterior ? (
           <Link
-            href={`/curso/${anterior.id}`}
+            href={`${basePath}/${anterior.id}`}
             className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-[#e3dfef] px-4 text-sm font-bold text-[#4b18a8] hover:bg-[#f5f1ff]"
           >
             <ArrowLeft className="h-4 w-4" /> Módulo {anterior.numero}: {anterior.titulo}
@@ -113,7 +119,7 @@ export default function ModuloAcciones({
         {siguiente ? (
           moduloCompleto ? (
             <Link
-              href={`/curso/${siguiente.id}`}
+              href={`${basePath}/${siguiente.id}`}
               className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-[#4b18a8] px-4 text-sm font-bold text-white hover:bg-[#351176]"
             >
               Módulo {siguiente.numero}: {siguiente.titulo} <ArrowRight className="h-4 w-4" />
@@ -126,20 +132,28 @@ export default function ModuloAcciones({
               <Lock className="h-4 w-4" /> Módulo {siguiente.numero}: {siguiente.titulo}
             </span>
           )
+        ) : examenFinalHref ? (
+          moduloCompleto ? (
+            <Link
+              href={examenFinalHref}
+              className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-[#dda632] px-4 text-sm font-black uppercase text-[#070b2f] hover:bg-[#f0c85b]"
+            >
+              Ir al examen final <ArrowRight className="h-4 w-4" />
+            </Link>
+          ) : (
+            <span
+              className="inline-flex min-h-11 cursor-not-allowed items-center gap-2 rounded-lg border border-[#e3dfef] px-4 text-sm font-bold text-[#a6a2b8]"
+              title="Aprueba el quiz y entrega las actividades de este módulo para desbloquear el examen final"
+            >
+              <Lock className="h-4 w-4" /> Ir al examen final
+            </span>
+          )
         ) : moduloCompleto ? (
-          <Link
-            href="/examen-final"
-            className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-[#dda632] px-4 text-sm font-black uppercase text-[#070b2f] hover:bg-[#f0c85b]"
-          >
-            Ir al examen final <ArrowRight className="h-4 w-4" />
-          </Link>
-        ) : (
-          <span
-            className="inline-flex min-h-11 cursor-not-allowed items-center gap-2 rounded-lg border border-[#e3dfef] px-4 text-sm font-bold text-[#a6a2b8]"
-            title="Aprueba el quiz y entrega las actividades de este módulo para desbloquear el examen final"
-          >
-            <Lock className="h-4 w-4" /> Ir al examen final
+          <span className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-green-500 bg-green-50 px-4 text-sm font-bold text-green-700">
+            <CheckCircle2 className="h-4 w-4" /> ¡Completaste el último módulo!
           </span>
+        ) : (
+          <span />
         )}
       </nav>
     </div>

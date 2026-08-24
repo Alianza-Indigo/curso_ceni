@@ -19,7 +19,7 @@ export default async function ModuloPage({ params }: { params: Promise<{ id: str
   const progreso = await obtenerProgreso(session.user.id);
 
   if (!moduloDesbloqueado(modulo, progreso.modulosCompletados)) {
-    redirect(`/?bloqueado=${modulo.id}`);
+    redirect(`/ceni?bloqueado=${modulo.id}`);
   }
 
   const anteriorM = getModuloAdyacente(id, -1);
@@ -28,7 +28,7 @@ export default async function ModuloPage({ params }: { params: Promise<{ id: str
   return (
     <div className="mx-auto max-w-4xl px-4 py-10">
       <Link
-        href="/"
+        href="/ceni"
         className="mb-6 inline-flex items-center gap-2 text-xs font-black uppercase tracking-wide text-[#4b18a8] hover:underline"
       >
         <ArrowLeft className="h-4 w-4" /> Volver a mi progreso
