@@ -8,13 +8,30 @@ import { CONTACTO_ALIANZA_INDIGO, MARCADOR_REDIRECCION_HUMANA } from "@/lib/cons
 type Mensaje = { role: "user" | "model"; texto: string };
 
 function moduloIdDesdeRuta(pathname: string): string | undefined {
-  const match = pathname.match(/^\/curso\/([^/]+)/);
-  return match?.[1];
+  // Módulo CENI: /curso/:id · Módulo diplomado: /diplomado/dNN
+  const ceni = pathname.match(/^\/curso\/([^/]+)/);
+  if (ceni) return ceni[1];
+  const dip = pathname.match(/^\/diplomado\/(d\d{2})(?:\/|$)/);
+  return dip?.[1];
+}
+
+function cursoIdDesdeRuta(pathname: string): string | undefined {
+  if (pathname.startsWith("/diplomado")) return "diplomado";
+  if (
+    pathname.startsWith("/ceni") ||
+    pathname.startsWith("/curso") ||
+    pathname === "/materiales" ||
+    pathname.startsWith("/examen-final")
+  ) {
+    return "ceni";
+  }
+  return undefined;
 }
 
 export default function AsistenteChat() {
   const pathname = usePathname();
   const moduloId = moduloIdDesdeRuta(pathname);
+  const cursoId = cursoIdDesdeRuta(pathname);
 
   const [abierto, setAbierto] = useState(false);
   const [mensajes, setMensajes] = useState<Mensaje[]>([]);
@@ -41,7 +58,7 @@ export default function AsistenteChat() {
       const res = await fetch("/api/asistente", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ moduloId, mensajes: historial }),
+        body: JSON.stringify({ moduloId, cursoId, mensajes: historial }),
       });
 
       if (!res.ok || !res.body) {

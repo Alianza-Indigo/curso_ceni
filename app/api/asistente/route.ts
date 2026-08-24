@@ -26,6 +26,8 @@ export async function POST(request: Request) {
   const mensajes: MensajeEntrada[] = Array.isArray(body?.mensajes) ? body.mensajes : [];
   const moduloId: string | undefined =
     typeof body?.moduloId === "string" ? body.moduloId : undefined;
+  const cursoId: string | undefined =
+    typeof body?.cursoId === "string" ? body.cursoId : undefined;
 
   if (
     mensajes.length === 0 ||
@@ -57,7 +59,7 @@ export async function POST(request: Request) {
       model: MODELO,
       contents,
       config: {
-        systemInstruction: construirSystemInstruction(moduloId),
+        systemInstruction: construirSystemInstruction(moduloId, cursoId),
         temperature: 0.4,
         maxOutputTokens: 700,
       },
