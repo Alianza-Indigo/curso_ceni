@@ -10,7 +10,7 @@ import { ArrowLeft, ArrowRight, CheckCircle2, Lock } from "lucide-react";
 
 type ResultadoQuiz = {
   moduloId: string;
-  respuestas: Record<string, number>;
+  respuestas: Record<string, string | number>;
   aciertos: number;
   total: number;
   porcentaje: number;
@@ -53,11 +53,11 @@ export default function ModuloAcciones({
   // Con avance libre (admin) se puede navegar aunque el módulo no esté completo.
   const avanzar = moduloCompleto || libre;
 
-  async function onFinalizar(respuestas: Record<string, number>, aciertos: number, total: number) {
+  async function onFinalizar(respuestas: Record<string, string>) {
     const res = await fetch("/api/progreso/modulo", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ moduloId: modulo.id, respuestas, aciertos, total }),
+      body: JSON.stringify({ moduloId: modulo.id, respuestas }),
     });
     if (res.ok) {
       const data: ResultadoQuiz = await res.json();

@@ -3,6 +3,12 @@ import { auth } from "@/auth";
 import { obtenerProgreso, registrarResultadoExamen } from "@/lib/progreso-server";
 import { getCurso } from "@/lib/data/cursos";
 import { accesoSinRestriccion } from "@/lib/curso-acceso";
+import type { Respuestas } from "@/lib/quiz-scoring";
+
+function respuestasValidas(v: unknown): v is Respuestas {
+  if (typeof v !== "object" || v === null || Array.isArray(v)) return false;
+  return Object.values(v as Record<string, unknown>).every((x) => typeof x === "string");
+}
 
 export async function POST(request: Request) {
   const session = await auth();
@@ -10,8 +16,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "No autenticado" }, { status: 401 });
   }
 
-  const body = await request.json();
-  const { respuestas, aciertos, total } = body ?? {};
+  const body = await request.json().catch(() => null);
+  const { respuestas } = body ?? {};
   const cursoId = typeof body?.cursoId === "string" ? body.cursoId : "ceni";
 
   const curso = getCurso(cursoId);
@@ -28,15 +34,18 @@ export async function POST(request: Request) {
     );
   }
 
-  if (
-    typeof aciertos !== "number" ||
-    typeof total !== "number" ||
-    typeof respuestas !== "object" ||
-    respuestas === null
-  ) {
+  // El puntaje se recalcula en el servidor: el cliente NO envía aciertos/total.
+  if (!respuestasValidas(respuestas)) {
     return NextResponse.json({ error: "Cuerpo inválido" }, { status: 400 });
   }
 
-  const resultado = await registrarResultadoExamen(session.user.id, respuestas, aciertos, total, cursoId);
-  return NextResponse.json(resultado);
+  try {
+    const resultado = await registrarResultadoExamen(session.user.id, respuestas, cursoId);
+    return NextResponse.json(resultado);
+  } catch {
+    return NextResponse.json(
+      { error: "No se recibieron respuestas válidas para el examen." },
+      { status: 400 }
+    );
+  }
 }

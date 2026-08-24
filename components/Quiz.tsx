@@ -7,7 +7,9 @@ import { UMBRAL_APROBATORIO_PCT } from "@/lib/constantes";
 
 type Props = {
   preguntas: PreguntaQuiz[];
-  onFinalizar: (respuestas: Record<string, number>, aciertos: number, total: number) => void;
+  // Envía SOLO las respuestas (id de pregunta → texto de la opción elegida).
+  // El puntaje lo recalcula el servidor; el cliente no lo reporta.
+  onFinalizar: (respuestas: Record<string, string>) => void;
   tituloBoton?: string;
   // Si se provee, se invoca al reintentar (además de limpiar el estado interno).
   // Úsalo para pedirle al padre una nueva selección aleatoria de preguntas.
@@ -30,7 +32,14 @@ export default function Quiz({ preguntas, onFinalizar, tituloBoton = "Calificar 
 
   function calificar() {
     setEnviado(true);
-    onFinalizar(respuestas, aciertos, preguntas.length);
+    // Se envía el TEXTO de la opción elegida por pregunta; el servidor lo
+    // compara contra el banco oficial y recalcula el puntaje.
+    const respuestasTexto: Record<string, string> = {};
+    for (const p of preguntas) {
+      const idx = respuestas[p.id];
+      if (idx !== undefined) respuestasTexto[p.id] = p.opciones[idx];
+    }
+    onFinalizar(respuestasTexto);
   }
 
   function reintentar() {

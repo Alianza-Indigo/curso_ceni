@@ -3,6 +3,7 @@ import { randomUUID } from "crypto";
 import { prisma } from "@/lib/db";
 import { modulos, actividadesCompletas } from "@/lib/data/modulos";
 import { getModuloGlobal } from "@/lib/data/cursos";
+import { puntuarModulo, puntuarExamen, type Respuestas } from "@/lib/quiz-scoring";
 import type { Modulo } from "@/lib/types";
 import {
   UMBRAL_APROBATORIO_PCT,
@@ -19,7 +20,9 @@ function contarPalabras(texto: string): number {
 
 export type ResultadoQuiz = {
   moduloId: string;
-  respuestas: Record<string, number>;
+  // Guardamos el texto de la opción elegida por pregunta (los intentos viejos
+  // pueden tener índices numéricos; por eso el tipo admite ambos).
+  respuestas: Record<string, string | number>;
   aciertos: number;
   total: number;
   porcentaje: number;
@@ -48,7 +51,7 @@ export type ProgresoCurso = {
 
 function calcularResultado(
   moduloId: string,
-  respuestas: Record<string, number>,
+  respuestas: Record<string, string | number>,
   aciertos: number,
   total: number,
   fecha: Date
@@ -86,7 +89,7 @@ export async function obtenerProgreso(
   for (const p of modulosProgreso) {
     resultadosQuiz[p.moduloId] = {
       moduloId: p.moduloId,
-      respuestas: p.respuestas as Record<string, number>,
+      respuestas: p.respuestas as Record<string, string | number>,
       aciertos: p.aciertos,
       total: p.total,
       porcentaje: p.porcentaje,
@@ -112,7 +115,7 @@ export async function obtenerProgreso(
     examenFinal: examen
       ? {
           moduloId: "examen-final",
-          respuestas: examen.respuestas as Record<string, number>,
+          respuestas: examen.respuestas as Record<string, string | number>,
           aciertos: examen.aciertos,
           total: examen.total,
           porcentaje: examen.porcentaje,
@@ -201,12 +204,16 @@ export async function guardarEntregaActividad(
 export async function registrarResultadoModulo(
   userId: string,
   moduloId: string,
-  respuestas: Record<string, number>,
-  aciertos: number,
-  total: number
+  respuestas: Respuestas
 ): Promise<ResultadoQuiz> {
   if (!getModuloGlobal(moduloId)) {
     throw new Error("Módulo desconocido");
+  }
+  // Puntaje AUTORITATIVO: se recalcula en el servidor a partir de las
+  // respuestas; nunca se confía en aciertos/total del cliente.
+  const { aciertos, total } = puntuarModulo(moduloId, respuestas);
+  if (total === 0) {
+    throw new Error("No se recibieron respuestas válidas");
   }
   const fecha = new Date();
   const resultado = calcularResultado(moduloId, respuestas, aciertos, total, fecha);
@@ -238,11 +245,14 @@ export async function registrarResultadoModulo(
 
 export async function registrarResultadoExamen(
   userId: string,
-  respuestas: Record<string, number>,
-  aciertos: number,
-  total: number,
+  respuestas: Respuestas,
   cursoId: string = "ceni"
 ): Promise<ResultadoQuiz & { folio?: string | null; vigenciaHasta?: string | null; quizAprobado: boolean }> {
+  // Puntaje AUTORITATIVO recalculado en el servidor.
+  const { aciertos, total } = puntuarExamen(cursoId, respuestas);
+  if (total === 0) {
+    throw new Error("No se recibieron respuestas válidas");
+  }
   const fecha = new Date();
   const resultado = calcularResultado("examen-final", respuestas, aciertos, total, fecha);
   const quizAprobado = resultado.aprobado;
