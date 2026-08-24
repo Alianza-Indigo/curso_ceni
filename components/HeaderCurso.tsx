@@ -65,7 +65,16 @@ export default function HeaderCurso({ usuario }: { usuario: Usuario }) {
         {
           href: "/diplomado",
           label: "Mi progreso",
-          activo: pathname === "/diplomado" || (pathname.startsWith("/diplomado/") && !pathname.startsWith("/diplomado/examen-final")),
+          activo:
+            pathname === "/diplomado" ||
+            (pathname.startsWith("/diplomado/") &&
+              !pathname.startsWith("/diplomado/examen-final") &&
+              !pathname.startsWith("/diplomado/materiales")),
+        },
+        {
+          href: "/diplomado/materiales",
+          label: "Materiales",
+          activo: pathname.startsWith("/diplomado/materiales"),
         },
         {
           href: "/diplomado/examen-final",
