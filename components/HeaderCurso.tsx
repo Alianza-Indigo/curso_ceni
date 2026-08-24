@@ -45,12 +45,37 @@ export default function HeaderCurso({ usuario }: { usuario: Usuario }) {
   // La landing pública (usuario no autenticado en "/") trae su propio encabezado.
   if (!usuario && pathname === "/") return null;
 
-  function navCls(href: string) {
-    const activo = href === "/" ? pathname === "/" : pathname.startsWith(href);
+  function navCls(activo: boolean) {
     return `whitespace-nowrap rounded-lg px-3 py-2 text-xs font-black uppercase tracking-wide ${
       activo ? "bg-[#4b18a8] text-white" : "text-[#070b2f] hover:bg-[#f5f1ff]"
     }`;
   }
+
+  // Navegación según el curso en el que esté el usuario (ids de ruta).
+  const enDiplomado = pathname.startsWith("/diplomado");
+  const enCeni =
+    pathname.startsWith("/ceni") ||
+    pathname.startsWith("/curso") ||
+    pathname === "/materiales" ||
+    pathname.startsWith("/examen-final");
+
+  const enlacesNav: { href: string; label: string; activo: boolean }[] = enDiplomado
+    ? [
+        { href: "/", label: "Todos los cursos", activo: false },
+        { href: "/diplomado", label: "Mi progreso", activo: pathname.startsWith("/diplomado") },
+      ]
+    : enCeni
+      ? [
+          { href: "/", label: "Todos los cursos", activo: false },
+          {
+            href: "/ceni",
+            label: "Mi progreso",
+            activo: pathname.startsWith("/ceni") || pathname.startsWith("/curso"),
+          },
+          { href: "/materiales", label: "Materiales", activo: pathname === "/materiales" },
+          { href: "/examen-final", label: "Examen final", activo: pathname.startsWith("/examen-final") },
+        ]
+      : [];
 
   return (
     <header className="sticky top-0 z-40 border-b border-[#eee9f7] bg-white/95 backdrop-blur">
@@ -110,21 +135,17 @@ export default function HeaderCurso({ usuario }: { usuario: Usuario }) {
         </div>
       </div>
 
-      {usuario && (
+      {usuario && enlacesNav.length > 0 && (
         <nav
           aria-label="Navegación del curso"
           className="border-t border-[#eee9f7] bg-white/95"
         >
           <div className="mx-auto flex max-w-6xl items-center gap-1 overflow-x-auto px-4 py-1.5">
-            <Link href="/" className={navCls("/")}>
-              Mi progreso
-            </Link>
-            <Link href="/materiales" className={navCls("/materiales")}>
-              Materiales
-            </Link>
-            <Link href="/examen-final" className={navCls("/examen-final")}>
-              Examen final
-            </Link>
+            {enlacesNav.map((n) => (
+              <Link key={n.href} href={n.href} className={navCls(n.activo)}>
+                {n.label}
+              </Link>
+            ))}
           </div>
         </nav>
       )}

@@ -69,3 +69,115 @@ html[data-calm="true"] * {
   line-height: 1.75;
   color: var(--ceni-ink);
 }
+
+/* Contenido íntegro (Markdown) de los módulos del diplomado */
+.md-contenido {
+  color: var(--ceni-ink);
+  line-height: 1.75;
+  font-size: 1rem;
+}
+.md-contenido h1,
+.md-contenido h2,
+.md-contenido h3,
+.md-contenido h4 {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 800;
+  color: var(--ceni-navy);
+  line-height: 1.2;
+  scroll-margin-top: 6rem;
+}
+.md-contenido h1 {
+  font-size: 1.9rem;
+  margin: 2rem 0 1rem;
+}
+.md-contenido h2 {
+  font-size: 1.5rem;
+  margin: 2rem 0 0.75rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 2px solid var(--ceni-border);
+}
+.md-contenido h3 {
+  font-size: 1.2rem;
+  margin: 1.5rem 0 0.5rem;
+  color: var(--ceni-indigo);
+}
+.md-contenido h4 {
+  font-size: 1.05rem;
+  margin: 1.25rem 0 0.5rem;
+}
+.md-contenido p {
+  margin: 0.85rem 0;
+}
+.md-contenido ul,
+.md-contenido ol {
+  margin: 0.85rem 0;
+  padding-left: 1.5rem;
+}
+.md-contenido ul {
+  list-style: disc;
+}
+.md-contenido ol {
+  list-style: decimal;
+}
+.md-contenido li {
+  margin: 0.35rem 0;
+}
+.md-contenido a {
+  color: var(--ceni-indigo);
+  text-decoration: underline;
+}
+.md-contenido strong {
+  color: var(--ceni-navy);
+  font-weight: 700;
+}
+.md-contenido blockquote {
+  margin: 1rem 0;
+  padding: 0.5rem 1rem;
+  border-left: 4px solid var(--ceni-gold);
+  background: var(--ceni-lavender-bg);
+  color: var(--ceni-ink);
+}
+.md-contenido code {
+  background: var(--ceni-lavender);
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.3rem;
+  font-size: 0.9em;
+}
+.md-contenido pre {
+  background: var(--ceni-navy);
+  color: #f5f1ff;
+  padding: 1rem;
+  border-radius: 0.6rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+.md-contenido pre code {
+  background: transparent;
+  padding: 0;
+}
+.md-contenido hr {
+  margin: 2rem 0;
+  border: 0;
+  border-top: 1px solid var(--ceni-border);
+}
+.md-tabla-scroll {
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+.md-contenido table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+.md-contenido th,
+.md-contenido td {
+  border: 1px solid var(--ceni-border);
+  padding: 0.5rem 0.7rem;
+  text-align: left;
+  vertical-align: top;
+}
+.md-contenido thead th {
+  background: var(--ceni-lavender);
+  color: var(--ceni-navy);
+  font-weight: 700;
+}
