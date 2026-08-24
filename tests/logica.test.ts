@@ -7,6 +7,7 @@ import {
   actividadesCompletas,
 } from "@/lib/data/modulos";
 import { barajar, barajarOpciones, armarIntento } from "@/lib/quiz-shuffle";
+import { puntuarModulo, puntuarExamen } from "@/lib/quiz-scoring";
 
 describe("navegación de módulos", () => {
   it("getModuloById devuelve el módulo correcto o undefined", () => {
@@ -93,5 +94,35 @@ describe("armarIntento", () => {
 
   it("no excede el tamaño del banco", () => {
     expect(armarIntento(banco, 999)).toHaveLength(banco.length);
+  });
+});
+
+describe("puntuación en servidor (autoritativa)", () => {
+  const m = modulos[0];
+  const textoCorrecto = (q: (typeof m.quiz)[number]) => q.opciones[q.correcta];
+
+  it("puntuarModulo cuenta aciertos por texto de la opción, no por índice", () => {
+    const todasCorrectas = Object.fromEntries(m.quiz.map((q) => [q.id, textoCorrecto(q)]));
+    expect(puntuarModulo(m.id, todasCorrectas)).toEqual({ aciertos: m.quiz.length, total: m.quiz.length });
+
+    // Una mal contestada baja el puntaje en 1.
+    const unaMal = { ...todasCorrectas, [m.quiz[0].id]: "respuesta inventada" };
+    expect(puntuarModulo(m.id, unaMal)).toEqual({ aciertos: m.quiz.length - 1, total: m.quiz.length });
+  });
+
+  it("puntuarModulo ignora ids que no existen en el banco", () => {
+    const res = puntuarModulo(m.id, { noexiste: "x", [m.quiz[0].id]: textoCorrecto(m.quiz[0]) });
+    expect(res).toEqual({ aciertos: 1, total: 1 });
+  });
+
+  it("puntuarModulo devuelve 0/0 para un módulo desconocido", () => {
+    expect(puntuarModulo("noexiste", { a: "b" })).toEqual({ aciertos: 0, total: 0 });
+  });
+
+  it("puntuarExamen resuelve los ids con prefijo y puntúa contra el banco", () => {
+    const q = m.quiz[0];
+    const id = `final-${m.id}-${q.id}`;
+    expect(puntuarExamen("ceni", { [id]: textoCorrecto(q) })).toEqual({ aciertos: 1, total: 1 });
+    expect(puntuarExamen("ceni", { [id]: "otra cosa" })).toEqual({ aciertos: 0, total: 1 });
   });
 });
