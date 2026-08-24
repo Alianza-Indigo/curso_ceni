@@ -10,6 +10,7 @@ import {
 } from "@/lib/data/diplomado/examenFinal";
 import { getCurso } from "@/lib/data/cursos";
 import { obtenerProgreso } from "@/lib/progreso-server";
+import { accesoSinRestriccion } from "@/lib/curso-acceso";
 import { ArrowLeft, FileText } from "lucide-react";
 
 export const metadata = { title: "Examen final · Diplomado NOM-035 ND" };
@@ -24,7 +25,8 @@ export default async function ExamenFinalDiplomadoPage() {
     curso.modulos.some((m) => m.id === id)
   ).length;
 
-  if (modulosCompletados < curso.modulos.length) redirect("/diplomado?examenBloqueado=1");
+  const libre = await accesoSinRestriccion(session.user.email);
+  if (!libre && modulosCompletados < curso.modulos.length) redirect("/diplomado?examenBloqueado=1");
 
   const preguntas = construirExamenFinalDiplomado();
 

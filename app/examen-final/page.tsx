@@ -5,6 +5,7 @@ import ExamenFinalClient from "@/components/ExamenFinalClient";
 import EntregaFinalForm from "@/components/EntregaFinalForm";
 import { construirExamenFinal, casoPracticoFinal, componentesEvaluacionFinal } from "@/lib/data/examenFinal";
 import { obtenerProgreso } from "@/lib/progreso-server";
+import { accesoSinRestriccion } from "@/lib/curso-acceso";
 import { modulos } from "@/lib/data/modulos";
 import { ArrowLeft, FileText } from "lucide-react";
 
@@ -14,8 +15,9 @@ export default async function ExamenFinalPage() {
 
   const progreso = await obtenerProgreso(session.user.id);
   const modulosCompletados = progreso.modulosCompletados.length;
+  const libre = await accesoSinRestriccion(session.user.email);
 
-  if (modulosCompletados < modulos.length) redirect("/?examenBloqueado=1");
+  if (!libre && modulosCompletados < modulos.length) redirect("/ceni?examenBloqueado=1");
 
   const preguntas = construirExamenFinal();
 

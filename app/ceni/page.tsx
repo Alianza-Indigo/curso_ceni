@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { modulos, getModuloById, getModuloAdyacente, moduloDesbloqueado } from "@/lib/data/modulos";
 import { obtenerProgreso } from "@/lib/progreso-server";
+import { accesoSinRestriccion } from "@/lib/curso-acceso";
 import ReiniciarProgreso from "@/components/ReiniciarProgreso";
 import { CheckCircle2, Circle, Clock, ArrowRight, Award, Lock, ArrowLeft } from "lucide-react";
 
@@ -17,6 +18,7 @@ export default async function DashboardCeni({
   if (!session?.user?.id) redirect("/login");
 
   const progreso = await obtenerProgreso(session.user.id);
+  const libre = await accesoSinRestriccion(session.user.email);
   const { bloqueado, examenBloqueado } = await searchParams;
 
   const completados = progreso.modulosCompletados.filter((id) =>
@@ -26,7 +28,7 @@ export default async function DashboardCeni({
   const porcentajeGeneral = Math.round((completados / totalModulos) * 100);
   const examenAprobado = progreso.examenFinal?.aprobado ?? false;
   const quizFinalAprobado = progreso.examenFinal?.quizAprobado ?? false;
-  const examenDesbloqueado = completados >= totalModulos;
+  const examenDesbloqueado = libre || completados >= totalModulos;
   const constanciaVigente = progreso.examenFinal?.vigente ?? false;
   const vigenciaTexto = progreso.examenFinal?.vigenciaHasta
     ? new Date(progreso.examenFinal.vigenciaHasta).toLocaleDateString("es-MX", {
@@ -101,7 +103,7 @@ export default async function DashboardCeni({
         {modulos.map((m) => {
           const resultado = progreso.resultadosQuiz[m.id];
           const completo = progreso.modulosCompletados.includes(m.id);
-          const desbloqueado = moduloDesbloqueado(m, progreso.modulosCompletados);
+          const desbloqueado = libre || moduloDesbloqueado(m, progreso.modulosCompletados);
 
           const contenido = (
             <>

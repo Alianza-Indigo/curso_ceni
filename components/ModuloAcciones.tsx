@@ -27,6 +27,7 @@ export default function ModuloAcciones({
   siguiente,
   basePath = "/curso",
   examenFinalHref = "/examen-final",
+  libre = false,
 }: {
   modulo: Modulo;
   preguntasIniciales: PreguntaQuiz[];
@@ -38,6 +39,8 @@ export default function ModuloAcciones({
   basePath?: string;
   // Destino del examen final del curso; null si el curso no tiene examen final habilitado.
   examenFinalHref?: string | null;
+  // Cuenta con avance libre (admin): desbloquea navegar sin completar el módulo.
+  libre?: boolean;
 }) {
   const router = useRouter();
   const [resultado, setResultado] = useState<ResultadoQuiz | null>(resultadoInicial);
@@ -47,6 +50,8 @@ export default function ModuloAcciones({
   // renderiza en el servidor). Los reintentos sí arman una nueva selección en el cliente.
   const [preguntasIntento, setPreguntasIntento] = useState(preguntasIniciales);
   const moduloCompleto = Boolean(resultado?.aprobado) && actividadesCompletas;
+  // Con avance libre (admin) se puede navegar aunque el módulo no esté completo.
+  const avanzar = moduloCompleto || libre;
 
   async function onFinalizar(respuestas: Record<string, number>, aciertos: number, total: number) {
     const res = await fetch("/api/progreso/modulo", {
@@ -117,7 +122,7 @@ export default function ModuloAcciones({
           <span />
         )}
         {siguiente ? (
-          moduloCompleto ? (
+          avanzar ? (
             <Link
               href={`${basePath}/${siguiente.id}`}
               className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-[#4b18a8] px-4 text-sm font-bold text-white hover:bg-[#351176]"
@@ -133,7 +138,7 @@ export default function ModuloAcciones({
             </span>
           )
         ) : examenFinalHref ? (
-          moduloCompleto ? (
+          avanzar ? (
             <Link
               href={examenFinalHref}
               className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-[#dda632] px-4 text-sm font-black uppercase text-[#070b2f] hover:bg-[#f0c85b]"
