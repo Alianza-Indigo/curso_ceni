@@ -283,6 +283,72 @@ export async function reiniciarProgreso(userId: string) {
   ]);
 }
 
+export type ResumenEmpleado = {
+  userId: string;
+  email: string | null;
+  nombre: string | null;
+  modulosCompletados: number;
+  modulosTotal: number;
+  porcentajeModulos: number;
+  examenAprobado: boolean;
+  certificado: boolean;
+  folio: string | null;
+};
+
+export type ResumenInvitacionPendiente = { email: string; expiraEn: string };
+
+export type ResumenProgresoOrganizacion = {
+  organizacionId: string;
+  empleados: ResumenEmpleado[];
+  invitacionesPendientes: ResumenInvitacionPendiente[];
+};
+
+/**
+ * Progreso agregado de los empleados vinculados a una organización externa
+ * (ceni_vercel), consumido por GET /api/partner/progreso.
+ */
+export async function obtenerProgresoResumenOrganizacion(
+  organizacionId: string
+): Promise<ResumenProgresoOrganizacion> {
+  const [usuarios, invitacionesPendientes] = await Promise.all([
+    prisma.user.findMany({
+      where: { organizacionId },
+      select: { id: true, email: true, name: true },
+    }),
+    prisma.invitacion.findMany({
+      where: { organizacionId, estado: "PENDIENTE" },
+      select: { email: true, expiresAt: true },
+    }),
+  ]);
+
+  const empleados: ResumenEmpleado[] = await Promise.all(
+    usuarios.map(async (u) => {
+      const progreso = await obtenerProgreso(u.id);
+      return {
+        userId: u.id,
+        email: u.email,
+        nombre: u.name,
+        modulosCompletados: progreso.modulosCompletados.length,
+        modulosTotal: modulos.length,
+        porcentajeModulos:
+          modulos.length === 0 ? 0 : Math.round((progreso.modulosCompletados.length / modulos.length) * 100),
+        examenAprobado: Boolean(progreso.examenFinal?.quizAprobado),
+        certificado: Boolean(progreso.examenFinal?.aprobado),
+        folio: progreso.examenFinal?.folio ?? null,
+      };
+    })
+  );
+
+  return {
+    organizacionId,
+    empleados,
+    invitacionesPendientes: invitacionesPendientes.map((i) => ({
+      email: i.email,
+      expiraEn: i.expiresAt.toISOString(),
+    })),
+  };
+}
+
 /** Usado por la página pública de verificación de folio — no requiere sesión. */
 export async function buscarConstanciaPorFolio(folio: string) {
   const examen = await prisma.resultadoExamen.findUnique({

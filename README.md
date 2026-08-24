@@ -56,6 +56,33 @@ inicio de sesión con Google.
   contraseña se cambia desde el propio panel (sección "Cambiar contraseña"), sin tocar Vercel
   ni el repo. Muestra usuarios registrados, aprobación por módulo, y la tabla de constancias
   emitidas con su folio. Un solo administrador por ahora; para varios habría que extenderlo.
+- **Invitaciones de organizaciones (integración con `ceni_vercel`)**: una empresa dada de alta
+  en la plataforma hermana `ceni_vercel` puede invitar empleados a tomar este curso y ver su
+  progreso agregado, sin base de datos compartida ni SSO entre ambos sistemas:
+  - `POST /api/partner/invitaciones` y `GET /api/partner/progreso` son rutas
+    server-to-server autenticadas con `Authorization: Bearer PARTNER_API_KEY` (comparación en
+    tiempo constante, ver `lib/partner-auth.ts`) — las consume el panel de `ceni_vercel`, nunca
+    el navegador del empleado.
+  - Crear una invitación genera un `Invitacion` (Postgres) con token de un solo uso y envía un
+    correo real vía [Resend](https://resend.com) (`lib/email/invitacion.ts`) con un link a
+    `/invitacion/[token]`, página pública donde el empleado acepta iniciando sesión con Google
+    o creando una contraseña.
+  - **Login por contraseña**: se agregó como alternativa a Google para que un empleado
+    invitado pueda entrar sin depender de una cuenta de Google (`lib/credenciales-auth.ts`,
+    formulario en `/login`). **Importante para quien mantenga este código**: Auth.js v5 no
+    soporta mezclar un provider `Credentials` en el arreglo `providers` con
+    `session.strategy: "database"` (que sigue usando el login de Google). Por eso el login por
+    contraseña **no** es un segundo provider de Auth.js — es un flujo manual que crea
+    directamente una fila en `Session` con el mismo shape que usa el adaptador de Prisma y
+    setea la cookie declarada explícitamente en `auth.ts` (`NOMBRE_COOKIE_SESION`). No
+    "arregles" esto agregando `Credentials` a `providers`: rompería las sesiones de Google.
+  - El provider de Google tiene `allowDangerousEmailAccountLinking: true` a propósito: un
+    empleado puede crear primero una contraseña y luego entrar con Google usando el mismo
+    correo: el correo ya está verificado por dos vías (lo capturó la empresa al invitar, y el
+    token de invitación de un solo uso demuestra control del inbox), así que vincular ambos
+    métodos de acceso es seguro en este flujo.
+  - No hay signup público de "crea tu cuenta con contraseña": `passwordHash` solo se asigna
+    dentro del flujo de aceptar invitación.
 
 ## Configuración local
 
@@ -110,6 +137,9 @@ inicio de sesión con Google.
 | `AUTH_TRUST_HOST` | `"true"` si Auth.js corre detrás de un proxy/CDN |
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Credenciales OAuth de Google Cloud Console |
 | `GEMINI_API_KEY` | API key de [Google AI Studio](https://aistudio.google.com/apikey) para el asistente virtual |
+| `PARTNER_API_KEY` | Secreto compartido server-to-server con `ceni_vercel` (mismo valor que su `CURSO_API_KEY`) para las rutas `/api/partner/*` |
+| `RESEND_API_KEY` | API key de [Resend](https://resend.com/api-keys) para enviar el correo de invitación |
+| `RESEND_FROM_EMAIL` | Remitente verificado en Resend, ej. `Curso CENI <curso@alianzaindigo.org>` |
 
 El panel de administración (`/admin`) no necesita variables de entorno propias — su usuario
 se siembra vía migración y la contraseña se cambia desde el propio panel.

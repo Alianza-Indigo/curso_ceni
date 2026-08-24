@@ -1,5 +1,6 @@
 import { signIn } from "@/auth";
 import { GraduationCap } from "lucide-react";
+import PasswordLoginForm from "@/components/PasswordLoginForm";
 
 export const metadata = { title: "Iniciar sesión · Curso CENI" };
 
@@ -56,6 +57,17 @@ export default async function LoginPage({
           Continuar con Google
         </button>
       </form>
+
+      <div className="mt-6 flex w-full items-center gap-3 text-xs font-black uppercase tracking-wide text-[#6c6690]">
+        <span className="h-px flex-1 bg-[#e3dfef]" />
+        o
+        <span className="h-px flex-1 bg-[#e3dfef]" />
+      </div>
+
+      <p className="mt-4 text-xs text-[#6c6690]">
+        Si tu empresa te invitó y ya creaste una contraseña, entra aquí:
+      </p>
+      <PasswordLoginForm callbackUrl={callbackUrl} />
 
       <p className="mt-6 text-xs text-[#6c6690]">
         &quot;No necesitas PARECER para SER.&quot;
