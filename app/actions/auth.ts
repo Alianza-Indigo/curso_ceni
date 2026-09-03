@@ -17,6 +17,10 @@ export async function signInGoogleAction() {
   await signIn("google", { redirectTo: "/" });
 }
 
+export async function signInGoogleDiplomadoAction() {
+  await signIn("google", { redirectTo: "/diplomado" });
+}
+
 export async function signInGoogleParaInvitacionAction(token: string) {
   await signIn("google", { redirectTo: `/invitacion/${token}` });
 }

@@ -7,9 +7,15 @@ import { signInGoogleAction } from "@/app/actions/auth";
 export default function LoginModal({
   open,
   onClose,
+  action = signInGoogleAction,
+  titulo = "Ingresa al Curso CENI",
+  descripcion = "Inicia sesión para guardar tu progreso, tus resultados y obtener tu constancia al aprobar el examen final.",
 }: {
   open: boolean;
   onClose: () => void;
+  action?: () => Promise<void>;
+  titulo?: string;
+  descripcion?: string;
 }) {
   const closeRef = useRef<HTMLButtonElement>(null);
 
@@ -64,14 +70,11 @@ export default function LoginModal({
             </svg>
           </span>
           <h2 id="login-modal-title" className="mt-5 font-serif text-2xl font-black text-[#070b2f]">
-            Ingresa al Curso CENI
+            {titulo}
           </h2>
-          <p className="mt-2 text-sm text-[#6c6690]">
-            Inicia sesión para guardar tu progreso, tus resultados y obtener tu constancia al
-            aprobar el examen final.
-          </p>
+          <p className="mt-2 text-sm text-[#6c6690]">{descripcion}</p>
 
-          <form className="mt-7 w-full" action={signInGoogleAction}>
+          <form className="mt-7 w-full" action={action}>
             <button
               type="submit"
               className="inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-lg border border-[#e3dfef] bg-white px-6 text-sm font-black uppercase text-[#070b2f] shadow-sm transition-colors hover:bg-[#f5f1ff]"

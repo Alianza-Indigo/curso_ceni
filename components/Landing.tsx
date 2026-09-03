@@ -363,6 +363,28 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* PROMO DIPLOMADO */}
+      <section className="mx-auto max-w-7xl px-5 py-8">
+        <a
+          href="/diplomado-nom035"
+          className="flex flex-col items-start justify-between gap-4 rounded-2xl border border-[#e7e0f7] bg-[#140a3f] p-7 text-white transition-colors hover:bg-[#1c1150] sm:flex-row sm:items-center"
+        >
+          <div>
+            <p className="text-xs font-black uppercase tracking-wide text-[#dda632]">
+              ¿Buscas la formación profesional?
+            </p>
+            <p className="mt-1 font-serif text-2xl font-black">Diplomado NOM-035 ND</p>
+            <p className="mt-1 max-w-xl text-sm text-white/75">
+              226 horas para implementar la NOM-035 con enfoque de neurodivergencia: instrumentos,
+              inspección STPS, práctica consultiva y constancia DC-3.
+            </p>
+          </div>
+          <span className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-xl bg-[#6d28d9] px-5 text-sm font-black uppercase text-white">
+            Ver diplomado <ArrowRight className="h-4 w-4" />
+          </span>
+        </a>
+      </section>
+
       {/* FAQ */}
       <section id="faq" className="mx-auto max-w-3xl px-5 py-14">
         <h2 className="text-center font-serif text-3xl font-black text-[#140a3f]">
