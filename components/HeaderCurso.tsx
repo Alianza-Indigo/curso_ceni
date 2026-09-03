@@ -42,8 +42,8 @@ export default function HeaderCurso({ usuario }: { usuario: Usuario }) {
     window.dispatchEvent(new Event(CALM_EVENT));
   }
 
-  // La landing pública (usuario no autenticado en "/") trae su propio encabezado.
-  if (!usuario && pathname === "/") return null;
+  // Las landings públicas (sin sesión) traen su propio encabezado.
+  if (!usuario && (pathname === "/" || pathname === "/diplomado-nom035")) return null;
 
   function navCls(activo: boolean) {
     return `whitespace-nowrap rounded-lg px-3 py-2 text-xs font-black uppercase tracking-wide ${
@@ -52,7 +52,8 @@ export default function HeaderCurso({ usuario }: { usuario: Usuario }) {
   }
 
   // Navegación según el curso en el que esté el usuario (ids de ruta).
-  const enDiplomado = pathname.startsWith("/diplomado");
+  // Nota: "/diplomado-nom035" es la landing pública, no el área del curso.
+  const enDiplomado = pathname === "/diplomado" || pathname.startsWith("/diplomado/");
   const enCeni =
     pathname.startsWith("/ceni") ||
     pathname.startsWith("/curso") ||
