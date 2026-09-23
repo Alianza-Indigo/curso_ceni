@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import DiplomadoLanding from "@/components/DiplomadoLanding";
 import { modulosDiplomado } from "@/lib/data/diplomado/modulos";
@@ -11,7 +10,7 @@ export const metadata = {
 
 export default async function DiplomadoLandingPage() {
   const session = await auth();
-  if (session?.user?.id) redirect("/diplomado");
+  const autenticado = Boolean(session?.user?.id);
 
   // Solo se envían al cliente los datos ligeros (título y duración), no el
   // contenido íntegro de los módulos.
@@ -21,5 +20,5 @@ export default async function DiplomadoLandingPage() {
     duracion: m.duracion,
   }));
 
-  return <DiplomadoLanding modulos={modulos} />;
+  return <DiplomadoLanding modulos={modulos} autenticado={autenticado} />;
 }

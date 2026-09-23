@@ -21,6 +21,8 @@ export type Curso = {
   modulos: Modulo[];
   // true = examen integrador final habilitado para este curso.
   tieneExamenFinal?: boolean;
+  // Ruta pública de presentación/landing del curso, si tiene una.
+  landing?: string;
 };
 
 export type Actividad = {
