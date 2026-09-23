@@ -42,8 +42,9 @@ export default function HeaderCurso({ usuario }: { usuario: Usuario }) {
     window.dispatchEvent(new Event(CALM_EVENT));
   }
 
-  // Las landings públicas (sin sesión) traen su propio encabezado.
-  if (!usuario && (pathname === "/" || pathname === "/diplomado-nom035")) return null;
+  // Las landings públicas traen su propio encabezado (la del diplomado también
+  // es visible con sesión, así que ahí nunca se muestra el header global).
+  if (pathname === "/diplomado-nom035" || (!usuario && pathname === "/")) return null;
 
   function navCls(activo: boolean) {
     return `whitespace-nowrap rounded-lg px-3 py-2 text-xs font-black uppercase tracking-wide ${

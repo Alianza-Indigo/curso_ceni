@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
+import Link from "next/link";
 import LoginModal from "@/components/LoginModal";
 import { signInGoogleDiplomadoAction } from "@/app/actions/auth";
 import {
@@ -22,6 +23,33 @@ import {
 const CENI_URL = "https://ceni.alianzaindigo.org";
 
 type ModuloResumen = { numero: number; titulo: string; duracion: string };
+
+// Con sesión, los CTA llevan directo al diplomado; sin sesión, abren el login.
+// Declarado fuera del render para no recrear el componente en cada render.
+function Cta({
+  autenticado,
+  abrir,
+  className,
+  children,
+}: {
+  autenticado: boolean;
+  abrir: () => void;
+  className: string;
+  children: ReactNode;
+}) {
+  if (autenticado) {
+    return (
+      <Link href="/diplomado" className={className}>
+        {children}
+      </Link>
+    );
+  }
+  return (
+    <button type="button" onClick={abrir} className={className}>
+      {children}
+    </button>
+  );
+}
 
 const CHIPS = [
   { icon: Clock, text: "226 horas de formación" },
@@ -64,7 +92,13 @@ const FAQS = [
   },
 ];
 
-export default function DiplomadoLanding({ modulos }: { modulos: ModuloResumen[] }) {
+export default function DiplomadoLanding({
+  modulos,
+  autenticado = false,
+}: {
+  modulos: ModuloResumen[];
+  autenticado?: boolean;
+}) {
   const [open, setOpen] = useState(false);
   const abrir = () => setOpen(true);
 
@@ -92,13 +126,9 @@ export default function DiplomadoLanding({ modulos }: { modulos: ModuloResumen[]
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />
             <span className="hidden sm:inline">Volver a CENI</span>
           </a>
-          <button
-            type="button"
-            onClick={abrir}
-            className="inline-flex min-h-11 items-center rounded-xl bg-[#6d28d9] px-5 text-sm font-black text-white transition-colors hover:bg-[#5b21b6] lg:ms-2"
-          >
-            Accesar
-          </button>
+          <Cta autenticado={autenticado} abrir={abrir} className="inline-flex min-h-11 items-center rounded-xl bg-[#6d28d9] px-5 text-sm font-black text-white transition-colors hover:bg-[#5b21b6] lg:ms-2">
+            {autenticado ? "Ir al diplomado" : "Accesar"}
+          </Cta>
         </div>
       </header>
 
@@ -134,13 +164,9 @@ export default function DiplomadoLanding({ modulos }: { modulos: ModuloResumen[]
           </div>
 
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <button
-              type="button"
-              onClick={abrir}
-              className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-[#6d28d9] px-6 py-3.5 text-sm font-black text-white transition-colors hover:bg-[#5b21b6]"
-            >
-              Quiero inscribirme <ArrowRight className="h-4 w-4" />
-            </button>
+            <Cta autenticado={autenticado} abrir={abrir} className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-[#6d28d9] px-6 py-3.5 text-sm font-black text-white transition-colors hover:bg-[#5b21b6]">
+              {autenticado ? "Ir al diplomado" : "Quiero inscribirme"} <ArrowRight className="h-4 w-4" />
+            </Cta>
             <a
               href="#contenido"
               className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-[#d9cef2] bg-white px-6 py-3.5 text-sm font-black text-[#6d28d9] transition-colors hover:bg-[#f5f1ff]"
@@ -275,13 +301,9 @@ export default function DiplomadoLanding({ modulos }: { modulos: ModuloResumen[]
           ))}
         </div>
         <div className="mt-8 text-center">
-          <button
-            type="button"
-            onClick={abrir}
-            className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-[#6d28d9] px-7 py-3.5 text-sm font-black text-white transition-colors hover:bg-[#5b21b6]"
-          >
-            Quiero acceder al diplomado <ArrowRight className="h-4 w-4" />
-          </button>
+          <Cta autenticado={autenticado} abrir={abrir} className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-[#6d28d9] px-7 py-3.5 text-sm font-black text-white transition-colors hover:bg-[#5b21b6]">
+            {autenticado ? "Ir al diplomado" : "Quiero acceder al diplomado"} <ArrowRight className="h-4 w-4" />
+          </Cta>
         </div>
       </section>
 

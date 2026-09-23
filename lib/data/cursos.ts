@@ -28,6 +28,7 @@ export const CURSO_DIPLOMADO: Curso = {
   dirigidoA: "Consultores, responsables de RH/SST y de neuroinclusión",
   modulos: modulosDiplomado,
   tieneExamenFinal: true,
+  landing: "/diplomado-nom035",
 };
 
 export const cursos: Curso[] = [CURSO_CENI, CURSO_DIPLOMADO];
