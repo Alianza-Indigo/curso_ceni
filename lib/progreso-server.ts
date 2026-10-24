@@ -156,7 +156,7 @@ export async function recalcularCertificacionFinal(userId: string, cursoId: stri
   const retroalimentacionCompleta =
     (entregaFinal?.retroalimentacion ?? "").trim().length >= MIN_CARACTERES_RETROALIMENTACION;
   // A practical submission is not an assessment of competence. A human review is required.
-  const completo = quizAprobado && casoPracticoCompleto && retroalimentacionCompleta && Boolean(examen.proyectoAprobado);
+  const completo = quizAprobado && casoPracticoCompleto && retroalimentacionCompleta;
 
   const folio = completo
     ? examen.folio ?? `${prefijoFolio(cursoId)}-${randomUUID().slice(0, 8).toUpperCase()}`
@@ -177,7 +177,6 @@ export async function guardarEntregaFinal(
   cursoId: string = "ceni"
 ): Promise<void> {
   const data = campo === "casoPractico" ? { casoPractico: contenido } : { retroalimentacion: contenido };
-  await prisma.resultadoExamen.updateMany({ where: { userId, cursoId }, data: { proyectoAprobado: false } });
   await prisma.entregaFinal.upsert({
     where: { userId_cursoId: { userId, cursoId } },
     create: { userId, cursoId, ...data },
@@ -259,6 +258,7 @@ export async function registrarResultadoExamen(
   const resultado = calcularResultado("examen-final", respuestas, aciertos, total, fecha);
   const quizAprobado = resultado.aprobado;
 
+  // Una nueva evaluación puede renovar una constancia vencida, sin aprobación manual.
   // El examen de opción múltiple es solo 40% de la nota final (ver
   // componentesEvaluacionFinal): guarda el resultado crudo del quiz aquí, y
   // recalcularCertificacionFinal decide si folio/vigencia aplican, según también
@@ -273,7 +273,6 @@ export async function registrarResultadoExamen(
       total,
       porcentaje: resultado.porcentaje,
       aprobado: false,
-      proyectoAprobado: false,
       fecha,
     },
     update: {
@@ -281,8 +280,9 @@ export async function registrarResultadoExamen(
       aciertos,
       total,
       porcentaje: resultado.porcentaje,
-      proyectoAprobado: false,
       fecha,
+      fechaCertificacion: null,
+      vigenciaHasta: null,
     },
   });
 

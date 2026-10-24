@@ -43,7 +43,7 @@ Situación actual:
 };
 
 export const componentesEvaluacionFinal = [
-  { componente: "Examen integrador — preguntas de opción múltiple cubriendo los 10 módulos", tipo: "Opción múltiple", valor: "40%" },
-  { componente: "Caso práctico aplicado — Distribuidora Los Pinos", tipo: "Práctico-escrito", valor: "40%" },
-  { componente: "Retroalimentación del curso", tipo: "Cualitativo", valor: "20%" },
+  { componente: "Examen integrador — preguntas de opción múltiple cubriendo los 10 módulos", tipo: "Opción múltiple", valor: "Requisito" },
+  { componente: "Caso práctico aplicado — Distribuidora Los Pinos", tipo: "Práctico-escrito", valor: "Requisito" },
+  { componente: "Retroalimentación del curso", tipo: "Cualitativo", valor: "Requisito" },
 ];

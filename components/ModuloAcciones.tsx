@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Modulo } from "@/lib/types";
@@ -47,6 +47,7 @@ export default function ModuloAcciones({
 }) {
   const router = useRouter();
   const [resultado, setResultado] = useState<ResultadoQuiz | null>(resultadoInicial);
+  useEffect(() => { setResultado(resultadoInicial); }, [resultadoInicial]);
   const [intento, setIntento] = useState(0);
   // El primer intento usa la selección ya armada por el servidor (evita mismatch de
   // hidratación: Math.random() no puede correr en un Client Component que también se
@@ -57,17 +58,20 @@ export default function ModuloAcciones({
   // Con avance libre (admin) se puede navegar aunque el módulo no esté completo.
   const avanzar = moduloCompleto || libre;
 
-  async function onFinalizar(respuestas: Record<string, string>) {
+  async function onFinalizar(respuestas: Record<string, string>): Promise<ResultadoQuiz> {
     const res = await fetch("/api/progreso/modulo", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ moduloId: modulo.id, respuestas, token }),
     });
-    if (res.ok) {
-      const data: ResultadoQuiz = await res.json();
-      setResultado(data);
-      router.refresh();
+    if (!res.ok) {
+      const error = await res.json().catch(() => ({}));
+      throw new Error(error.error ?? "No se pudo guardar el cuestionario.");
     }
+    const data: ResultadoQuiz = await res.json();
+    setResultado(data);
+    router.refresh();
+    return data;
   }
 
   return (
@@ -107,7 +111,7 @@ export default function ModuloAcciones({
               onFinalizar={onFinalizar}
               onReintentar={async () => {
                 const response = await fetch(`/api/progreso/intento?tipo=modulo&id=${encodeURIComponent(modulo.id)}`);
-                if (!response.ok) return;
+                if (!response.ok) throw new Error("No se pudo preparar el reintento.");
                 const data = await response.json();
                 setPreguntasIntento(data.preguntas);
                 setToken(data.token);

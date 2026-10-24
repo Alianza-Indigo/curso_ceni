@@ -36,8 +36,7 @@ export default async function ExamenFinalPage() {
       </p>
       <h1 className="mt-1 font-serif text-4xl font-black text-[#070b2f]">Examen integrador</h1>
       <p className="mt-3 max-w-2xl text-[#20234a]">
-        Cubre los 10 módulos del curso. Puntaje mínimo aprobatorio: 70%. Puedes repetirlo hasta
-        dos veces.
+        Cubre los 10 módulos del curso. Puntaje mínimo aprobatorio: 70%. Puedes repetirlo si no alcanzas la calificación mínima.
       </p>
 
       <div className="mt-6 overflow-x-auto rounded-xl border border-[#e5def4]">

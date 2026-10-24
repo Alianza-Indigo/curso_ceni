@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { verificarSesionAdmin } from "@/lib/admin-auth";
-import { logoutAdminAction, revisarProyectoAction } from "@/app/actions/admin-auth";
+import { logoutAdminAction } from "@/app/actions/admin-auth";
 import { prisma } from "@/lib/db";
 import { actividadesCompletas } from "@/lib/data/modulos";
 import { cursos } from "@/lib/data/cursos";
@@ -108,7 +108,6 @@ export default async function AdminPage() {
     include: { user: { select: { email: true, name: true } } },
     orderBy: { actualizadoEn: "desc" },
   });
-  const aprobaciones = await prisma.resultadoExamen.findMany({ select: {userId: true, cursoId: true, proyectoAprobado: true} });
   const totalUsuarios = base.length;
   const porCurso = cursos.map((c) => datosCurso(c, base));
 
@@ -204,24 +203,19 @@ export default async function AdminPage() {
       })}
 
       <section className="mt-12">
-        <h2 className="font-serif text-2xl font-bold">Revisión de proyectos finales</h2>
-        <p className="mt-2 text-sm">La extensión del texto no sustituye la evaluación académica. Comprueba los criterios del proyecto antes de aprobarlo.</p>
+        <h2 className="font-serif text-2xl font-bold">Proyectos finales entregados</h2>
+        <p className="mt-2 text-sm">Consulta las entregas de los participantes. No requieren aprobación manual para recibir la constancia.</p>
         {entregasPorRevisar.map((entrega) => {
           const curso = cursos.find(c => c.id === entrega.cursoId);
-          const aprobado = aprobaciones.some(a => a.userId === entrega.userId && a.cursoId === entrega.cursoId && a.proyectoAprobado);
           return <article key={entrega.id} className="mt-5 rounded-lg border p-5">
             <h3 className="font-bold">{curso?.titulo ?? entrega.cursoId} — {entrega.user.name ?? entrega.user.email}</h3>
-            <p className="mt-2 text-sm font-semibold">{aprobado ? "Proyecto aprobado" : "Pendiente de revisión"}</p>
+            <p className="mt-2 text-sm font-semibold">Entrega registrada</p>
             <details className="mt-3"><summary className="cursor-pointer">Leer proyecto y retroalimentación</summary>
               <pre className="mt-3 whitespace-pre-wrap break-words text-sm">{entrega.casoPractico}</pre>
               <p className="mt-3 text-sm font-semibold">Retroalimentación</p>
               <pre className="whitespace-pre-wrap break-words text-sm">{entrega.retroalimentacion}</pre>
             </details>
-            <form action={revisarProyectoAction} className="mt-4 flex items-center gap-3">
-              <input type="hidden" name="userId" value={entrega.userId}/>
-              <input type="hidden" name="cursoId" value={entrega.cursoId}/>
-              <button type="submit" name="aprobar" value={aprobado ? "false" : "true"} className="rounded-lg border px-4 py-2 text-sm font-semibold">{aprobado ? "Revocar aprobación" : "Aprobar proyecto"}</button>
-            </form>
+
           </article>;
         })}
       </section>

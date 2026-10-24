@@ -38,7 +38,7 @@ a la evidencia auditable, sin diagnosticar personas y respetando la protección 
 };
 
 export const componentesEvaluacionFinalDiplomado = [
-  { componente: "Examen integrador — opción múltiple cubriendo los 23 módulos", tipo: "Opción múltiple", valor: "40%" },
-  { componente: "Proyecto final de implementación sobre organización real", tipo: "Práctico-escrito", valor: "40%" },
-  { componente: "Retroalimentación del diplomado", tipo: "Cualitativo", valor: "20%" },
+  { componente: "Examen integrador — opción múltiple cubriendo los 23 módulos", tipo: "Opción múltiple", valor: "Requisito" },
+  { componente: "Proyecto final de implementación sobre organización real", tipo: "Práctico-escrito", valor: "Requisito" },
+  { componente: "Retroalimentación del diplomado", tipo: "Cualitativo", valor: "Requisito" },
 ];

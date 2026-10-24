@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Quiz from "@/components/Quiz";
 import type { PreguntaPublica } from "@/lib/evaluacion-publica";
@@ -17,6 +17,7 @@ type ResultadoQuiz = {
   quizAprobado: boolean;
   fecha: string;
   folio?: string | null;
+  vigenciaHasta?: string | null;
 };
 
 export default function ExamenFinalClient({
@@ -36,30 +37,31 @@ export default function ExamenFinalClient({
 }) {
   const router = useRouter();
   const [resultado, setResultado] = useState<ResultadoQuiz | null>(resultadoInicial);
+  useEffect(() => { setResultado(resultadoInicial); }, [resultadoInicial]);
   const [intento, setIntento] = useState(0);
   // El primer intento usa la selección ya armada (y barajada) por el servidor;
   // cada reintento arma una selección nueva para no repetir el examen.
   const [preguntas, setPreguntas] = useState(preguntasIniciales);
   const [token, setToken] = useState(tokenInicial);
 
-  // La certificación completa depende también del caso práctico y la retroalimentación,
-  // que se entregan en un formulario hermano (EntregaFinalForm). Esas props sí llegan
-  // frescas en cada re-render tras router.refresh(); `resultado.aprobado` en cambio es
-  // el snapshot del último POST al quiz y no se entera de esas otras entregas, así que
-  // la certificación completa se recalcula aquí en vez de leerla de ese estado viejo.
-  const completo = Boolean(resultado?.aprobado) && casoPracticoEntregado && retroalimentacionEntregada;
+  const vigente = Boolean(resultado?.vigenciaHasta && new Date(resultado.vigenciaHasta).getTime() > Date.now());
+  const completo = Boolean(resultado?.aprobado) && vigente;
+  const renovar = Boolean(resultado?.aprobado) && !vigente;
 
-  async function onFinalizar(respuestas: Record<string, string>) {
+  async function onFinalizar(respuestas: Record<string, string>): Promise<ResultadoQuiz> {
     const res = await fetch("/api/progreso/examen", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ respuestas, cursoId, token }),
     });
-    if (res.ok) {
-      const data: ResultadoQuiz = await res.json();
-      setResultado(data);
-      router.refresh();
+    if (!res.ok) {
+      const error = await res.json().catch(() => ({}));
+      throw new Error(error.error ?? "No se pudo guardar el examen.");
     }
+    const data: ResultadoQuiz = await res.json();
+    setResultado(data);
+    router.refresh();
+    return data;
   }
 
   return (
@@ -78,11 +80,11 @@ export default function ExamenFinalClient({
             <Award className="h-5 w-5" /> {resultado.porcentaje}% ({resultado.aciertos}/{resultado.total})
           </p>
           <p className="mt-1 text-sm text-[#20234a]">
-            {!resultado.quizAprobado
+            {renovar ? "La constancia venció. Repite el examen para renovarla." : !resultado.quizAprobado
               ? "No alcanzaste el 70% mínimo en el examen de opción múltiple. Puedes repetirlo."
               : completo
                 ? "¡Felicidades! Completaste los tres componentes de la evaluación final."
-                : "Aprobaste el examen de opción múltiple. El caso práctico requiere revisión y aprobación administrativa."}
+                : "Aprobaste el examen de opción múltiple. Guarda el proyecto final y la retroalimentación para recibir tu constancia automáticamente."}
           </p>
           {resultado.quizAprobado && !completo && (
             <ul className="mt-2 space-y-1 text-sm text-[#5a4300]">
@@ -109,7 +111,7 @@ export default function ExamenFinalClient({
         </div>
       ) : null}
 
-      {(!resultado || !resultado.quizAprobado) && (
+      {(!resultado || !resultado.quizAprobado || renovar) && (
         <div className="mt-5">
           <Quiz
             key={intento}
@@ -118,7 +120,7 @@ export default function ExamenFinalClient({
             tituloBoton="Calificar examen final"
             onReintentar={async () => {
               const response = await fetch(`/api/progreso/intento?tipo=examen&id=${encodeURIComponent(cursoId)}`);
-              if (!response.ok) return;
+              if (!response.ok) throw new Error("No se pudo preparar el reintento.");
               const data = await response.json();
               setPreguntas(data.preguntas);
               setToken(data.token);
