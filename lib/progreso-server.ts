@@ -144,7 +144,7 @@ function prefijoFolio(cursoId: string): string {
   return cursoId === "diplomado" ? "DIP" : "CENI";
 }
 
-async function recalcularCertificacionFinal(userId: string, cursoId: string = "ceni") {
+export async function recalcularCertificacionFinal(userId: string, cursoId: string = "ceni") {
   const [examen, entregaFinal] = await Promise.all([
     prisma.resultadoExamen.findUnique({ where: { userId_cursoId: { userId, cursoId } } }),
     prisma.entregaFinal.findUnique({ where: { userId_cursoId: { userId, cursoId } } }),
@@ -177,6 +177,7 @@ export async function guardarEntregaFinal(
   cursoId: string = "ceni"
 ): Promise<void> {
   const data = campo === "casoPractico" ? { casoPractico: contenido } : { retroalimentacion: contenido };
+  await prisma.resultadoExamen.updateMany({ where: { userId, cursoId }, data: { proyectoAprobado: false } });
   await prisma.entregaFinal.upsert({
     where: { userId_cursoId: { userId, cursoId } },
     create: { userId, cursoId, ...data },

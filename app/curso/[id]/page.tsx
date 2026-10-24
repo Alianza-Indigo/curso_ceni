@@ -112,7 +112,7 @@ export default async function ModuloPage({ params }: { params: Promise<{ id: str
       </div>
 
       <ModuloAcciones
-        modulo={modulo}
+        modulo={{ ...modulo, quiz: [] }}
         libre={libre}
         preguntasIniciales={publicarPreguntas(preguntas)}
         tokenInicial={token}

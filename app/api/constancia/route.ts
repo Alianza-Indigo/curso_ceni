@@ -21,7 +21,7 @@ export async function GET(request: Request) {
     where: { userId_cursoId: { userId: session.user.id, cursoId } },
   });
 
-  if (!examen?.aprobado) {
+  if (!examen?.aprobado || !examen?.vigenciaHasta || examen.vigenciaHasta <= new Date()) {
     return NextResponse.json(
       { error: "Aún no apruebas el examen integrador" },
       { status: 403 }

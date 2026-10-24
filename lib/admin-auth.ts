@@ -17,7 +17,7 @@ function claveSecreta() {
 
 export async function crearSesionAdmin(email: string) {
   const expira = new Date(Date.now() + DURACION_MS);
-  const token = await new SignJWT({ email, rol: "admin" })
+  const token = await new SignJWT({ email, rol: "admin", version: 2 })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
     .setExpirationTime(expira)
@@ -40,7 +40,7 @@ export async function verificarSesionAdmin(): Promise<{ email: string } | null> 
 
   try {
     const { payload } = await jwtVerify(token, claveSecreta());
-    if (payload.rol !== "admin" || typeof payload.email !== "string") return null;
+    if (payload.rol !== "admin" || payload.version !== 2 || typeof payload.email !== "string") return null;
     return { email: payload.email };
   } catch {
     return null;

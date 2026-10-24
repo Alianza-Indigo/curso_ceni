@@ -24,7 +24,7 @@ export async function GET(request: Request) {
   const examen = await prisma.resultadoExamen.findUnique({
     where: { userId_cursoId: { userId: session.user.id, cursoId } },
   });
-  if (!examen?.aprobado) {
+  if (!examen?.aprobado || !examen?.vigenciaHasta || examen.vigenciaHasta <= new Date()) {
     return NextResponse.json(
       { error: "La constancia DC-3 se expide al acreditar la evaluación final del curso." },
       { status: 403 }

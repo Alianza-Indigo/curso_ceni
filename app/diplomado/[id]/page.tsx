@@ -110,7 +110,7 @@ export default async function ModuloDiplomadoPage({
       </div>
 
       <ModuloAcciones
-        modulo={modulo}
+        modulo={{ ...modulo, quiz: [] }}
         basePath="/diplomado"
         examenFinalHref="/diplomado/examen-final"
         libre={libre}
