@@ -44,18 +44,23 @@ export default function ActividadesEntrega({
     }
     setEnviando(codigo);
     setErrores((e) => ({ ...e, [codigo]: "" }));
-    const res = await fetch("/api/progreso/actividad", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ moduloId, actividadCodigo: codigo, contenido }),
-    });
-    setEnviando(null);
-    if (res.ok) {
-      setGuardados((g) => ({ ...g, [codigo]: true }));
-      router.refresh();
-    } else {
-      const data = await res.json().catch(() => ({}));
-      setErrores((e) => ({ ...e, [codigo]: data.error ?? "No se pudo guardar. Intenta de nuevo." }));
+    try {
+      const res = await fetch("/api/progreso/actividad", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ moduloId, actividadCodigo: codigo, contenido }),
+      });
+      if (res.ok) {
+        setGuardados((g) => ({ ...g, [codigo]: true }));
+        router.refresh();
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setErrores((e) => ({ ...e, [codigo]: data.error ?? "No se pudo guardar. Intenta de nuevo." }));
+      }
+    } catch {
+      setErrores((e) => ({ ...e, [codigo]: "Sin conexión con el servidor. Intenta de nuevo." }));
+    } finally {
+      setEnviando(null);
     }
   }
 

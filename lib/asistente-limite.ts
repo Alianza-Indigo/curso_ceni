@@ -7,33 +7,39 @@ function inicioDeHoyUTC(): Date {
   return new Date(Date.UTC(ahora.getUTCFullYear(), ahora.getUTCMonth(), ahora.getUTCDate()));
 }
 
-/**
- * Verifica y consume una unidad del tope diario de mensajes al asistente para un
- * usuario. Reinicia el contador si el último uso registrado fue en un día UTC
- * anterior. No es perfectamente atómico bajo concurrencia alta, pero es
- * suficiente para su propósito: acotar el costo, no una garantía de seguridad.
- */
+// Dos actualizaciones condicionales atómicas: reinicia el día o incrementa
+// el contador sin permitir que solicitudes simultáneas excedan el límite.
 export async function consumirMensajeAsistente(
   userId: string
 ): Promise<{ permitido: boolean; usados: number; limite: number }> {
   const hoy = inicioDeHoyUTC();
-  const user = await prisma.user.findUniqueOrThrow({
-    where: { id: userId },
-    select: { asistenteMensajesHoy: true, asistenteMensajesDia: true },
+  const primero = await prisma.user.updateMany({
+    where: {
+      id: userId,
+      OR: [{ asistenteMensajesDia: null }, { asistenteMensajesDia: { lt: hoy } }],
+    },
+    data: { asistenteMensajesHoy: 1, asistenteMensajesDia: new Date() },
   });
-
-  const esDiaNuevo = !user.asistenteMensajesDia || user.asistenteMensajesDia < hoy;
-  const usadosPrevios = esDiaNuevo ? 0 : user.asistenteMensajesHoy;
-
-  if (usadosPrevios >= LIMITE_MENSAJES_ASISTENTE_DIA) {
-    return { permitido: false, usados: usadosPrevios, limite: LIMITE_MENSAJES_ASISTENTE_DIA };
+  if (primero.count === 0) {
+    const incremento = await prisma.user.updateMany({
+      where: {
+        id: userId,
+        asistenteMensajesDia: { gte: hoy },
+        asistenteMensajesHoy: { lt: LIMITE_MENSAJES_ASISTENTE_DIA },
+      },
+      data: { asistenteMensajesHoy: { increment: 1 } },
+    });
+    if (incremento.count === 0) {
+      const ultimo = await prisma.user.findUniqueOrThrow({
+        where: { id: userId },
+        select: { asistenteMensajesHoy: true },
+      });
+      return { permitido: false, usados: ultimo.asistenteMensajesHoy, limite: LIMITE_MENSAJES_ASISTENTE_DIA };
+    }
   }
-
-  const usados = usadosPrevios + 1;
-  await prisma.user.update({
+  const usuario = await prisma.user.findUniqueOrThrow({
     where: { id: userId },
-    data: { asistenteMensajesHoy: usados, asistenteMensajesDia: new Date() },
+    select: { asistenteMensajesHoy: true },
   });
-
-  return { permitido: true, usados, limite: LIMITE_MENSAJES_ASISTENTE_DIA };
+  return { permitido: true, usados: usuario.asistenteMensajesHoy, limite: LIMITE_MENSAJES_ASISTENTE_DIA };
 }

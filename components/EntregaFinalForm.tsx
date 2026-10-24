@@ -42,18 +42,23 @@ function Entrega({
   async function guardar() {
     setEnviando(true);
     setError("");
-    const res = await fetch("/api/progreso/entrega-final", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ campo, contenido: valor, cursoId }),
-    });
-    setEnviando(false);
-    if (res.ok) {
+    try {
+      const res = await fetch("/api/progreso/entrega-final", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ campo, contenido: valor, cursoId }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error ?? "No se pudo guardar. Intenta de nuevo.");
+        return;
+      }
       setEntregada(true);
       router.refresh();
-    } else {
-      const data = await res.json().catch(() => ({}));
-      setError(data.error ?? "No se pudo guardar. Intenta de nuevo.");
+    } catch {
+      setError("No se pudo conectar con el servidor. Comprueba tu conexión e intenta de nuevo.");
+    } finally {
+      setEnviando(false);
     }
   }
 

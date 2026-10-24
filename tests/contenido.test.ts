@@ -65,8 +65,9 @@ describe("examen final", () => {
     expect(new Set(ids).size).toBe(ids.length);
   });
 
-  it("los componentes de la evaluación final suman 100%", () => {
-    expect(sumaPorcentajes(componentesEvaluacionFinal.map((c) => c.valor))).toBe(100);
+  it("los tres componentes finales son requisitos, no ponderaciones ficticias", () => {
+    expect(componentesEvaluacionFinal).toHaveLength(3);
+    expect(componentesEvaluacionFinal.every((c) => c.valor === "Requisito")).toBe(true);
   });
 
   it("el caso práctico tiene tareas", () => {
