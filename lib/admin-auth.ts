@@ -7,7 +7,7 @@ const COOKIE_NOMBRE = "admin-session";
 // seguido en este panel interno. Los navegadores igual limitan la vida
 // máxima real de una cookie (Chrome la topa en ~400 días), así que esto es
 // "lo más larga posible", no infinita de verdad.
-const DURACION_MS = 100 * 365 * 24 * 60 * 60 * 1000;
+const DURACION_MS = 12 * 60 * 60 * 1000;
 
 function claveSecreta() {
   const secreto = process.env.AUTH_SECRET;

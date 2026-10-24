@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { guardarEntregaActividad } from "@/lib/progreso-server";
+import { guardarEntregaActividad, obtenerProgreso } from "@/lib/progreso-server";
+import { getModuloGlobal, getCursoDeModulo, moduloDesbloqueadoCurso } from "@/lib/data/cursos";
+import { accesoSinRestriccion } from "@/lib/curso-acceso";
 
 const CONTENIDO_MIN = 20;
 const CONTENIDO_MAX = 8000;
@@ -29,6 +31,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: `La entrega no puede superar ${CONTENIDO_MAX} caracteres.` }, { status: 400 });
   }
 
+  const modulo = getModuloGlobal(moduloId);
+  const curso = getCursoDeModulo(moduloId);
+  if (!modulo || !curso) return NextResponse.json({ error: "Módulo desconocido" }, { status: 404 });
+  const libre = await accesoSinRestriccion(session.user.email);
+  const progreso = await obtenerProgreso(session.user.id, curso.modulos, curso.id);
+  if (!libre && !moduloDesbloqueadoCurso(curso, modulo, progreso.modulosCompletados)) {
+    return NextResponse.json({ error: "Módulo bloqueado" }, { status: 403 });
+  }
   try {
     await guardarEntregaActividad(session.user.id, moduloId, actividadCodigo, limpio);
     return NextResponse.json({ ok: true });

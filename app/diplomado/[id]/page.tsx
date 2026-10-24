@@ -13,6 +13,7 @@ import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Clock, Users, FileDown } from "lucide-react";
 import { auth } from "@/auth";
+import { publicarPreguntas, firmarIntento } from "@/lib/evaluacion-intento";
 import { obtenerProgreso } from "@/lib/progreso-server";
 import { accesoSinRestriccion } from "@/lib/curso-acceso";
 import { armarIntento } from "@/lib/quiz-shuffle";
@@ -39,6 +40,8 @@ export default async function ModuloDiplomadoPage({
   const anteriorM = getModuloAdyacenteCurso(curso, id, -1);
   const siguienteM = getModuloAdyacenteCurso(curso, id, 1);
 
+  const preguntas = armarIntento(modulo.quiz, modulo.preguntasPorIntento);
+  const token = firmarIntento(session.user.id, `modulo:${modulo.id}`, preguntas);
   return (
     <div className="mx-auto max-w-4xl px-4 py-10">
       <Link
@@ -111,7 +114,8 @@ export default async function ModuloDiplomadoPage({
         basePath="/diplomado"
         examenFinalHref="/diplomado/examen-final"
         libre={libre}
-        preguntasIniciales={armarIntento(modulo.quiz, modulo.preguntasPorIntento)}
+        preguntasIniciales={publicarPreguntas(preguntas)}
+        tokenInicial={token}
         resultadoInicial={progreso.resultadosQuiz[modulo.id] ?? null}
         actividadesCompletas={actividadesCompletas(
           modulo,

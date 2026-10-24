@@ -3,9 +3,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Modulo, PreguntaQuiz } from "@/lib/types";
+import { Modulo } from "@/lib/types";
+import type { PreguntaPublica } from "@/lib/evaluacion-publica";
 import Quiz from "@/components/Quiz";
-import { armarIntento } from "@/lib/quiz-shuffle";
+
 import { ArrowLeft, ArrowRight, CheckCircle2, Lock } from "lucide-react";
 
 type ResultadoQuiz = {
@@ -21,6 +22,7 @@ type ResultadoQuiz = {
 export default function ModuloAcciones({
   modulo,
   preguntasIniciales,
+  tokenInicial,
   resultadoInicial,
   actividadesCompletas,
   anterior,
@@ -30,7 +32,8 @@ export default function ModuloAcciones({
   libre = false,
 }: {
   modulo: Modulo;
-  preguntasIniciales: PreguntaQuiz[];
+  preguntasIniciales: PreguntaPublica[];
+  tokenInicial: string;
   resultadoInicial: ResultadoQuiz | null;
   actividadesCompletas: boolean;
   anterior?: { id: string; titulo: string; numero: number };
@@ -49,6 +52,7 @@ export default function ModuloAcciones({
   // hidratación: Math.random() no puede correr en un Client Component que también se
   // renderiza en el servidor). Los reintentos sí arman una nueva selección en el cliente.
   const [preguntasIntento, setPreguntasIntento] = useState(preguntasIniciales);
+  const [token, setToken] = useState(tokenInicial);
   const moduloCompleto = Boolean(resultado?.aprobado) && actividadesCompletas;
   // Con avance libre (admin) se puede navegar aunque el módulo no esté completo.
   const avanzar = moduloCompleto || libre;
@@ -57,7 +61,7 @@ export default function ModuloAcciones({
     const res = await fetch("/api/progreso/modulo", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ moduloId: modulo.id, respuestas }),
+      body: JSON.stringify({ moduloId: modulo.id, respuestas, token }),
     });
     if (res.ok) {
       const data: ResultadoQuiz = await res.json();
@@ -101,8 +105,12 @@ export default function ModuloAcciones({
               key={intento}
               preguntas={preguntasIntento}
               onFinalizar={onFinalizar}
-              onReintentar={() => {
-                setPreguntasIntento(armarIntento(modulo.quiz, modulo.preguntasPorIntento));
+              onReintentar={async () => {
+                const response = await fetch(`/api/progreso/intento?tipo=modulo&id=${encodeURIComponent(modulo.id)}`);
+                if (!response.ok) return;
+                const data = await response.json();
+                setPreguntasIntento(data.preguntas);
+                setToken(data.token);
                 setIntento((n) => n + 1);
               }}
             />

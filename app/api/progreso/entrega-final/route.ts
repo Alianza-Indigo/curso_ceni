@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { guardarEntregaFinal } from "@/lib/progreso-server";
+import { guardarEntregaFinal, obtenerProgreso } from "@/lib/progreso-server";
+import { getCurso } from "@/lib/data/cursos";
+import { accesoSinRestriccion } from "@/lib/curso-acceso";
 import { MIN_PALABRAS_CASO_PRACTICO, MIN_CARACTERES_RETROALIMENTACION } from "@/lib/constantes";
 
 const CONTENIDO_MAX = 20000;
@@ -39,6 +41,13 @@ export async function POST(request: Request) {
     );
   }
 
+  const curso = getCurso(cursoId);
+  if (!curso) return NextResponse.json({ error: "Curso desconocido" }, { status: 400 });
+  const libre = await accesoSinRestriccion(session.user.email);
+  const progreso = await obtenerProgreso(session.user.id, curso.modulos, curso.id);
+  if (!libre && progreso.modulosCompletados.length !== curso.modulos.length) {
+    return NextResponse.json({ error: "Completa primero los módulos" }, { status: 403 });
+  }
   await guardarEntregaFinal(session.user.id, campo, limpio, cursoId);
   return NextResponse.json({ ok: true });
 }

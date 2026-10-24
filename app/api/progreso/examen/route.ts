@@ -3,6 +3,7 @@ import { auth } from "@/auth";
 import { obtenerProgreso, registrarResultadoExamen } from "@/lib/progreso-server";
 import { getCurso } from "@/lib/data/cursos";
 import { accesoSinRestriccion } from "@/lib/curso-acceso";
+import { verificarIntento } from "@/lib/evaluacion-intento";
 import type { Respuestas } from "@/lib/quiz-scoring";
 
 function respuestasValidas(v: unknown): v is Respuestas {
@@ -17,7 +18,7 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json().catch(() => null);
-  const { respuestas } = body ?? {};
+  const { respuestas, token } = body ?? {};
   const cursoId = typeof body?.cursoId === "string" ? body.cursoId : "ceni";
 
   const curso = getCurso(cursoId);
@@ -40,6 +41,8 @@ export async function POST(request: Request) {
   }
 
   try {
+    const cantidad = cursoId === "diplomado" ? curso.modulos.length * 2 : 50;
+    verificarIntento(token, session.user.id, `examen:${cursoId}`, respuestas, cantidad);
     const resultado = await registrarResultadoExamen(session.user.id, respuestas, cursoId);
     return NextResponse.json(resultado);
   } catch {

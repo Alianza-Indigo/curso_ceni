@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { PreguntaQuiz } from "@/lib/types";
-import { CheckCircle2, XCircle, RotateCcw } from "lucide-react";
-import { UMBRAL_APROBATORIO_PCT } from "@/lib/constantes";
+import type { PreguntaPublica } from "@/lib/evaluacion-publica";
+import { RotateCcw } from "lucide-react";
+
 
 type Props = {
-  preguntas: PreguntaQuiz[];
+  preguntas: PreguntaPublica[];
   // Envía SOLO las respuestas (id de pregunta → texto de la opción elegida).
   // El puntaje lo recalcula el servidor; el cliente no lo reporta.
   onFinalizar: (respuestas: Record<string, string>) => void;
@@ -21,9 +21,7 @@ export default function Quiz({ preguntas, onFinalizar, tituloBoton = "Calificar 
   const [enviado, setEnviado] = useState(false);
 
   const todasRespondidas = preguntas.every((p) => respuestas[p.id] !== undefined);
-  const aciertos = preguntas.filter((p) => respuestas[p.id] === p.correcta).length;
-  const porcentaje = preguntas.length ? Math.round((aciertos / preguntas.length) * 100) : 0;
-  const aprobado = porcentaje >= UMBRAL_APROBATORIO_PCT;
+
 
   function elegir(preguntaId: string, opcionIdx: number) {
     if (enviado) return;
@@ -63,12 +61,8 @@ export default function Quiz({ preguntas, onFinalizar, tituloBoton = "Calificar 
             <div className="grid gap-2">
               {p.opciones.map((op, idx) => {
                 const isSelected = seleccion === idx;
-                const isCorrect = idx === p.correcta;
                 let estilo = "border-[#e3dfef] hover:bg-[#f5f1ff]";
-                if (enviado && isSelected && isCorrect) estilo = "border-green-500 bg-green-50";
-                else if (enviado && isSelected && !isCorrect) estilo = "border-red-400 bg-red-50";
-                else if (enviado && isCorrect) estilo = "border-green-500 bg-green-50/60";
-                else if (isSelected) estilo = "border-[#4b18a8] bg-[#f5f1ff]";
+                if (isSelected) estilo = "border-[#4b18a8] bg-[#f5f1ff]";
 
                 return (
                   <label
@@ -84,17 +78,10 @@ export default function Quiz({ preguntas, onFinalizar, tituloBoton = "Calificar 
                       disabled={enviado}
                     />
                     <span className="flex-1">{op}</span>
-                    {enviado && isSelected && isCorrect && <CheckCircle2 className="h-4 w-4 shrink-0 text-green-600" />}
-                    {enviado && isSelected && !isCorrect && <XCircle className="h-4 w-4 shrink-0 text-red-500" />}
                   </label>
                 );
               })}
             </div>
-            {enviado && (
-              <p className="mt-3 rounded-lg bg-[#fbfaff] p-3 text-xs leading-relaxed text-[#4a4570]">
-                {p.explicacion}
-              </p>
-            )}
           </fieldset>
         );
       })}
@@ -108,31 +95,7 @@ export default function Quiz({ preguntas, onFinalizar, tituloBoton = "Calificar 
         >
           {tituloBoton}
         </button>
-      ) : (
-        <div
-          className={`rounded-2xl border p-5 ${
-            aprobado ? "border-green-500 bg-green-50" : "border-[#dda632] bg-[#fff8e8]"
-          }`}
-        >
-          <p className="text-lg font-black text-[#070b2f]">
-            Resultado: {aciertos}/{preguntas.length} correctas ({porcentaje}%)
-          </p>
-          <p className="mt-1 text-sm text-[#20234a]">
-            {aprobado
-              ? "¡Aprobado! Puntaje mínimo aprobatorio: 70%."
-              : "No alcanzaste el 70% mínimo aprobatorio. Puedes repetir el quiz."}
-          </p>
-          {!aprobado && (
-            <button
-              type="button"
-              onClick={reintentar}
-              className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-lg border border-[#4b18a8] px-5 text-sm font-black uppercase text-[#4b18a8] hover:bg-[#f5f1ff]"
-            >
-              <RotateCcw className="h-4 w-4" /> Reintentar quiz
-            </button>
-          )}
-        </div>
-      )}
+      ) : <p className="text-sm">Respuestas enviadas. Consulta el resultado registrado arriba.</p>}
     </div>
   );
 }

@@ -155,12 +155,13 @@ async function recalcularCertificacionFinal(userId: string, cursoId: string = "c
   const casoPracticoCompleto = contarPalabras(entregaFinal?.casoPractico ?? "") >= MIN_PALABRAS_CASO_PRACTICO;
   const retroalimentacionCompleta =
     (entregaFinal?.retroalimentacion ?? "").trim().length >= MIN_CARACTERES_RETROALIMENTACION;
-  const completo = quizAprobado && casoPracticoCompleto && retroalimentacionCompleta;
+  // A practical submission is not an assessment of competence. A human review is required.
+  const completo = quizAprobado && casoPracticoCompleto && retroalimentacionCompleta && Boolean(examen.proyectoAprobado);
 
   const folio = completo
     ? examen.folio ?? `${prefijoFolio(cursoId)}-${randomUUID().slice(0, 8).toUpperCase()}`
     : null;
-  const fechaCertificacion = completo ? examen.fechaCertificacion ?? new Date() : null;
+  const fechaCertificacion = completo ? (examen.fechaCertificacion && examen.vigenciaHasta && examen.vigenciaHasta > new Date() ? examen.fechaCertificacion : new Date()) : null;
   const vigenciaHasta = fechaCertificacion ? new Date(fechaCertificacion.getTime() + UN_ANIO_MS) : null;
 
   await prisma.resultadoExamen.update({
@@ -271,6 +272,7 @@ export async function registrarResultadoExamen(
       total,
       porcentaje: resultado.porcentaje,
       aprobado: false,
+      proyectoAprobado: false,
       fecha,
     },
     update: {
@@ -278,6 +280,7 @@ export async function registrarResultadoExamen(
       aciertos,
       total,
       porcentaje: resultado.porcentaje,
+      proyectoAprobado: false,
       fecha,
     },
   });

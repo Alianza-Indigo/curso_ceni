@@ -3,9 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Quiz from "@/components/Quiz";
-import { PreguntaQuiz } from "@/lib/types";
-import { construirExamenFinal } from "@/lib/data/examenFinal";
-import { construirExamenFinalDiplomado } from "@/lib/data/diplomado/examenFinal";
+import type { PreguntaPublica } from "@/lib/evaluacion-publica";
+
 import { Award, Download } from "lucide-react";
 
 type ResultadoQuiz = {
@@ -22,24 +21,26 @@ type ResultadoQuiz = {
 
 export default function ExamenFinalClient({
   preguntas: preguntasIniciales,
+  tokenInicial,
   resultadoInicial,
   casoPracticoEntregado,
   retroalimentacionEntregada,
   cursoId = "ceni",
 }: {
-  preguntas: PreguntaQuiz[];
+  preguntas: PreguntaPublica[];
+  tokenInicial: string;
   resultadoInicial: ResultadoQuiz | null;
   casoPracticoEntregado: boolean;
   retroalimentacionEntregada: boolean;
   cursoId?: string;
 }) {
   const router = useRouter();
-  const rearmarExamen = cursoId === "diplomado" ? construirExamenFinalDiplomado : construirExamenFinal;
   const [resultado, setResultado] = useState<ResultadoQuiz | null>(resultadoInicial);
   const [intento, setIntento] = useState(0);
   // El primer intento usa la selección ya armada (y barajada) por el servidor;
   // cada reintento arma una selección nueva para no repetir el examen.
   const [preguntas, setPreguntas] = useState(preguntasIniciales);
+  const [token, setToken] = useState(tokenInicial);
 
   // La certificación completa depende también del caso práctico y la retroalimentación,
   // que se entregan en un formulario hermano (EntregaFinalForm). Esas props sí llegan
@@ -52,7 +53,7 @@ export default function ExamenFinalClient({
     const res = await fetch("/api/progreso/examen", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ respuestas, cursoId }),
+      body: JSON.stringify({ respuestas, cursoId, token }),
     });
     if (res.ok) {
       const data: ResultadoQuiz = await res.json();
@@ -115,8 +116,12 @@ export default function ExamenFinalClient({
             preguntas={preguntas}
             onFinalizar={onFinalizar}
             tituloBoton="Calificar examen final"
-            onReintentar={() => {
-              setPreguntas(rearmarExamen());
+            onReintentar={async () => {
+              const response = await fetch(`/api/progreso/intento?tipo=examen&id=${encodeURIComponent(cursoId)}`);
+              if (!response.ok) return;
+              const data = await response.json();
+              setPreguntas(data.preguntas);
+              setToken(data.token);
               setIntento((n) => n + 1);
             }}
           />

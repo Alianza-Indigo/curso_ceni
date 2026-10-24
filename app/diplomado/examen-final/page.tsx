@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
+import { publicarPreguntas, firmarIntento } from "@/lib/evaluacion-intento";
 import ExamenFinalClient from "@/components/ExamenFinalClient";
 import EntregaFinalForm from "@/components/EntregaFinalForm";
 import {
@@ -97,7 +98,8 @@ export default async function ExamenFinalDiplomadoPage() {
 
       <ExamenFinalClient
         cursoId="diplomado"
-        preguntas={preguntas}
+        preguntas={publicarPreguntas(preguntas)}
+        tokenInicial={firmarIntento(session.user.id, `examen:${p.includes("diplomado")?"diplomado":"ceni"}`, preguntas)}
         resultadoInicial={progreso.examenFinal ?? null}
         casoPracticoEntregado={progreso.casoPracticoEntregado}
         retroalimentacionEntregada={progreso.retroalimentacionEntregada}

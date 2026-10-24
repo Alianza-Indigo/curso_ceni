@@ -141,6 +141,7 @@ model ResultadoExamen {
   total              Int
   porcentaje         Int
   aprobado           Boolean
+  proyectoAprobado    Boolean  @default(false)
   fecha              DateTime  @default(now())
   folio              String?   @unique
   // Momento en que se completaron los tres componentes de la evaluación final.
