@@ -1,5 +1,6 @@
 import { ShieldCheck } from "lucide-react";
 import AdminLoginForm from "@/components/AdminLoginForm";
+import { signInGoogleAdminAction } from "@/app/actions/admin-auth";
 
 export const metadata = { title: "Admin · Curso CENI" };
 
@@ -12,7 +13,15 @@ export default function AdminLoginPage() {
       <h1 className="mt-6 font-serif text-2xl font-black text-[#070b2f]">Panel de administración</h1>
       <p className="mt-2 text-sm text-[#6c6690]">Acceso restringido — Alianza Índigo Neurodivergente A.C.</p>
 
-      <AdminLoginForm />
+      <form action={signInGoogleAdminAction} className="mt-6 w-full">
+        <button type="submit" className="w-full rounded-lg bg-[#4b18a8] px-5 py-3 text-sm font-bold text-white">
+          Acceder con Google
+        </button>
+      </form>
+      <p className="mt-3 text-xs text-[#6c6690]">
+        Disponible exclusivamente para cuentas Google registradas como administradoras.
+      </p>
+      <div className="mt-6 w-full"><AdminLoginForm /></div>
     </div>
   );
 }
