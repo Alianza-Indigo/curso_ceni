@@ -47,7 +47,7 @@ export default function ExamenFinalClient({
   // frescas en cada re-render tras router.refresh(); `resultado.aprobado` en cambio es
   // el snapshot del último POST al quiz y no se entera de esas otras entregas, así que
   // la certificación completa se recalcula aquí en vez de leerla de ese estado viejo.
-  const completo = Boolean(resultado?.quizAprobado) && casoPracticoEntregado && retroalimentacionEntregada;
+  const completo = Boolean(resultado?.aprobado) && casoPracticoEntregado && retroalimentacionEntregada;
 
   async function onFinalizar(respuestas: Record<string, string>) {
     const res = await fetch("/api/progreso/examen", {
@@ -82,7 +82,7 @@ export default function ExamenFinalClient({
               ? "No alcanzaste el 70% mínimo en el examen de opción múltiple. Puedes repetirlo."
               : completo
                 ? "¡Felicidades! Completaste los tres componentes de la evaluación final."
-                : "Aprobaste el examen de opción múltiple (40% de tu nota). Faltan por entregar:"}
+                : "Aprobaste el examen de opción múltiple. El caso práctico requiere revisión y aprobación administrativa."}
           </p>
           {resultado.quizAprobado && !completo && (
             <ul className="mt-2 space-y-1 text-sm text-[#5a4300]">
