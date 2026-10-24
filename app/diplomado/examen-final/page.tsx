@@ -99,7 +99,7 @@ export default async function ExamenFinalDiplomadoPage() {
       <ExamenFinalClient
         cursoId="diplomado"
         preguntas={publicarPreguntas(preguntas)}
-        tokenInicial={firmarIntento(session.user.id, `examen:${p.includes("diplomado")?"diplomado":"ceni"}`, preguntas)}
+        tokenInicial={firmarIntento(session.user.id, `examen:diplomado`, preguntas)}
         resultadoInicial={progreso.examenFinal ?? null}
         casoPracticoEntregado={progreso.casoPracticoEntregado}
         retroalimentacionEntregada={progreso.retroalimentacionEntregada}
