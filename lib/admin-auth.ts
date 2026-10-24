@@ -1,12 +1,12 @@
 import "server-only";
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
+import { auth } from "@/auth";
+import { prisma } from "@/lib/db";
 
 const COOKIE_NOMBRE = "admin-session";
-// Sesión de larga duración a propósito: no queremos pedir la contraseña
-// seguido en este panel interno. Los navegadores igual limitan la vida
-// máxima real de una cookie (Chrome la topa en ~400 días), así que esto es
-// "lo más larga posible", no infinita de verdad.
+// Sesion administrativa de doce horas; Google OAuth permite recuperar acceso
+// solamente al correo de un administrador registrado.
 const DURACION_MS = 12 * 60 * 60 * 1000;
 
 function claveSecreta() {
@@ -36,15 +36,26 @@ export async function crearSesionAdmin(email: string) {
 export async function verificarSesionAdmin(): Promise<{ email: string } | null> {
   const store = await cookies();
   const token = store.get(COOKIE_NOMBRE)?.value;
-  if (!token) return null;
-
-  try {
-    const { payload } = await jwtVerify(token, claveSecreta());
-    if (payload.rol !== "admin" || payload.version !== 2 || typeof payload.email !== "string") return null;
-    return { email: payload.email };
-  } catch {
-    return null;
+  if (token) {
+    try {
+      const { payload } = await jwtVerify(token, claveSecreta());
+      if (payload.rol === "admin" && payload.version === 2 && typeof payload.email === "string") {
+        const admin = await prisma.adminUsuario.findUnique({ where: { email: payload.email } });
+        if (admin) return { email: admin.email };
+      }
+    } catch {
+      // La cookie invalida no impide comprobar una sesion Google autentica.
+    }
   }
+
+  const google = await auth();
+  const correo = google?.user?.email?.trim().toLowerCase();
+  if (!google?.user?.id || !correo) return null;
+  const admin = await prisma.adminUsuario.findFirst({
+    where: { email: { equals: correo, mode: "insensitive" } },
+    select: { email: true },
+  });
+  return admin ? { email: admin.email } : null;
 }
 
 export async function cerrarSesionAdmin() {
