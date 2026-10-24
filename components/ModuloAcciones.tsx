@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Modulo } from "@/lib/types";
@@ -46,8 +46,7 @@ export default function ModuloAcciones({
   libre?: boolean;
 }) {
   const router = useRouter();
-  const [resultado, setResultado] = useState<ResultadoQuiz | null>(resultadoInicial);
-  useEffect(() => { setResultado(resultadoInicial); }, [resultadoInicial]);
+  const resultado = resultadoInicial;
   const [intento, setIntento] = useState(0);
   // El primer intento usa la selección ya armada por el servidor (evita mismatch de
   // hidratación: Math.random() no puede correr en un Client Component que también se
@@ -69,7 +68,6 @@ export default function ModuloAcciones({
       throw new Error(error.error ?? "No se pudo guardar el cuestionario.");
     }
     const data: ResultadoQuiz = await res.json();
-    setResultado(data);
     router.refresh();
     return data;
   }

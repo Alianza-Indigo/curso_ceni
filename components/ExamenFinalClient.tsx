@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Quiz from "@/components/Quiz";
 import type { PreguntaPublica } from "@/lib/evaluacion-publica";
@@ -18,6 +18,7 @@ type ResultadoQuiz = {
   fecha: string;
   folio?: string | null;
   vigenciaHasta?: string | null;
+  vigente?: boolean;
 };
 
 export default function ExamenFinalClient({
@@ -36,15 +37,14 @@ export default function ExamenFinalClient({
   cursoId?: string;
 }) {
   const router = useRouter();
-  const [resultado, setResultado] = useState<ResultadoQuiz | null>(resultadoInicial);
-  useEffect(() => { setResultado(resultadoInicial); }, [resultadoInicial]);
+  const resultado = resultadoInicial;
   const [intento, setIntento] = useState(0);
   // El primer intento usa la selección ya armada (y barajada) por el servidor;
   // cada reintento arma una selección nueva para no repetir el examen.
   const [preguntas, setPreguntas] = useState(preguntasIniciales);
   const [token, setToken] = useState(tokenInicial);
 
-  const vigente = Boolean(resultado?.vigenciaHasta && new Date(resultado.vigenciaHasta).getTime() > Date.now());
+  const vigente = Boolean(resultado?.vigente);
   const completo = Boolean(resultado?.aprobado) && vigente;
   const renovar = Boolean(resultado?.aprobado) && !vigente;
 
@@ -59,7 +59,6 @@ export default function ExamenFinalClient({
       throw new Error(error.error ?? "No se pudo guardar el examen.");
     }
     const data: ResultadoQuiz = await res.json();
-    setResultado(data);
     router.refresh();
     return data;
   }
