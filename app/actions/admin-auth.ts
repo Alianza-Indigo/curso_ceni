@@ -7,9 +7,17 @@ import { getCurso } from "@/lib/data/cursos";
 import { recalcularCertificacionFinal } from "@/lib/progreso-server";
 import { MIN_PALABRAS_CASO_PRACTICO, MIN_CARACTERES_RETROALIMENTACION } from "@/lib/constantes";
 import { prisma } from "@/lib/db";
+import { auth, signIn, signOut } from "@/auth";
 import { crearSesionAdmin, cerrarSesionAdmin, verificarSesionAdmin } from "@/lib/admin-auth";
 
 export type EstadoLoginAdmin = { error?: string } | undefined;
+
+// La clave inicial estuvo incluida en una migracion publica y no debe servir.
+const HASH_ADMIN_INICIAL = "$2b$12$bicuHHnkFFpuN7iOsLo8IuZKZSVgzXgFCQ11QdD/0zbTTEF2n6tDC";
+
+export async function signInGoogleAdminAction() {
+  await signIn("google", { redirectTo: "/admin" });
+}
 
 export async function loginAdminAction(
   _estadoPrevio: EstadoLoginAdmin,
@@ -27,6 +35,10 @@ export async function loginAdminAction(
     return { error: "Correo o contraseña incorrectos." };
   }
 
+  if (admin.id === "admin-seed-001" && admin.passwordHash === HASH_ADMIN_INICIAL) {
+    return { error: "Por seguridad, accede con Google y establece una contraseña nueva desde el panel." };
+  }
+
   const valido = await bcrypt.compare(password, admin.passwordHash);
   if (!valido) {
     return { error: "Correo o contraseña incorrectos." };
@@ -38,7 +50,7 @@ export async function loginAdminAction(
 
 export async function logoutAdminAction() {
   await cerrarSesionAdmin();
-  redirect("/admin/login");
+  await signOut({ redirectTo: "/admin/login" });
 }
 
 export type EstadoCambiarPassword = { error?: string; ok?: boolean } | undefined;
@@ -68,9 +80,13 @@ export async function cambiarPasswordAdminAction(
     return { error: "No se encontró la cuenta de administrador." };
   }
 
-  const valido = await bcrypt.compare(actual, admin.passwordHash);
+  let valido = await bcrypt.compare(actual, admin.passwordHash);
+  if (!valido && admin.id === "admin-seed-001" && admin.passwordHash === HASH_ADMIN_INICIAL) {
+    const google = await auth();
+    valido = Boolean(google?.user?.id && google.user.email?.trim().toLowerCase() === admin.email.toLowerCase());
+  }
   if (!valido) {
-    return { error: "La contraseña actual no es correcta." };
+    return { error: "La contraseña actual no es correcta. Si utilizas el acceso inicial, inicia sesión con Google." };
   }
 
   const nuevoHash = await bcrypt.hash(nueva, 12);
@@ -94,7 +110,7 @@ export async function revisarProyectoAction(formData: FormData): Promise<void> {
     prisma.entregaFinal.findUnique({ where: { userId_cursoId: { userId, cursoId } } }),
   ]);
   if (!examen || !entrega) throw new Error("Evaluación no disponible");
-  const palabras = (entrega.casoPractico ?? "").trim().split(/\\s+/).filter(Boolean).length;
+  const palabras = (entrega.casoPractico ?? "").trim().split(/\s+/).filter(Boolean).length;
   if (aprobar && (palabras < MIN_PALABRAS_CASO_PRACTICO ||
     (entrega.retroalimentacion ?? "").trim().length < MIN_CARACTERES_RETROALIMENTACION)) {
     throw new Error("Entrega final incompleta");
