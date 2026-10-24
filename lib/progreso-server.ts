@@ -161,7 +161,7 @@ export async function recalcularCertificacionFinal(userId: string, cursoId: stri
   const folio = completo
     ? examen.folio ?? `${prefijoFolio(cursoId)}-${randomUUID().slice(0, 8).toUpperCase()}`
     : null;
-  const fechaCertificacion = completo ? (examen.fechaCertificacion && examen.vigenciaHasta && examen.vigenciaHasta > new Date() ? examen.fechaCertificacion : new Date()) : null;
+  const fechaCertificacion = completo ? (examen.fechaCertificacion ?? new Date()) : null;
   const vigenciaHasta = fechaCertificacion ? new Date(fechaCertificacion.getTime() + UN_ANIO_MS) : null;
 
   await prisma.resultadoExamen.update({
